@@ -4,15 +4,16 @@
 // function App() {
 //   return <SignupCard />;
 // =======
-import HomePage from "./pages/HomePage";
-import { Route, Routes } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import Navbar from "./components/navbar";
+import HomePage from './pages/HomePage';
+import { Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/navbar';
+import Register from './components/register';
 
 function App() {
   const [location, setLocation] = useState({
     loaded: false,
-    coordinates: { lat: "", lng: "" },
+    coordinates: { lat: '', lng: '' },
   });
 
   const onSuccess = (location) => {
@@ -36,10 +37,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (!"geolocation in navigator") {
+    if (!'geolocation in navigator') {
       onError({
         code: 0,
-        message: "geolocation not supported",
+        message: 'geolocation not supported',
       });
     }
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -50,15 +51,22 @@ function App() {
     <div>
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <>
               <HomePage />
             </>
           }
         />
-
-        <Route path="/transaksi" />
+        <Route
+          path='/register'
+          element={
+            <>
+              <Register />
+            </>
+          }
+        />
+        <Route path='/transaksi' />
       </Routes>
     </div>
   );
