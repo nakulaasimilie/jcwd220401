@@ -72,7 +72,7 @@ export default function Navbar() {
               <Text>Keranjang</Text>
             </Box>
           </SocialButton>
-          <SocialButton label={"Akun"} href={"#"}>
+          <SocialButton label={"Akun"} href={"/login"}>
             <Box textAlign={"center"}>
               <Image src={user} margin="auto" />
               <Text>Akun</Text>

@@ -3,6 +3,15 @@ const express = require("express");
 const cors = require("cors");
 const { join } = require("path");
 
+//sequileze db
+const db = require("../models");
+
+//bearer Token
+const bearerToken = require("express-bearer-token");
+
+//userRouters
+const { userRoutesLogin } = require("../routers");
+
 const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(
@@ -16,10 +25,16 @@ app.use(
 
 app.use(express.json());
 
+//bearer Token
+app.use(bearerToken());
+
 //#region API ROUTES
 
 // ===========================
 // NOTE : Add your routes here
+
+//user Router
+app.use("/usersLogin", userRoutesLogin);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -66,6 +81,7 @@ app.get("*", (req, res) => {
 //#endregion
 
 app.listen(PORT, (err) => {
+  db.sequelize.sync({ alter: true });
   if (err) {
     console.log(`ERROR: ${err}`);
   } else {

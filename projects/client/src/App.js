@@ -2,6 +2,7 @@ import HomePage from "./pages/HomePage";
 import { Route, Routes } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
+import { LoginPage } from "./pages/LoginUser";
 
 function App() {
   const [location, setLocation] = useState({
@@ -43,6 +44,7 @@ function App() {
   return (
     <div>
       <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"
           element={
