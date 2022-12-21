@@ -12,6 +12,7 @@ import {
   Heading,
   Text,
   Link,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -25,7 +26,15 @@ export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
 
   const registerSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Name is a required field')
+      .min(4, 'Name min. 5 characters'),
+    email: Yup.string().email().required('Email is a required field'),
     password: Yup.string().required().min(6, 'Password min 6 Character'),
+    phone_number: Yup.string()
+      .required('Phone number is a required field')
+      .min(11, 'Phone number must be 12 numbers')
+      .max(12, 'Phone number must be 12 numbers'),
   });
 
   const onRegister = async (data) => {
@@ -56,7 +65,7 @@ export default function SignupCard() {
         phone_number: '',
       }}
       validationSchema={registerSchema}
-      onSubmit={(values, action) => {
+      onSubmit={(values) => {
         console.log('onSubmit', values);
         onRegister(values);
       }}>
@@ -69,26 +78,26 @@ export default function SignupCard() {
                 minH={'100vh'}
                 align={'center'}
                 justify={'center'}
-                bg={('gray.50', 'gray.800')}>
+                bg='gray.50'>
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                   <Stack align={'center'}>
-                    <Heading fontSize={'4xl'} textAlign={'center'}>
+                    <Heading
+                      color='black'
+                      fontSize={'4xl'}
+                      textAlign={'center'}>
                       Register
                     </Heading>
                     <Text fontSize={'lg'} color={'gray.600'}>
                       input your data 🥦
                     </Text>
                   </Stack>
-                  <Box
-                    rounded={'lg'}
-                    bg={('green.200', 'gray.700')}
-                    boxShadow={'lg'}
-                    p={8}>
+                  <Box rounded={'lg'} bg='green.200' boxShadow={'lg'} p={8}>
                     <Stack spacing={4}>
                       <Box>
                         <FormControl id='firstName' isRequired>
                           <FormLabel>Name</FormLabel>
                           <Field as={Input} name='name' />
+                          <ErrorMessage style={{ color: 'red' }} name='name' />
                         </FormControl>
                       </Box>
                       <FormControl id='email' isRequired>
