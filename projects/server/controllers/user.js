@@ -37,7 +37,7 @@ module.exports = {
         from: 'nakulabaiduri@gmail.com',
         to: 'nakulabaiduri@gmail.com',
         subject: 'Verifikasi Email',
-        html: `<a href="http://localhost:2000/users/verification?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
+        html: `<a href="http://localhost:3000/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
       };
       await transporter.sendMail(message, (err, info) => {
         if (err) {
@@ -49,6 +49,52 @@ module.exports = {
 
       const total = await User.count({ where: { email } });
       console.log('total', total);
+      res.status(200).send(user.toJSON());
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
+  verification: async (req, res) => {
+    try {
+      const email = req.query.email;
+      const verificationSignature = req.query.verification_signature;
+      const user = await User.findOne({
+        where: Sequelize.and(
+          { email },
+          { verification_signature: verificationSignature }
+        ),
+      });
+      if (user === null) {
+        console.log('Not found!');
+        res.status(404).send('data tidak ditemukan');
+        return;
+      } else {
+        console.log(user instanceof User); // true
+        const result = await User.update(
+          { is_verified: 1 },
+          {
+            where: Sequelize.and(
+              { email },
+              { verification_signature: verificationSignature }
+            ),
+          }
+        );
+
+        if (result[0] === 1) {
+          res
+            .status(200)
+            .send(
+              'Anda telah terverifikasi, silahkan klik link berikut untuk kembali login '
+            );
+          return;
+        } else {
+          res.status(500).send('terjadi kesalahan pada sistem');
+          return;
+        }
+        console.log('ini result :', result);
+        console.log(user.email); // 'My Title'
+      }
       res.status(200).send(user.toJSON());
     } catch (err) {
       console.log(err);
