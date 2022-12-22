@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
 import keranjang from "../assets/keranjang.svg";
-import user from "../assets/pesanan.svg";
+import user from "../assets/user.svg";
 
 const SocialButton = ({ children, label, href }) => {
   return (

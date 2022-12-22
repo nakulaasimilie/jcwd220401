@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import { LoginPage } from "./pages/LoginUser";
 import Register from "./components/register";
+import NotFound from "./components/404";
 
 function App() {
   const [location, setLocation] = useState({
@@ -42,10 +43,27 @@ function App() {
   }, []);
   console.log(location);
 
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+
   return (
-    <div>
+    <div style={myStyle}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/*"
+          element={
+            <>
+              <NotFound />
+              <Navbar />
+            </>
+          }
+        />
         <Route
           path="/"
           element={
@@ -54,6 +72,8 @@ function App() {
             </>
           }
         />
+
+        <Route path="/transaksi" />
         <Route
           path="/register"
           element={
@@ -62,7 +82,6 @@ function App() {
             </>
           }
         />
-        <Route path="/transaksi" />
       </Routes>
     </div>
   );
