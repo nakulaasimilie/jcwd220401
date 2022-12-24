@@ -12,6 +12,7 @@ import {
   Container,
   InputGroup,
   InputRightElement,
+  Link,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -27,6 +28,7 @@ import { Formik, ErrorMessage, Form, Field } from "formik";
 //img logo import
 import logo from "../assets/output-onlinepngtools.png";
 
+//url login and keeplogin
 const url = "http://localhost:8000/usersLogin/login";
 
 export const LoginPage = () => {
@@ -38,8 +40,7 @@ export const LoginPage = () => {
   const [move, setMove] = useState(false);
 
   //Keep login
-  // const dispatch = useDispatch();
-  // const [move, setMove] = useState(false);
+  const dispatch = useDispatch();
 
   // Hide and Unhide Password
   const [show, setShow] = useState(false);
@@ -53,18 +54,18 @@ export const LoginPage = () => {
   });
 
   //Login Function
-  const onLogin = async (data) => {
+  const onLogin = async () => {
     try {
-      // const user = {
-      //   password: password.current.value,
-      //   email: email.current.value,
-      // };
-      const result = await axios.post(url, data);
-      console.log(result.data.msg);
+      const user = {
+        password: password.current.value,
+        email: email.current.value,
+      };
+      const result = await axios.post(url, user);
+      console.log(result.data);
+      dispatch(login(result.data.user));
+      console.log(result.data.user);
+      localStorage.setItem("token", result.data.token);
       setMove(true);
-      //untuk keeplogin functionnya
-      // dispatch(login(result.data.email));
-      // localStorage.setItem("token", result.data.token);
 
       Swal.fire({
         icon: "success",
@@ -122,7 +123,7 @@ export const LoginPage = () => {
                       <Stack spacing={4}>
                         <FormControl id="email">
                           <FormLabel>Email</FormLabel>
-                          <Input as={Field} name="email" />
+                          <Input ref={email} name="email" />
                           <ErrorMessage
                             name="email"
                             component="div"
@@ -134,7 +135,7 @@ export const LoginPage = () => {
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
                               <Input
-                                as={Field}
+                                ref={password}
                                 name="password"
                                 type={show ? "text" : "password"}
                               />
@@ -157,7 +158,9 @@ export const LoginPage = () => {
                             align={"start"}
                             justify={"space-between"}
                           ></Stack>
-                          <p>Forgot Password?</p>
+                          <Link color={"blue.400"} href="/register">
+                            Dont have account?
+                          </Link>
                         </Stack>
                         <Button
                           bg={"blue.300"}

@@ -12,6 +12,7 @@ const bearerToken = require("express-bearer-token");
 //userRouters
 const { userRoutesLogin } = require("../routers");
 const { userRoutes } = require("../routers");
+const router = require("../routers/userLogin");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -25,7 +26,7 @@ app.use(
 );
 // app.use(cors());
 app.use(express.json());
-
+app.use(bearerToken());
 //#region API ROUTES
 
 // ===========================
@@ -80,7 +81,7 @@ app.get("*", (req, res) => {
 //#endregion
 
 app.listen(PORT, (err) => {
-  db.sequelize.sync({ alter: true });
+  // db.sequelize.sync({ alter: true });
   if (err) {
     console.log(`ERROR: ${err}`);
   } else {
