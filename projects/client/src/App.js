@@ -3,10 +3,40 @@ import { Route, Routes } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import { LoginPage } from "./pages/LoginUser";
+import { UserProfile } from "./pages/ProfilePage";
 import Register from "./components/register";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { login } from "./redux/userSlice";
 import NotFound from "./components/404";
 
+//keeplogin url
+const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
+
 function App() {
+  //function keeplogin
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  // console.log(token)
+
+  const keepLogin = async () => {
+    try {
+      const res = await axios.get(urlKeepLogin, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data);
+      dispatch(login(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    keepLogin();
+  }, []);
+
   const [location, setLocation] = useState({
     loaded: false,
     coordinates: { lat: "", lng: "" },
@@ -53,6 +83,7 @@ function App() {
   return (
     <div style={myStyle}>
       <Routes>
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route

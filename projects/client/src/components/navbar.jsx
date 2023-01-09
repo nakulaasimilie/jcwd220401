@@ -8,12 +8,19 @@ import {
   VisuallyHidden,
   Image,
   Link,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Menu,
+  Button,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
 import keranjang from "../assets/keranjang.svg";
-import user from "../assets/user.svg";
+import user from "../assets/pesanan.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/userSlice";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -38,6 +45,15 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Navbar() {
+  const { name } = useSelector((state) => state.userSlice.value);
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("id");
+  };
+
   return (
     <Box
       bg={useColorModeValue("#ebf5e9")}
@@ -73,10 +89,31 @@ export default function Navbar() {
               <Text>Keranjang</Text>
             </Box>
           </SocialButton>
-          <SocialButton label={"Akun"} href={"/register"}>
-            <Box as={Link} to="/register" textAlign={"center"}>
-              <Image src={user} margin="auto" />
-              <Text>Akun</Text>
+          <SocialButton>
+            <Box textAlign={"center"}>
+              {name ? (
+                <Menu>
+                  <MenuButton as={Button}>
+                    <Image src={user} margin="auto" />
+                    <Text>{name}</Text>
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>
+                      <Link href="/profile">Profile</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link onClick={onLogout}>Logout</Link>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              ) : (
+                <>
+                  <SocialButton label={"Akun"} href={"/login"}>
+                    <Image src={user} margin="auto" />
+                    <Text>Akun</Text>
+                  </SocialButton>
+                </>
+              )}
             </Box>
           </SocialButton>
         </Stack>
