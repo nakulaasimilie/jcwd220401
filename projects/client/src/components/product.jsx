@@ -139,7 +139,7 @@ export default function BookCard() {
                 <Stack>
                   <Box
                     w="230px"
-                    h="293px"
+                    h="320px"
                     borderWidth="1px"
                     m="10px"
                     _hover={{ boxShadow: "xl" }}
@@ -208,7 +208,7 @@ export default function BookCard() {
                         </Stack>
                       </Box>
                     </Stack>
-                    <Box pb="12px" px="10px" h="40px">
+                    <Box px="10px" h="40px" pt="16px">
                       {item.Carts.find((item2) => item2["UserId"] === email) ? (
                         <Button
                           disabled
@@ -216,6 +216,7 @@ export default function BookCard() {
                           borderRadius="9px"
                           size="sm"
                           my="5px"
+                          bg={"white"}
                         >
                           <Icon boxSize="4" as={IoCartOutline} mr="5px" x />
                           Keranjang
@@ -230,6 +231,7 @@ export default function BookCard() {
                           size="sm"
                           my="5px"
                           _hover={{ bg: "yellow.400", color: "white" }}
+                          bg={"white"}
                         >
                           <Icon boxSize="4" as={IoCartOutline} mr="5px" />
                           Keranjang
