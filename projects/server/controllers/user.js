@@ -101,4 +101,37 @@ module.exports = {
       res.status(400).send(err);
     }
   },
+  changePassword: async (req, res) => {
+    try {
+      const { password, new_password, email } = req.body;
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(new_password, salt);
+      console.log('new pass', hashPassword);
+      const userObj = await User.findOne({
+        where: {
+          email,
+        },
+        raw: true,
+      });
+
+      console.log(userObj);
+
+      if (!userObj) throw 'User Not Found';
+
+      const isPasswordValid = await bcrypt.compare(password, userObj.password);
+      if (!isPasswordValid) throw 'Wrong Password';
+      const userUpdated = await User.update(
+        {
+          password: hashPassword,
+        },
+        {
+          where: { email },
+        }
+      );
+      res.status(200).send(userObj);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
 };
