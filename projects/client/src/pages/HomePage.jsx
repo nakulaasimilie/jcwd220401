@@ -4,22 +4,9 @@ import Footer from "../components/footerComp";
 import Search from "../components/search";
 import Kategori from "../components/kategori";
 import Navbar from "../components/navbar";
-import Register from "../components/register";
+import Product from "../components/product";
 
 export default function HomePage() {
-  const bodyStyle = {
-    backgroundColor: "grey",
-    width: "auto",
-    height: "auto",
-  };
-
-  const myStyle = {
-    maxWidth: "506px",
-    heigth: "auto",
-    backgroundColor: "white",
-    margin: "auto",
-  };
-
   const header = {
     backgroundColor: "#ebf5e9",
     width: "auto",
@@ -29,16 +16,15 @@ export default function HomePage() {
   };
 
   return (
-    <div style={bodyStyle}>
-      <div style={myStyle}>
-        <div style={header}>
-          <Search />
-          <HomeComp />
-        </div>
-        <Kategori />
-        <Footer />
-        <Navbar />
+    <div>
+      <div style={header}>
+        <Search />
+        <HomeComp />
       </div>
+      <Kategori />
+      <Product />
+      <Footer />
+      <Navbar />
     </div>
   );
 }

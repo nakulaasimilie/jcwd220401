@@ -5,6 +5,9 @@ import Navbar from "./components/navbar";
 import { LoginPage } from "./pages/LoginUser";
 import Register from "./components/register";
 import NotFound from "./components/404";
+import { useDispatch, useSelector } from "react-redux";
+import DetailPage from "./pages/DetailPage";
+import Search from "./components/search";
 
 function App() {
   const [location, setLocation] = useState({
@@ -49,40 +52,56 @@ function App() {
     backgroundColor: "white",
     margin: "auto",
   };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
 
   return (
-    <div style={myStyle}>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
+    <div style={bodyStyle}>
+      <div style={myStyle}>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
 
-        <Route
-          path="/*"
-          element={
-            <>
-              <NotFound />
-              <Navbar />
-            </>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <>
-              <HomePage />
-            </>
-          }
-        />
+          <Route
+            path="/*"
+            element={
+              <>
+                <NotFound />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <HomePage />
+              </>
+            }
+          />
 
-        <Route path="/transaksi" />
-        <Route
-          path="/register"
-          element={
-            <>
-              <Register />
-            </>
-          }
-        />
-      </Routes>
+          <Route
+            path="/detail/:id"
+            element={
+              <>
+                <Search />
+                <DetailPage />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Register />
+              </>
+            }
+          />
+        </Routes>
+      </div>
     </div>
   );
 }

@@ -10,20 +10,26 @@ const db = require("../models");
 const bearerToken = require("express-bearer-token");
 
 //userRouters
-const { userRoutesLogin } = require("../routers");
-const { userRoutes } = require("../routers");
+const {
+  userRoutesLogin,
+  cartRoutes,
+  userRoutes,
+  userRoutesAdmin,
+  productRoutes,
+} = require("../routers");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.use(
-  cors({
-    origin: [
-      process.env.WHITELISTED_DOMAIN &&
-        process.env.WHITELISTED_DOMAIN.split(","),
-    ],
-  })
-);
-// app.use(cors());
+// app.use(
+// //   cors()
+// //   //   {
+// //   //   origin: [
+// //   //     process.env.WHITELISTED_DOMAIN &&
+// //   //       process.env.WHITELISTED_DOMAIN.split(","),
+// //   //   ],
+// //   // }
+// // );
+app.use(cors());
 app.use(express.json());
 
 //#region API ROUTES
@@ -31,8 +37,11 @@ app.use(express.json());
 // ===========================
 // NOTE : Add your routes here
 
-//user Router
+// user Router
 app.use("/usersLogin", userRoutesLogin);
+app.use("/adminLogin", userRoutesAdmin);
+app.use("/product", productRoutes);
+app.use("/cart", cartRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);

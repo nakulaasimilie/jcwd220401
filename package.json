@@ -19,5 +19,8 @@
   },
   "workspaces": [
     "projects/*"
-  ]
+  ],
+  "dependencies": {
+    "ecdsa-sig-formatter": "^1.0.11"
+  }
 }

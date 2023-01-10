@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "12345",
-    "database": "ujian_bootcamp",
+    "password": "asudesu1998",
+    "database": "grocery",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

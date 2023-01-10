@@ -17,7 +17,7 @@ import axios from "axios";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/userSlice";
 import { Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -30,6 +30,8 @@ import logo from "../assets/output-onlinepngtools.png";
 const url = "http://localhost:8000/usersLogin/login";
 
 export const LoginPage = () => {
+  const userSelector = useSelector((state) => state.userSlice);
+
   // useRef for password and email
   const password = useRef("");
   const email = useRef("");
