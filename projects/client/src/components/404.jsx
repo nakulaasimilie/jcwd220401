@@ -13,7 +13,7 @@ import notFound from "../assets/404.png";
 export default function Pages404() {
   return (
     <>
-      <Container>
+      <Container height={"790px"}>
         <Image src={notFound} margin={"auto"} />
         <Stack as={Box} textAlign={"center"}>
           <Heading

@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsTo(models.Role);
+      User.hasMany(models.Cart);
     }
   }
   User.init(
@@ -31,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: "email",
         validate: { isEmail: true },
       },
       phone_number: {
@@ -53,19 +55,16 @@ module.exports = (sequelize, DataTypes) => {
       verification_signature: {
         type: DataTypes.STRING,
       },
-      isAdmin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-      },
-      role_id: {
-        type: DataTypes.INTEGER,
-      },
+      // isAdmin: {
+      //   type: DataTypes.BOOLEAN,
+      //   defaultValue: false,
+      // },
+      // role_id: {
+      //   type: DataTypes.INTEGER,
+      // },
       geolocation: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      store_id: {
-        type: DataTypes.INTEGER,
       },
     },
     {

@@ -4,6 +4,8 @@ const initialState = {
   value: {
     id: 0,
     name: "",
+    id: 0,
+    name: "",
     email: "",
     phone_number: "",
     RoleId: "",
@@ -13,7 +15,7 @@ const initialState = {
   },
 };
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: "counterSlice",
   initialState,
   reducers: {
@@ -37,9 +39,15 @@ export const userSlice = createSlice({
       state.value.gender = "";
       state.value.birthdate = "";
     },
+    addCart: (state) => {
+      state.value.cart += 1;
+    },
+    addCart: (state) => {
+      state.value.cart += 1;
+    },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, addCart } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -9,6 +9,9 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { login } from "./redux/userSlice";
 import NotFound from "./components/404";
+import { useDispatch, useSelector } from "react-redux";
+import DetailPage from "./pages/DetailPage";
+import Search from "./components/search";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -79,41 +82,57 @@ function App() {
     backgroundColor: "white",
     margin: "auto",
   };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
 
   return (
-    <div style={myStyle}>
-      <Routes>
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/login" element={<LoginPage />} />
+    <div style={bodyStyle}>
+      <div style={myStyle}>
+        <Routes>
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/login" element={<LoginPage />} />
 
-        <Route
-          path="/*"
-          element={
-            <>
-              <NotFound />
-              <Navbar />
-            </>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <>
-              <HomePage />
-            </>
-          }
-        />
+          <Route
+            path="/*"
+            element={
+              <>
+                <NotFound />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <HomePage />
+              </>
+            }
+          />
 
-        <Route path="/transaksi" />
-        <Route
-          path="/register"
-          element={
-            <>
-              <Register />
-            </>
-          }
-        />
-      </Routes>
+          <Route
+            path="/detail/:id"
+            element={
+              <>
+                <Search />
+                <DetailPage />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Register />
+              </>
+            }
+          />
+        </Routes>
+      </div>
     </div>
   );
 }
