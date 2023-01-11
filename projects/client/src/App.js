@@ -5,7 +5,6 @@ import Navbar from "./components/navbar";
 import { LoginPage } from "./pages/LoginUser";
 import { UserProfile } from "./pages/ProfilePage";
 import Register from "./components/register";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { login } from "./redux/userSlice";
 import NotFound from "./components/404";

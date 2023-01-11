@@ -147,7 +147,7 @@ module.exports = {
       const search = search_query || "";
       const offset = list_limit * productList_page;
       const orderby = order || "name";
-      const direction = order_direction || "DESC";
+      const direction = order_direction || "ASC";
       const totalRows = await product.count({
         where: {
           [Op.or]: [

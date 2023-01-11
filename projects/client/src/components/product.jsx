@@ -39,7 +39,7 @@ export default function BookCard() {
   const url = `http://localhost:8000/product/view?search_query=${searchProduct}&page=${
     page - 1
   }&limit=${limit}&order=${order ? order : `id`}&order_direction=${
-    order_direction ? order_direction : "DESC"
+    order_direction ? order_direction : "ASC"
   }`;
 
   const getData = async () => {
