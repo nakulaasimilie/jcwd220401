@@ -110,6 +110,9 @@ export default function Navbar() {
                       <Link href="/profile">Profile</Link>
                     </MenuItem>
                     <MenuItem>
+                      <Link href="/changePassword">Change Password</Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link onClick={onLogout}>Logout</Link>
                     </MenuItem>
                   </MenuList>

@@ -5,6 +5,7 @@ const initialState = {
     id: 0,
     name: "",
     email: "",
+    password: "",
     phone_number: "",
     RoleId: "",
     profile_picture_url: "",

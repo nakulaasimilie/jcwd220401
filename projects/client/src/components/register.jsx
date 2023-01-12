@@ -79,6 +79,11 @@ export default function SignupCard() {
         `http://localhost:8000/users/verification?email=${email}&verification_signature=${verificationSignature}`
       );
       onClose();
+      Swal.fire({
+        icon: "success",
+        title: "Sukses",
+        text: "Verifikasi Berhasil",
+      });
       console.log(res);
     } catch (err) {
       console.log(err);

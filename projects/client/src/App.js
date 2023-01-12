@@ -11,6 +11,7 @@ import { login } from "./redux/userSlice";
 import HomePage from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginUser";
 import { UserProfile } from "./pages/ProfilePage";
+import { ChangePassword } from "./pages/ChangePassword";
 import Register from "./components/register";
 import DetailPage from "./pages/DetailPage";
 import NotFound from "./components/404";
@@ -103,6 +104,7 @@ function App() {
         <Routes>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
           <Route
             path="/cart"
             element={
