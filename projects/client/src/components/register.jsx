@@ -5,15 +5,12 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
   Link,
-  useColorModeValue,
-  Container,
   Image,
   Modal,
   ModalOverlay,
@@ -127,116 +124,85 @@ export default function SignupCard() {
           console.log(props);
           return (
             <>
-              <Container>
-                <Form onSubmit={props.handleSubmit}>
-                  <Flex
-                    minH={"100vh"}
-                    align={"center"}
-                    justify={"center"}
-                    bg="gray.50"
-                  >
-                    <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-                      <Image src={logo} maxW="200px" mb="8" mx="auto" />
-                      <Stack align={"center"}>
-                        <Heading
-                          color="black"
-                          fontSize={"4xl"}
-                          textAlign={"center"}
-                        >
-                          Register
-                        </Heading>
-                      </Stack>
-                      <Box rounded={"lg"} bg="green.200" boxShadow={"lg"} p={8}>
-                        <Stack spacing={4}>
-                          <Box>
-                            <FormControl id="firstName" isRequired>
-                              <FormLabel>Name</FormLabel>
-                              <Field as={Input} name="name" />
-                              <ErrorMessage
-                                component="div"
-                                style={{ color: "red" }}
-                                name="name"
-                              />
-                            </FormControl>
-                          </Box>
-                          <Stack>
-                            <FormControl id="email" isRequired>
-                              <FormLabel>Email address</FormLabel>
-                              <Field as={Input} name="email" />
-                              <ErrorMessage
-                                component="div"
-                                style={{ color: "red" }}
-                                name="email"
-                              />
-                            </FormControl>
-                          </Stack>
-                          <FormControl id="password" isRequired>
-                            <FormLabel>Password</FormLabel>
-                            <InputGroup>
-                              <Field
-                                as={Input}
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                              />
-                              <InputRightElement h={"full"}>
-                                <Button
-                                  variant={"ghost"}
-                                  onClick={() =>
-                                    setShowPassword(
-                                      (showPassword) => !showPassword
-                                    )
-                                  }
-                                >
-                                  {showPassword ? (
-                                    <ViewIcon />
-                                  ) : (
-                                    <ViewOffIcon />
-                                  )}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
-                            <ErrorMessage
-                              component="div"
-                              style={{ color: "red" }}
-                              name="password"
-                            />
-                          </FormControl>
-                          <FormControl id="phone_number" isRequired>
-                            <FormLabel>Phone Number</FormLabel>
-                            <Field as={Input} name="phone_number" />
-                            <ErrorMessage
-                              component="div"
-                              style={{ color: "red" }}
-                              name="phone_number"
-                            />
-                          </FormControl>
-                          <Stack spacing={10} pt={2}>
-                            <Button
-                              // onClick={onRegister}
-                              type="submit"
-                              loadingText="Submitting"
-                              size="lg"
-                              bg={"blue.400"}
-                              color={"white"}
-                              _hover={{
-                                bg: "blue.500",
-                              }}
-                            >
-                              Sign up
-                            </Button>
-                          </Stack>
-                          <Stack pt={6}>
-                            <Text align={"center"}>
-                              Already a user?{" "}
-                              <Link color={"blue.400"}>Login</Link>
-                            </Text>
-                          </Stack>
-                        </Stack>
-                      </Box>
+              <Form onSubmit={props.handleSubmit}>
+                <Flex
+                  minH={"100vh"}
+                  align={"center"}
+                  justify={"center"}
+                  bgGradient="linear(to-t, #ebf5e9, #ffff)"
+                >
+                  <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+                    <Stack align={"center"}>
+                      <Heading fontSize={"4xl"} textAlign={"center"}>
+                        Register
+                      </Heading>
                     </Stack>
-                  </Flex>
-                </Form>
-              </Container>
+                    <Box rounded={"lg"} bg={"#ebf5e9"} boxShadow={"lg"} p={8}>
+                      <Stack spacing={4}>
+                        <Box>
+                          <FormControl id="firstName" isRequired>
+                            <FormLabel>Name</FormLabel>
+                            <Field as={Input} name="name" />
+                          </FormControl>
+                        </Box>
+                        <FormControl id="email" isRequired>
+                          <FormLabel>Email address</FormLabel>
+                          <Field as={Input} name="email" />
+                        </FormControl>
+                        <FormControl id="password" isRequired>
+                          <FormLabel>Password</FormLabel>
+                          <InputGroup>
+                            <Field
+                              as={Input}
+                              name="password"
+                              type={showPassword ? "text" : "password"}
+                            />
+                            <InputRightElement h={"full"}>
+                              <Button
+                                variant={"ghost"}
+                                onClick={() =>
+                                  setShowPassword(
+                                    (showPassword) => !showPassword
+                                  )
+                                }
+                              >
+                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                        </FormControl>
+                        <FormControl id="phone_number" isRequired>
+                          <FormLabel>Phone Number</FormLabel>
+                          <Field as={Input} name="phone_number" />
+                        </FormControl>
+                        <Stack spacing={10} pt={2}>
+                          <Button
+                            // onClick={onRegister}
+                            type="submit"
+                            loadingText="Submitting"
+                            size="lg"
+                            bg={"blue.400"}
+                            color={"white"}
+                            _hover={{
+                              bg: "blue.500",
+                            }}
+                          >
+                            Sign up
+                          </Button>
+                        </Stack>
+                        <Stack pt={6}>
+                          <Text align={"center"}>
+                            Already a user?{" "}
+                            <Link color={"blue.400"} href="/login">
+                              Login
+                            </Link>
+                          </Text>
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  </Stack>
+                </Flex>
+              </Form>
             </>
           );
         }}

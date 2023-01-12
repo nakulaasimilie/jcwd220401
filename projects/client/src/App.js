@@ -1,26 +1,32 @@
-import HomePage from "./pages/HomePage";
+//Function and Redux
 import { Route, Routes } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { cartSync } from "./redux/cartSlice";
+import { login } from "./redux/userSlice";
+
+//Component and Pages
+import HomePage from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginUser";
 import { UserProfile } from "./pages/ProfilePage";
 import Register from "./components/register";
-import axios from "axios";
-import { login } from "./redux/userSlice";
-import NotFound from "./components/404";
-import { useDispatch, useSelector } from "react-redux";
 import DetailPage from "./pages/DetailPage";
+import NotFound from "./components/404";
 import Search from "./components/search";
+import CartDetail from "./components/CartComp";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
 
 function App() {
-  //function keeplogin
+  //keeplogin token
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   // console.log(token)
 
+  //Function keeplogin
   const keepLogin = async () => {
     try {
       const res = await axios.get(urlKeepLogin, {
@@ -28,7 +34,11 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data);
+      // console.log(res.data);
+
+      // Get cart data by id user
+      const cart = await axios.get(`http://localhost:8000/cart/${res.data.id}`);
+      dispatch(cartSync(cart.data));
       dispatch(login(res.data));
     } catch (err) {
       console.log(err);
@@ -93,7 +103,15 @@ function App() {
         <Routes>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/login" element={<LoginPage />} />
-
+          <Route
+            path="/cart"
+            element={
+              <>
+                <CartDetail />
+                <Navbar />
+              </>
+            }
+          />
           <Route
             path="/*"
             element={

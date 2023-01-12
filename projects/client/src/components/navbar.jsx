@@ -13,14 +13,16 @@ import {
   MenuItem,
   Menu,
   Button,
+  Badge,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
 import keranjang from "../assets/keranjang.svg";
-import user from "../assets/pesanan.svg";
+import user from "../assets/user.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
+import { cartDel } from "../redux/cartSlice";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -45,11 +47,12 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Navbar() {
-  const { name } = useSelector((state) => state.userSlice.value);
+  const { name, cart } = useSelector((state) => state.userSlice.value);
   const dispatch = useDispatch();
 
   const onLogout = () => {
     dispatch(logout());
+    dispatch(cartDel());
     localStorage.removeItem("token");
     sessionStorage.removeItem("id");
   };
@@ -71,7 +74,7 @@ export default function Navbar() {
         position={"relative"}
       >
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Produk"} href={"#"}>
+          <SocialButton label={"Produk"} href={"/"}>
             <Box textAlign={"center"}>
               <FontAwesomeIcon icon={faHouse} />
               <Text>Produk</Text>
@@ -83,8 +86,13 @@ export default function Navbar() {
               <Text>Transaksi</Text>
             </Box>
           </SocialButton>
-          <SocialButton label={"Cart"} href={"#"}>
+          <SocialButton label={"Cart"} href={"/cart"}>
             <Box textAlign={"center"}>
+              {/* {name && cart !== 0 ? (
+                <Badge p="1" ml="-2" mt="-3">
+                  <Text fontSize="xx-small">{cart}</Text>
+                </Badge>
+              ) : null} */}
               <Image src={keranjang} margin="auto" />
               <Text>Keranjang</Text>
             </Box>
@@ -93,7 +101,7 @@ export default function Navbar() {
             <Box textAlign={"center"}>
               {name ? (
                 <Menu>
-                  <MenuButton as={Button}>
+                  <MenuButton as={Button} bg>
                     <Image src={user} margin="auto" />
                     <Text>{name}</Text>
                   </MenuButton>

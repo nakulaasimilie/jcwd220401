@@ -22,34 +22,55 @@ module.exports = {
       res.status(400).send(err);
     }
   },
-  // deleteCart: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
+  deleteCart: async (req, res) => {
+    try {
+      const { id } = req.params;
 
-  //     const result = await cart.destroy({
-  //       where: {
-  //         id,
-  //       },
-  //     });
-  //     res.status(200).send({
-  //       msg: "Cart Deleted!",
-  //       result,
-  //     });
-  //   } catch (err) {
-  //     res.status(400).send(err);
-  //   }
-  // },
+      const result = await cart.destroy({
+        where: {
+          id,
+        },
+      });
+      res.status(200).send({
+        msg: "Cart Deleted!",
+        result,
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
   getCart: async (req, res) => {
     try {
       const { id } = req.params;
       const getcart = await cart.findAll({
-        attributes: ["id"],
+        attributes: ["id", "quantity"],
         where: {
           UserId: id,
         },
         include: [{ model: user, attributes: ["name"] }, { model: product }],
       });
       res.status(200).send(getcart);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+  updateCart: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { quantity } = req.body;
+      console.log(id, quantity);
+
+      const editQty = await cart.update(
+        {
+          quantity,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+      res.status(200).send(editQty);
     } catch (err) {
       res.status(400).send(err);
     }

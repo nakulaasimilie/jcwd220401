@@ -4,8 +4,6 @@ const initialState = {
   value: {
     id: 0,
     name: "",
-    id: 0,
-    name: "",
     email: "",
     phone_number: "",
     RoleId: "",
@@ -42,12 +40,12 @@ const userSlice = createSlice({
     addCart: (state) => {
       state.value.cart += 1;
     },
-    addCart: (state) => {
-      state.value.cart += 1;
+    deleteCart: (state) => {
+      state.value.cart -= 1;
     },
   },
 });
 
-export const { login, logout, addCart } = userSlice.actions;
+export const { login, logout, addCart, deleteCart } = userSlice.actions;
 
 export default userSlice.reducer;
