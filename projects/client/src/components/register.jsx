@@ -83,9 +83,9 @@ export default function SignupCard() {
       );
       onClose();
       Swal.fire({
-        icon: 'success',
-        title: 'Sukses',
-        text: 'Verifikasi Berhasil',
+        icon: "success",
+        title: "Sukses",
+        text: "Verifikasi Berhasil",
       });
       console.log(res);
     } catch (err) {
@@ -126,8 +126,7 @@ export default function SignupCard() {
         onSubmit={(values) => {
           console.log("onSubmit", values);
           onRegister(values);
-        }}
-      >
+        }}>
         {(props) => {
           console.log(props);
           return (
@@ -138,16 +137,14 @@ export default function SignupCard() {
                     minH={"100vh"}
                     align={"center"}
                     justify={"center"}
-                    bg="gray.50"
-                  >
+                    bg="gray.50">
                     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                       <Image src={logo} maxW="200px" mb="8" mx="auto" />
                       <Stack align={"center"}>
                         <Heading
                           color="black"
                           fontSize={"4xl"}
-                          textAlign={"center"}
-                        >
+                          textAlign={"center"}>
                           Register
                         </Heading>
                       </Stack>
@@ -190,8 +187,7 @@ export default function SignupCard() {
                                     setShowPassword(
                                       (showPassword) => !showPassword
                                     )
-                                  }
-                                >
+                                  }>
                                   {showPassword ? (
                                     <ViewIcon />
                                   ) : (
@@ -225,8 +221,7 @@ export default function SignupCard() {
                               color={"white"}
                               _hover={{
                                 bg: "blue.500",
-                              }}
-                            >
+                              }}>
                               Sign up
                             </Button>
                           </Stack>

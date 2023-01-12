@@ -1,11 +1,11 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const { userController } = require('../controllers');
+const { userController } = require("../controllers");
 
 // const { generateID } = require('../helper/generateID');
 
-router.post('/register', userController.register);
-router.get('/verification', userController.verification);
-router.put('/password', userController.changePassword);
+router.post("/register", userController.register);
+router.get("/verification", userController.verification);
+router.patch("/changePassword/:id", userController.ChangePassword);
 
 module.exports = router;

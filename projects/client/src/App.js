@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import { LoginPage } from "./pages/LoginUser";
 import { UserProfile } from "./pages/ProfilePage";
+import { ChangePassword } from "./pages/ChangePassword";
 import Register from "./components/register";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -85,6 +86,7 @@ function App() {
       <Routes>
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/changePassword" element={<ChangePassword />} />
 
         <Route
           path="/*"

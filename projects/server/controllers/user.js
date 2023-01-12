@@ -1,10 +1,10 @@
-const db = require('../models');
+const db = require("../models");
 const User = db.User;
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const { uuid } = require('uuidv4');
-const Sequelize = require('sequelize');
-require('dotenv').config();
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const { uuid } = require("uuidv4");
+const Sequelize = require("sequelize");
+require("dotenv").config();
 
 module.exports = {
   register: async (req, res) => {
@@ -26,17 +26,17 @@ module.exports = {
       await user.save();
 
       var transporter = nodemailer.createTransport({
-        host: 'smtp.mailtrap.io',
+        host: "smtp.mailtrap.io",
         port: 2525,
         auth: {
-          user: 'cc2bc063db04e6',
-          pass: 'ff74359a65d51c',
+          user: "cc2bc063db04e6",
+          pass: "ff74359a65d51c",
         },
       });
       const message = {
-        from: 'nakulabaiduri@gmail.com',
-        to: 'nakulabaiduri@gmail.com',
-        subject: 'Verifikasi Email',
+        from: "nakulabaiduri@gmail.com",
+        to: "nakulabaiduri@gmail.com",
+        subject: "Verifikasi Email",
         html: `<a href="http://localhost:3000/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
       };
       await transporter.sendMail(message, (err, info) => {
@@ -48,7 +48,7 @@ module.exports = {
       });
 
       const total = await User.count({ where: { email } });
-      console.log('total', total);
+      console.log("total", total);
       res.status(200).send(user.toJSON());
     } catch (err) {
       console.log(err);
@@ -66,8 +66,8 @@ module.exports = {
         ),
       });
       if (user === null) {
-        console.log('Not found!');
-        res.status(404).send('data tidak ditemukan');
+        console.log("Not found!");
+        res.status(404).send("data tidak ditemukan");
         return;
       } else {
         console.log(user instanceof User); // true
@@ -85,14 +85,14 @@ module.exports = {
           res
             .status(200)
             .send(
-              'Anda telah terverifikasi, silahkan klik link berikut untuk kembali login '
+              "Anda telah terverifikasi, silahkan klik link berikut untuk kembali login "
             );
           return;
         } else {
-          res.status(500).send('terjadi kesalahan pada sistem');
+          res.status(500).send("terjadi kesalahan pada sistem");
           return;
         }
-        console.log('ini result :', result);
+        console.log("ini result :", result);
         console.log(user.email); // 'My Title'
       }
       res.status(200).send(user.toJSON());
@@ -101,12 +101,15 @@ module.exports = {
       res.status(400).send(err);
     }
   },
-  changePassword: async (req, res) => {
+  ChangePassword: async (req, res) => {
     try {
-      const { password, new_password, email } = req.body;
+      const { oldPassword, newPassword, email, confirmPassword } = req.body;
+      console.log(req.body);
       const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(new_password, salt);
-      console.log('new pass', hashPassword);
+      const hashPassword = await bcrypt.hash(newPassword, salt);
+      console.log("new pass", hashPassword);
+      if (newPassword !== confirmPassword)
+        throw "Password doesnt match with confirm password";
       const userObj = await User.findOne({
         where: {
           email,
@@ -116,10 +119,13 @@ module.exports = {
 
       console.log(userObj);
 
-      if (!userObj) throw 'User Not Found';
+      if (!userObj) throw "User Not Found";
 
-      const isPasswordValid = await bcrypt.compare(password, userObj.password);
-      if (!isPasswordValid) throw 'Wrong Password';
+      const isPasswordValid = await bcrypt.compare(
+        oldPassword,
+        userObj.password
+      );
+      if (!isPasswordValid) throw "Wrong Password";
       const userUpdated = await User.update(
         {
           password: hashPassword,

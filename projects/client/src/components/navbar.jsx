@@ -36,8 +36,7 @@ const SocialButton = ({ children, label, href }) => {
       transition={"background 0.3s ease"}
       _hover={{
         bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-      }}
-    >
+      }}>
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
     </chakra.button>
@@ -59,8 +58,7 @@ export default function Navbar() {
       bg={useColorModeValue("#ebf5e9")}
       position={"fixed"}
       justifyContent={"center"}
-      bottom={0}
-    >
+      bottom={0}>
       <Container
         as={Stack}
         py={4}
@@ -68,8 +66,7 @@ export default function Navbar() {
         spacing={4}
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
-        position={"relative"}
-      >
+        position={"relative"}>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Produk"} href={"#"}>
             <Box textAlign={"center"}>
@@ -100,6 +97,9 @@ export default function Navbar() {
                   <MenuList>
                     <MenuItem>
                       <Link href="/profile">Profile</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href="/changePassword">Change Password</Link>
                     </MenuItem>
                     <MenuItem>
                       <Link onClick={onLogout}>Logout</Link>

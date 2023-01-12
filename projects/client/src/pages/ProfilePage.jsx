@@ -148,8 +148,7 @@ export const UserProfile = () => {
             rounded={"xl"}
             boxShadow={"lg"}
             p={6}
-            my={12}
-          >
+            my={12}>
             <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
               User Profile Edit
             </Heading>
@@ -240,8 +239,7 @@ export const UserProfile = () => {
                 w="full"
                 _hover={{
                   bg: "red.500",
-                }}
-              >
+                }}>
                 Cancel
               </Button>
               <Button
@@ -252,8 +250,7 @@ export const UserProfile = () => {
                 w="full"
                 _hover={{
                   bg: "blue.500",
-                }}
-              >
+                }}>
                 Submit
               </Button>
             </Stack>
