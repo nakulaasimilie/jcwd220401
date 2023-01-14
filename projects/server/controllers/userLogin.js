@@ -61,6 +61,7 @@ module.exports = {
   keepLogin: async (req, res) => {
     try {
       const verify = jwt.verify(req.token, "kompeni-mart");
+      console.log(verify);
       const result = await User.findOne({
         where: {
           id: verify.id,
@@ -68,13 +69,7 @@ module.exports = {
         raw: true,
       });
 
-      res.status(200).send(
-        //   {
-        //   name: result[0].name,
-        //   id: result[0].id,
-        // }
-        result
-      );
+      res.status(200).send(result);
     } catch (err) {
       res.status(400).send(err);
     }

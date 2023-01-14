@@ -101,7 +101,7 @@ module.exports = {
       res.status(400).send(err);
     }
   },
-  ChangePassword: async (req, res) => {
+  changePassword: async (req, res) => {
     try {
       const { oldPassword, newPassword, email, confirmPassword } = req.body;
       console.log(req.body);
@@ -132,6 +132,79 @@ module.exports = {
         },
         {
           where: { email },
+        }
+      );
+      res.status(200).send(userObj);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
+  sendEmailResetPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+      const accountObj = await User.findOne({
+        where: { email },
+        raw: true,
+      });
+
+      if (accountObj === null) throw "Account not found";
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "cc2bc063db04e6",
+          pass: "ff74359a65d51c",
+        },
+      });
+      const message = {
+        from: "nakulabaiduri@gmail.com",
+        to: "nakulabaiduri@gmail.com",
+        subject: "Reset Password ",
+        html: `<a href="http://localhost:3000/resetPassword?email=${email}&verification_signature=${accountObj.verification_signature}">Klik disini untuk forgot password</a>`,
+      };
+      await transporter.sendMail(message, (err, info) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+        }
+      });
+      const total = await User.count({ where: { email } });
+      console.log("total", total);
+      res.status(200).send(accountObj);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    try {
+      const { password, confirmPassword } = req.body;
+      const { verificationSignature } = req.body;
+      console.log("verification Signature", verificationSignature);
+      const salt = await bcrypt.genSalt(10);
+      const hashPass = await bcrypt.hash(password, salt);
+      console.log("new pass", hashPass);
+      if (password !== confirmPassword)
+        throw "Password doesnt match with confirm password";
+      const userObj = await User.findOne({
+        where: {
+          // email,
+          verification_signature: verificationSignature,
+        },
+        raw: true,
+      });
+      console.log(userObj);
+      if (!userObj) throw "User Not Found";
+      const userUpdated = await User.update(
+        {
+          password: hashPass,
+        },
+        {
+          where: { verification_signature: verificationSignature },
         }
       );
       res.status(200).send(userObj);

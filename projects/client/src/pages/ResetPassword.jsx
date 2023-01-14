@@ -17,44 +17,42 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import Swal from "sweetalert2";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useEffect, useState, useRef } from "react";
-// import { useDispatch } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
-export const ChangePassword = (data) => {
-  const oldPassword = useRef("");
-  const newPassword = useRef("");
+export default function ResetPassword() {
+  const password = useRef("");
   const confirmPassword = useRef("");
-  const { id, email } = useSelector((state) => state.userSlice.value);
-  const url = `http://localhost:8000/users/changePassword/${id}`;
+  const param = useLocation();
+  console.log("ini param", param);
+  const email = param?.search.split("=")[1]?.split("&");
+  const verificationSignature = param?.search?.split("=")[2];
+  const url = `http://localhost:8000/users/resetPassword?=${email}&verification_signature=${verificationSignature}`;
 
   const [move, setMove] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClick = () => setShowPassword(!showPassword);
 
-  const changePasswordSchema = Yup.object().shape({
-    old_password: Yup.string().required("Password is required"),
-    new_password: Yup.string().required("New password is required"),
-    confirm_password: Yup.string().required("Confirm Password is required"),
+  const resetpasswordSchema = Yup.object().shape({
+    password: Yup.string().required("Password min 6 Character"),
+    confirmPassword: Yup.string().required("Confirm Password required"),
   });
 
-  const onChangePassword = async (data) => {
+  const onResetPassword = async () => {
     try {
       const user = {
-        oldPassword: oldPassword.current.value,
-        newPassword: newPassword.current.value,
+        password: password.current.value,
         confirmPassword: confirmPassword.current.value,
-        email,
+        verificationSignature,
       };
       console.log("user", user);
-      const res = await Axios.patch(url, user);
+      const res = await Axios.post(url, user);
       console.log("result", res.data);
       setMove(true);
       Swal.fire({
         icon: "success",
         title: "Sukses",
-        text: "Change Password Succsess",
+        text: "Password Sukses Di Reset",
       });
     } catch (err) {
       console.log("err", err);
@@ -69,18 +67,17 @@ export const ChangePassword = (data) => {
   useEffect(() => {}, []);
 
   return move ? (
-    <Navigate to="/" replace={true} />
+    <Navigate to="/login" replace={true} />
   ) : (
     <>
       <Formik
         initialValues={{
-          oldPassword: "",
-          newPassword: "",
+          password: "",
           confirmPassword: "",
         }}
-        validationSchema={changePasswordSchema}
+        validationSchema={resetpasswordSchema}
         onSubmit={(values) => {
-          onChangePassword(values);
+          onResetPassword(values);
         }}>
         {(props) => {
           console.log(props);
@@ -103,39 +100,19 @@ export const ChangePassword = (data) => {
                   <Heading
                     lineHeight={1.1}
                     fontSize={{ base: "2xl", md: "3xl" }}>
-                    Change Password
+                    Reset Password
                   </Heading>
                   <Form>
-                    <FormControl id="oldPassword" isRequired>
-                      <FormLabel>Old Password</FormLabel>
+                    <FormControl id="password" isRequired>
+                      <FormLabel>Password</FormLabel>
                       <InputGroup>
                         <Input
-                          ref={oldPassword}
-                          name="oldPassword"
+                          ref={password}
+                          name="password"
                           type={showPassword ? "text" : "password"}
                         />
                         <ErrorMessage
-                          name="oldPassword"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl id="newPassword" isRequired>
-                      <FormLabel>New Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={newPassword}
-                          name="newPassword"
-                          type={showPassword ? "text" : "password"}
-                        />
-                        <ErrorMessage
-                          name="newPassword"
+                          name="password"
                           component="div"
                           style={{ color: "red" }}
                         />
@@ -151,8 +128,8 @@ export const ChangePassword = (data) => {
                       <InputGroup>
                         <Input
                           ref={confirmPassword}
-                          name="confrimPassword"
-                          type={showPassword ? "text" : "password"}
+                          name="confirmPassword"
+                          type={showPassword ? "text" : "confirmPassword"}
                         />
                         <ErrorMessage
                           name="confirmPassword"
@@ -174,7 +151,7 @@ export const ChangePassword = (data) => {
                         _hover={{
                           bg: "blue.500",
                         }}
-                        onClick={onChangePassword}
+                        onClick={onResetPassword}
                         type="submit">
                         Submit
                       </Button>
@@ -188,4 +165,4 @@ export const ChangePassword = (data) => {
       </Formik>
     </>
   );
-};
+}

@@ -14,6 +14,7 @@ import {
   Menu,
   Button,
   Badge,
+  IconButton,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +24,8 @@ import user from "../assets/user.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -47,8 +50,9 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Navbar() {
-  const { name, cart } = useSelector((state) => state.userSlice.value);
+  const { name, cart, email } = useSelector((state) => state.userSlice.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLogout = () => {
     dispatch(logout());
@@ -57,13 +61,28 @@ export default function Navbar() {
     sessionStorage.removeItem("id");
   };
 
+  const transaksi = () => {
+    if (!email) {
+      return Swal.fire({
+        icon: "error",
+        title: "Akses Ditolak",
+        text: "Silahkan Masukan Akun Anda",
+        timer: 2000,
+        customClass: {
+          container: "my-swal",
+        },
+      });
+    } else {
+      return navigate(`/cart`, { replace: true });
+    }
+  };
+
   return (
     <Box
       bg={useColorModeValue("#ebf5e9")}
       position={"fixed"}
       justifyContent={"center"}
-      bottom={0}
-    >
+      bottom={0}>
       <Container
         as={Stack}
         py={4}
@@ -71,8 +90,7 @@ export default function Navbar() {
         spacing={4}
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
-        position={"relative"}
-      >
+        position={"relative"}>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Produk"} href={"/"}>
             <Box textAlign={"center"}>
@@ -80,11 +98,13 @@ export default function Navbar() {
               <Text>Produk</Text>
             </Box>
           </SocialButton>
-          <SocialButton label={"Transaksi"} href={"#"}>
-            <Box textAlign={"center"}>
-              <Image src={pesanan} margin="auto" />
-              <Text>Transaksi</Text>
-            </Box>
+          <SocialButton>
+            <IconButton onClick={() => transaksi()} bg="#ebf5e9">
+              <Box textAlign={"center"}>
+                <Image src={pesanan} margin="auto" />
+                <Text>Transaksi</Text>
+              </Box>
+            </IconButton>
           </SocialButton>
           <SocialButton label={"Cart"} href={"/cart"}>
             <Box textAlign={"center"}>

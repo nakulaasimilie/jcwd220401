@@ -17,6 +17,8 @@ import DetailPage from "./pages/DetailPage";
 import NotFound from "./components/404";
 import Search from "./components/search";
 import CartDetail from "./components/CartComp";
+import SendEmailPassword from "./pages/SendEmailPage";
+import ResetPassword from "./pages/ResetPassword";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -147,6 +149,22 @@ function App() {
             element={
               <>
                 <Register />
+              </>
+            }
+          />
+          <Route
+            path="/verifyResetPassword"
+            element={
+              <>
+                <SendEmailPassword />
+              </>
+            }
+          />
+          <Route
+            path="/resetPassword"
+            element={
+              <>
+                <ResetPassword />
               </>
             }
           />

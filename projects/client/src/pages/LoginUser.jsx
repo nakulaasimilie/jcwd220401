@@ -93,8 +93,7 @@ export const LoginPage = () => {
         validationSchema={loginSchema}
         onSubmit={(values) => {
           onLogin(values);
-        }}
-      >
+        }}>
         {(props) => {
           console.log(props);
           return (
@@ -103,8 +102,7 @@ export const LoginPage = () => {
               algin={"center"}
               justify={"center"}
               bgGradient="linear(to-t, #ebf5e9, #ffff)"
-              maxWidth={"506px"}
-            >
+              maxWidth={"506px"}>
               <Stack spacing={4} mx={"auto"} maxW={"lg"} py={3} px={3}>
                 <Image src={logo} maxW="160px" mb="5" mx="auto" />
                 <Stack align={"center"}>
@@ -150,10 +148,12 @@ export const LoginPage = () => {
                         <Stack
                           direction={{ base: "column", sm: "row" }}
                           align={"start"}
-                          justify={"space-between"}
-                        ></Stack>
+                          justify={"space-between"}></Stack>
                         <Link color={"blue.400"} href="/register">
                           Dont have account?
+                        </Link>
+                        <Link color={"blue.400"} href="/verifyResetPassword">
+                          Reset Password?
                         </Link>
                       </Stack>
                       <Button
@@ -163,8 +163,7 @@ export const LoginPage = () => {
                           bg: "yellow.300",
                         }}
                         onClick={onLogin}
-                        type="submit"
-                      >
+                        type="submit">
                         Sign in
                       </Button>
                       {/* <Button isLoading bg={"blue.300"} color={"white"} /> */}
