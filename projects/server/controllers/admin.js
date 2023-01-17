@@ -25,7 +25,7 @@ module.exports = {
           email: emailExist.email,
           name: emailExist.name,
         },
-        "kompeni-mart"
+        "kompeni-mart",
       );
 
       res.status(200).send({

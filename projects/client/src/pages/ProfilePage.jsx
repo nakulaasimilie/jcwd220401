@@ -23,7 +23,7 @@ import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
 export { SmallCloseIcon } from "@chakra-ui/icons";
 
 export const UserProfile = () => {
-  const { id } = useSelector((state) => state.userSlice.value);
+  const { id } = useSelector(state => state.userSlice.value);
 
   // bug fix nanti buat edit profile
   // const { name } = useSelector((state) => state.userSlice.value);
@@ -47,7 +47,7 @@ export const UserProfile = () => {
   const urlUpdateImage = `http://localhost:8000/usersLogin/uploadFile/${id}`;
 
   //choose file upload
-  const handleChoose = (e) => {
+  const handleChoose = e => {
     console.log("e.target.files", e.target.files);
     setImage(e.target.files[0]);
     console.log(setImage);
@@ -148,14 +148,24 @@ export const UserProfile = () => {
             rounded={"xl"}
             boxShadow={"lg"}
             p={6}
-            my={12}>
-            <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
+            my={12}
+          >
+            <Heading
+              lineHeight={1.1}
+              fontSize={{ base: "2xl", sm: "3xl" }}
+            >
               User Profile Edit
             </Heading>
             <FormControl id="name">
-              <Stack direction={["column", "row"]} spacing={6}>
+              <Stack
+                direction={["column", "row"]}
+                spacing={6}
+              >
                 <Center>
-                  <Avatar size={"xl"} src={`http://localhost:8000/${profile}`}>
+                  <Avatar
+                    size={"xl"}
+                    src={`http://localhost:8000/${profile}`}
+                  >
                     <AvatarBadge
                       as={IconButton}
                       size="sm"
@@ -168,7 +178,10 @@ export const UserProfile = () => {
                   </Avatar>
                 </Center>
                 <Center w={"full"}>
-                  <Button w="full" onClick={handleUpload}>
+                  <Button
+                    w="full"
+                    onClick={handleUpload}
+                  >
                     Change Icon
                   </Button>
                 </Center>
@@ -178,7 +191,7 @@ export const UserProfile = () => {
                       type="file"
                       accept="image/*"
                       name="file"
-                      onChange={(e) => handleChoose(e)}
+                      onChange={e => handleChoose(e)}
                     />
                   </form>
                 </Center>
@@ -189,7 +202,7 @@ export const UserProfile = () => {
               <Input
                 ref={name}
                 value={formik.values.name}
-                onChange={(event) =>
+                onChange={event =>
                   formik.setFieldValue("name", event.target.value)
                 }
                 _placeholder={{ color: "gray.500" }}
@@ -201,7 +214,7 @@ export const UserProfile = () => {
               <Input
                 ref={email}
                 value={formik.values.email}
-                onChange={(event) =>
+                onChange={event =>
                   formik.setFieldValue("email", event.target.value)
                 }
                 _placeholder={{ color: "gray.500" }}
@@ -213,7 +226,7 @@ export const UserProfile = () => {
               <Input
                 ref={gender}
                 value={formik.values.gender}
-                onChange={(event) =>
+                onChange={event =>
                   formik.setFieldValue("gender", event.target.value)
                 }
                 _placeholder={{ color: "gray.500" }}
@@ -225,21 +238,25 @@ export const UserProfile = () => {
               <Input
                 ref={birthdate}
                 value={formik.values.birthdate}
-                onChange={(event) =>
+                onChange={event =>
                   formik.setFieldValue("birthdate", event.target.value)
                 }
                 _placeholder={{ color: "gray.500" }}
                 type="text"
               />
             </FormControl>
-            <Stack spacing={6} direction={["column", "row"]}>
+            <Stack
+              spacing={6}
+              direction={["column", "row"]}
+            >
               <Button
                 bg={"red.400"}
                 color={"white"}
                 w="full"
                 _hover={{
                   bg: "red.500",
-                }}>
+                }}
+              >
                 Cancel
               </Button>
               <Button
@@ -250,7 +267,8 @@ export const UserProfile = () => {
                 w="full"
                 _hover={{
                   bg: "blue.500",
-                }}>
+                }}
+              >
                 Submit
               </Button>
             </Stack>

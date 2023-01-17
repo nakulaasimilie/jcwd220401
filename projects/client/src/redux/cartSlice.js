@@ -9,12 +9,12 @@ export const cartSlice = createSlice({
     cartSync: (state, action) => {
       state.value = action.payload;
     },
-    cartDel: (state) => {
+    cartDel: state => {
       state.value = [];
     },
     cartQty: (state, action) => {
       state.value = [
-        ...state.value.filter((item) => item.id != action.payload.id),
+        ...state.value.filter(item => item.id != action.payload.id),
         action.payload,
       ];
     },

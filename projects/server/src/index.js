@@ -16,6 +16,7 @@ const {
   userRoutes,
   userRoutesAdmin,
   productRoutes,
+  addressRoutes,
 } = require("../routers");
 
 const PORT = process.env.PORT || 8000;
@@ -42,6 +43,7 @@ app.use("/usersLogin", userRoutesLogin);
 app.use("/adminLogin", userRoutesAdmin);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
+app.use("/address", addressRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -88,7 +90,7 @@ app.get("*", (req, res) => {
 
 //#endregion
 
-app.listen(PORT, (err) => {
+app.listen(PORT, err => {
   // db.sequelize.sync({ alter: true });
   if (err) {
     console.log(`ERROR: ${err}`);

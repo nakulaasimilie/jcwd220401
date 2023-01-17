@@ -63,7 +63,10 @@ export default function HomeComp() {
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
           />
 
-          <Slider {...settings} ref={(slider) => setSlider(slider)}>
+          <Slider
+            {...settings}
+            ref={slider => setSlider(slider)}
+          >
             {cards.map((url, index) => (
               <Box
                 key={index}

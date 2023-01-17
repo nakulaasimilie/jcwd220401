@@ -17,6 +17,9 @@ import DetailPage from "./pages/DetailPage";
 import NotFound from "./components/404";
 import Search from "./components/search";
 import CartDetail from "./components/CartComp";
+import { ListAddressUser } from "./components/listAddressUser";
+import { AddAddress } from "./components/addAddress";
+import { UpdateAddress } from "./components/updateAddress";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -55,7 +58,7 @@ function App() {
     coordinates: { lat: "", lng: "" },
   });
 
-  const onSuccess = (location) => {
+  const onSuccess = location => {
     setLocation({
       loaded: true,
       coordinates: {
@@ -65,7 +68,7 @@ function App() {
     });
   };
 
-  const onError = (error) => {
+  const onError = error => {
     setLocation({
       loaded: true,
       error: {
@@ -102,14 +105,59 @@ function App() {
     <div style={bodyStyle}>
       <div style={myStyle}>
         <Routes>
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route
+            path="/profile"
+            element={<UserProfile />}
+          />
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
+          <Route
+            path="/changePassword"
+            element={<ChangePassword />}
+          />
           <Route
             path="/cart"
             element={
               <>
                 <CartDetail />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/address"
+            element={
+              <>
+                <ListAddressUser />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/address/:id"
+            element={
+              <>
+                <ListAddressUser />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/updateAddress/:id"
+            element={
+              <>
+                <UpdateAddress />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/addAddress/:id"
+            element={
+              <>
+                <AddAddress />
                 <Navbar />
               </>
             }

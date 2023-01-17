@@ -14,8 +14,14 @@ export default function Pages404() {
   return (
     <>
       <Container height={"790px"}>
-        <Image src={notFound} margin={"auto"} />
-        <Stack as={Box} textAlign={"center"}>
+        <Image
+          src={notFound}
+          margin={"auto"}
+        />
+        <Stack
+          as={Box}
+          textAlign={"center"}
+        >
           <Heading
             fontWeight={600}
             fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
@@ -23,7 +29,10 @@ export default function Pages404() {
           >
             Oops, The page you were looking for
             <br />
-            <Text as={"span"} color={"green.400"}>
+            <Text
+              as={"span"}
+              color={"green.400"}
+            >
               doesn't exist.
             </Text>
           </Heading>

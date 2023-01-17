@@ -53,7 +53,7 @@ export default function SignupCard() {
       .max(12, "Phone number must be 12 numbers"),
   });
 
-  const onRegister = async (data) => {
+  const onRegister = async data => {
     try {
       console.log("cek data", data);
       const res = await Axios.post(url, data);
@@ -76,7 +76,7 @@ export default function SignupCard() {
   const getData = async () => {
     try {
       const res = await Axios.get(
-        `http://localhost:8000/users/verification?email=${email}&verification_signature=${verificationSignature}`
+        `http://localhost:8000/users/verification?email=${email}&verification_signature=${verificationSignature}`,
       );
       onClose();
       Swal.fire({
@@ -98,14 +98,21 @@ export default function SignupCard() {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Verification</ModalHeader>
           <ModalCloseButton />
           <ModalBody>Silahkan klik tombol verify untuk memverifikasi</ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={getData}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={getData}
+            >
               Verify
             </Button>
             {/* <Button onClick={getData}>Verify</Button> */}
@@ -120,12 +127,12 @@ export default function SignupCard() {
           phone_number: "",
         }}
         validationSchema={registerSchema}
-        onSubmit={(values) => {
+        onSubmit={values => {
           console.log("onSubmit", values);
           onRegister(values);
         }}
       >
-        {(props) => {
+        {props => {
           console.log(props);
           return (
             <>
@@ -136,25 +143,54 @@ export default function SignupCard() {
                   justify={"center"}
                   bgGradient="linear(to-t, #ebf5e9, #ffff)"
                 >
-                  <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+                  <Stack
+                    spacing={8}
+                    mx={"auto"}
+                    maxW={"lg"}
+                    py={12}
+                    px={6}
+                  >
                     <Stack align={"center"}>
-                      <Heading fontSize={"4xl"} textAlign={"center"}>
+                      <Heading
+                        fontSize={"4xl"}
+                        textAlign={"center"}
+                      >
                         Register
                       </Heading>
                     </Stack>
-                    <Box rounded={"lg"} bg={"#ebf5e9"} boxShadow={"lg"} p={8}>
+                    <Box
+                      rounded={"lg"}
+                      bg={"#ebf5e9"}
+                      boxShadow={"lg"}
+                      p={8}
+                    >
                       <Stack spacing={4}>
                         <Box>
-                          <FormControl id="firstName" isRequired>
+                          <FormControl
+                            id="firstName"
+                            isRequired
+                          >
                             <FormLabel>Name</FormLabel>
-                            <Field as={Input} name="name" />
+                            <Field
+                              as={Input}
+                              name="name"
+                            />
                           </FormControl>
                         </Box>
-                        <FormControl id="email" isRequired>
+                        <FormControl
+                          id="email"
+                          isRequired
+                        >
                           <FormLabel>Email address</FormLabel>
-                          <Field as={Input} name="email" />
+                          <Field
+                            as={Input}
+                            name="email"
+                          />
                         </FormControl>
-                        <FormControl id="password" isRequired>
+                        <FormControl
+                          id="password"
+                          isRequired
+                        >
                           <FormLabel>Password</FormLabel>
                           <InputGroup>
                             <Field
@@ -166,9 +202,7 @@ export default function SignupCard() {
                               <Button
                                 variant={"ghost"}
                                 onClick={() =>
-                                  setShowPassword(
-                                    (showPassword) => !showPassword
-                                  )
+                                  setShowPassword(showPassword => !showPassword)
                                 }
                               >
                                 {showPassword ? <ViewIcon /> : <ViewOffIcon />}
@@ -176,11 +210,20 @@ export default function SignupCard() {
                             </InputRightElement>
                           </InputGroup>
                         </FormControl>
-                        <FormControl id="phone_number" isRequired>
+                        <FormControl
+                          id="phone_number"
+                          isRequired
+                        >
                           <FormLabel>Phone Number</FormLabel>
-                          <Field as={Input} name="phone_number" />
+                          <Field
+                            as={Input}
+                            name="phone_number"
+                          />
                         </FormControl>
-                        <Stack spacing={10} pt={2}>
+                        <Stack
+                          spacing={10}
+                          pt={2}
+                        >
                           <Button
                             // onClick={onRegister}
                             type="submit"
@@ -198,7 +241,10 @@ export default function SignupCard() {
                         <Stack pt={6}>
                           <Text align={"center"}>
                             Already a user?{" "}
-                            <Link color={"blue.400"} href="/login">
+                            <Link
+                              color={"blue.400"}
+                              href="/login"
+                            >
                               Login
                             </Link>
                           </Text>

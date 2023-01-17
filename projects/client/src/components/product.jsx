@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 
 export default function BookCard() {
   const { email, isVerified, cart, id } = useSelector(
-    (state) => state.userSlice.value
+    state => state.userSlice.value,
   );
   const [limit, setLimit] = useState(5);
   const [searchProduct, setSearchProduct] = useState("");
@@ -33,7 +33,7 @@ export default function BookCard() {
   const [idbook, setIdbook] = useState("");
 
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.productSlice.value);
+  const data = useSelector(state => state.productSlice.value);
   const [state, setState] = useState("");
 
   const url = `http://localhost:8000/product/view?search_query=${searchProduct}&page=${
@@ -63,7 +63,7 @@ export default function BookCard() {
     setLimit(filter);
   }
 
-  const onAddCart = async (ProductId) => {
+  const onAddCart = async ProductId => {
     try {
       if (!email) {
         return Swal.fire({
@@ -132,8 +132,11 @@ export default function BookCard() {
   return (
     <div style={{ pt: "10px" }}>
       <Center>
-        <Flex flexWrap={"wrap"} justifyContent="center">
-          {data.map((item) => {
+        <Flex
+          flexWrap={"wrap"}
+          justifyContent="center"
+        >
+          {data.map(item => {
             return (
               <>
                 <Stack>
@@ -162,9 +165,16 @@ export default function BookCard() {
                       />
                     </Box>
                     <Stack>
-                      <Box px="10px" h="90px">
+                      <Box
+                        px="10px"
+                        h="90px"
+                      >
                         <Stack>
-                          <Box h="20px" as={Link} to={`/detail/${item.id}`}>
+                          <Box
+                            h="20px"
+                            as={Link}
+                            to={`/detail/${item.id}`}
+                          >
                             <Text
                               _hover={{ cursor: "pointer", color: "red" }}
                               fontWeight="bold"
@@ -175,7 +185,11 @@ export default function BookCard() {
                           </Box>
                         </Stack>
                         <Stack>
-                          <Box h="30px" fontSize="10px" marginTop={"5px"}>
+                          <Box
+                            h="30px"
+                            fontSize="10px"
+                            marginTop={"5px"}
+                          >
                             <Text mr="5px">
                               {" "}
                               {item.statement.substring(0, 50)}
@@ -208,8 +222,12 @@ export default function BookCard() {
                         </Stack>
                       </Box>
                     </Stack>
-                    <Box px="10px" h="40px" pt="16px">
-                      {item.Carts.find((item2) => item2["UserId"] === email) ? (
+                    <Box
+                      px="10px"
+                      h="40px"
+                      pt="16px"
+                    >
+                      {item.Carts.find(item2 => item2["UserId"] === email) ? (
                         <Button
                           disabled
                           w="full"
@@ -218,7 +236,12 @@ export default function BookCard() {
                           my="5px"
                           bg={"white"}
                         >
-                          <Icon boxSize="4" as={IoCartOutline} mr="5px" x />
+                          <Icon
+                            boxSize="4"
+                            as={IoCartOutline}
+                            mr="5px"
+                            x
+                          />
                           Keranjang
                         </Button>
                       ) : (
@@ -233,7 +256,11 @@ export default function BookCard() {
                           _hover={{ bg: "yellow.400", color: "white" }}
                           bg={"white"}
                         >
-                          <Icon boxSize="4" as={IoCartOutline} mr="5px" />
+                          <Icon
+                            boxSize="4"
+                            as={IoCartOutline}
+                            mr="5px"
+                          />
                           Keranjang
                         </Button>
                       )}
@@ -246,7 +273,11 @@ export default function BookCard() {
         </Flex>
       </Center>
 
-      <Box display="flex" justifyContent="center" alignContent="center">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignContent="center"
+      >
         <Button
           onClick={() => {
             async function submit() {
@@ -268,7 +299,10 @@ export default function BookCard() {
         >
           Sebelumnya
         </Button>
-        <Text alignSelf="center" mx="5px">
+        <Text
+          alignSelf="center"
+          mx="5px"
+        >
           {" "}
           {page} of {totalPage}
         </Text>

@@ -11,7 +11,7 @@ router.get("/getUserId/:id", userControllerLogin.getProfileId);
 router.post(
   "/uploadFile/:id",
   multerUpload.single("file"),
-  userControllerLogin.uploadFile
+  userControllerLogin.uploadFile,
 );
 
 module.exports = router;

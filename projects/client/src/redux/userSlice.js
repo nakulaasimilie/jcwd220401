@@ -11,6 +11,11 @@ const initialState = {
     profile_picture_url: "",
     gender: "",
     birthdate: "",
+    addressFill: "",
+    city: "",
+    province: "",
+    detail: "",
+    district: "",
   },
 };
 
@@ -27,8 +32,13 @@ const userSlice = createSlice({
       state.value.profile_picture_url = action.payload.profile_picture_url;
       state.value.gender = action.payload.gender;
       state.value.birthdate = action.payload.birthdate;
+      state.value.addressFill = action.payload.addressFill;
+      state.value.city = action.payload.city;
+      state.value.province = action.payload.province;
+      state.value.detail = action.payload.detail;
+      state.value.district = action.payload.district;
     },
-    logout: (state) => {
+    logout: state => {
       state.value.id = "";
       state.value.name = "";
       state.value.email = "";
@@ -38,10 +48,10 @@ const userSlice = createSlice({
       state.value.gender = "";
       state.value.birthdate = "";
     },
-    addCart: (state) => {
+    addCart: state => {
       state.value.cart += 1;
     },
-    deleteCart: (state) => {
+    deleteCart: state => {
       state.value.cart -= 1;
     },
   },

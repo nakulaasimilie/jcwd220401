@@ -21,12 +21,12 @@ import { useEffect, useState, useRef } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export const ChangePassword = (data) => {
+export const ChangePassword = data => {
   const oldPassword = useRef("");
   const newPassword = useRef("");
   const confirmPassword = useRef("");
   // const navigate = useNavigate()
-  const { id, email } = useSelector((state) => state.userSlice.value);
+  const { id, email } = useSelector(state => state.userSlice.value);
   const url = `http://localhost:8000/users/changePassword/${id}`;
 
   const [move, setMove] = useState(false);
@@ -44,7 +44,7 @@ export const ChangePassword = (data) => {
     confirm_password: Yup.string().required("Confirm Password is required"),
   });
 
-  const onChangePassword = async (data) => {
+  const onChangePassword = async data => {
     try {
       const user = {
         oldPassword: oldPassword.current.value,
@@ -76,7 +76,10 @@ export const ChangePassword = (data) => {
   useEffect(() => {}, []);
 
   return move ? (
-    <Navigate to="/" replace={true} />
+    <Navigate
+      to="/"
+      replace={true}
+    />
   ) : (
     <>
       <Formik
@@ -86,10 +89,11 @@ export const ChangePassword = (data) => {
           confirmPassword: "",
         }}
         validationSchema={changePasswordSchema}
-        onSubmit={(values) => {
+        onSubmit={values => {
           onChangePassword(values);
-        }}>
-        {(props) => {
+        }}
+      >
+        {props => {
           console.log(props);
           return (
             <Container>
@@ -97,7 +101,8 @@ export const ChangePassword = (data) => {
                 minH={"100vh"}
                 align={"center"}
                 justify={"center"}
-                bg="gray.50">
+                bg="gray.50"
+              >
                 <Stack
                   spacing={4}
                   w={"full"}
@@ -106,14 +111,19 @@ export const ChangePassword = (data) => {
                   rounded={"xl"}
                   boxShadow={"lg"}
                   p={6}
-                  my={12}>
+                  my={12}
+                >
                   <Heading
                     lineHeight={1.1}
-                    fontSize={{ base: "2xl", md: "3xl" }}>
+                    fontSize={{ base: "2xl", md: "3xl" }}
+                  >
                     Change Password
                   </Heading>
                   <Form>
-                    <FormControl id="oldPassword" isRequired>
+                    <FormControl
+                      id="oldPassword"
+                      isRequired
+                    >
                       <FormLabel>Old Password</FormLabel>
                       <InputGroup>
                         <Input
@@ -127,13 +137,19 @@ export const ChangePassword = (data) => {
                           style={{ color: "red" }}
                         />
                         <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={handleClick}
+                          >
                             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
                     </FormControl>
-                    <FormControl id="newPassword" isRequired>
+                    <FormControl
+                      id="newPassword"
+                      isRequired
+                    >
                       <FormLabel>New Password</FormLabel>
                       <InputGroup>
                         <Input
@@ -147,13 +163,19 @@ export const ChangePassword = (data) => {
                           style={{ color: "red" }}
                         />
                         <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={handleClick}
+                          >
                             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
                     </FormControl>
-                    <FormControl id="confirmPassword" isRequired>
+                    <FormControl
+                      id="confirmPassword"
+                      isRequired
+                    >
                       <FormLabel>Confirm Password</FormLabel>
                       <InputGroup>
                         <Input
@@ -167,7 +189,10 @@ export const ChangePassword = (data) => {
                           style={{ color: "red" }}
                         />
                         <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={handleClick}
+                          >
                             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                           </Button>
                         </InputRightElement>
@@ -182,7 +207,8 @@ export const ChangePassword = (data) => {
                           bg: "blue.500",
                         }}
                         onClick={onChangePassword}
-                        type="submit">
+                        type="submit"
+                      >
                         Submit
                       </Button>
                     </Stack>
