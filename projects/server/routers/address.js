@@ -5,7 +5,7 @@ const { addressController } = require("../controllers");
 
 router.post("/createAddress/:id", addressController.createAddress);
 router.get("/addressById/:id", addressController.addressbyId);
-router.post("/findAddressById/:id", addressController.findAddressById);
+router.get("/findAddressById/:id", addressController.findAddressById);
 router.patch("/updateAddress/:id", addressController.updateAddress);
 router.patch("/defaultAddress/:id", addressController.setDefault);
 router.delete("/delAddress/:id", addressController.delAddress);

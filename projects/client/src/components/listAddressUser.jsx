@@ -43,6 +43,7 @@ export const ListAddressUser = () => {
       );
       console.log(result.data);
       dispatch(syncAddress(result.data));
+      console.log(syncAddress(result.data));
     } catch (err) {
       console.log(err);
     }
@@ -71,6 +72,8 @@ export const ListAddressUser = () => {
   const toUpdateAddress = addressId => {
     navigate(`/updateAddress/${addressId}`);
   };
+
+  console.log(data);
 
   return (
     <Flex

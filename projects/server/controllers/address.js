@@ -53,15 +53,11 @@ module.exports = {
 
       const response = await address.create({
         addressFill,
-        provinceId: province,
         province: nameProvince,
-        cityId: city,
         city: nameCityandType,
         postal_code,
         detail,
         district,
-        lattitude,
-        longtitude,
         is_primary: true,
         UserId: req.params.id,
       });
@@ -104,7 +100,7 @@ module.exports = {
           },
         },
       );
-      // const findAddress = await address.findByPk(id);
+      const findAddress = await address.findByPk(id);
       res.status(200).send({
         msg: "Address Updated",
         data: updatedAddress,
@@ -186,8 +182,7 @@ module.exports = {
     try {
       const responseAddress = await address.findOne({
         where: {
-          UserId: req.params.id,
-          id: req.boyd.id,
+          id: req.params.id,
         },
       });
       res.status(200).send({

@@ -54,9 +54,16 @@ const userSlice = createSlice({
     deleteCart: state => {
       state.value.cart -= 1;
     },
+    updateUser: (state, action) => {
+      state.value.email = action.payload.email;
+      state.value.name = action.payload.email;
+      state.value.gender = action.payload.gender;
+      state.value.birthdate = action.payload.birthdate;
+    },
   },
 });
 
-export const { login, logout, addCart, deleteCart } = userSlice.actions;
+export const { login, logout, addCart, deleteCart, updateUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

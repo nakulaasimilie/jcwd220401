@@ -182,22 +182,21 @@ export const UpdateAddress = () => {
     getPostal();
   }, [selectCity]);
 
-  // const getData = async () => {
-  //   try {
-  //     const res = await axios.post(
-  //       `http://localhost:8000/address/findAddressById/${id}`,
-  //       { id: params.id },
-  //     );
-  //     console.log(res.data);
-  //     // dispatch(syncAddress(res.data));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/address/findAddressById/${params.id}`,
+      );
+      console.log(res.data);
+      dispatch(syncAddress(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // useEffect(() => {
-  //   getData();
-  // }, [id]);
+  useEffect(() => {
+    getData();
+  }, [id]);
 
   // const toListAddress = () => {
   //   navigate(`/address/${id}`);
@@ -208,6 +207,7 @@ export const UpdateAddress = () => {
     window.location.replace(`/address/${id}`);
   };
 
+  console.log("params", params);
   return (
     <>
       <Flex
@@ -278,7 +278,8 @@ export const UpdateAddress = () => {
                 <FormControl>
                   <FormLabel>Provinsi</FormLabel>
                   <Select
-                    placeholder="pilih provinsi"
+                    icon={<ChevronDownIcon />}
+                    placeholder={data?.province}
                     onChange={provinceHandle}
                   >
                     {rendProvince()}
@@ -287,7 +288,7 @@ export const UpdateAddress = () => {
                 <FormControl>
                   <FormLabel>Kota</FormLabel>
                   <Select
-                    placeholder="pilih kota"
+                    placeholder={data?.city}
                     onChange={cityHandle}
                   >
                     {rendCity()}

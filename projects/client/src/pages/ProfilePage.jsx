@@ -12,6 +12,7 @@ import {
   AvatarBadge,
   IconButton,
   Center,
+  Box,
   Container,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -20,26 +21,22 @@ import { useRef } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
+import { Link, Navigate } from "react-router-dom";
 export { SmallCloseIcon } from "@chakra-ui/icons";
 
 export const UserProfile = () => {
-  const { id } = useSelector(state => state.userSlice.value);
-
-  // bug fix nanti buat edit profile
-  // const { name } = useSelector((state) => state.userSlice.value);
-  // const { email } = useSelector((state) => state.userSlice.value);
-  // const { gender } = useSelector((state) => state.userSlice.value);
-  // const { birthdate } = useSelector((state) => state.userSlice.value);
-
-  // console.log(id);
-  // console.log(name);
-  // console.log(email);
-  // console.log(gender);
-  // console.log(birthdate);
+  const {
+    id,
+    name: ngaran,
+    email: pesan,
+    gender: jenis,
+    birthdate: ulangTahun,
+  } = useSelector(state => state.userSlice.value);
 
   //useState untuk panggil data profile dan edit image
   const [profile, setProfile] = useState("");
   const [image, setImage] = useState("");
+  const [move, setMove] = useState(false);
 
   //url get ID dan Update Profile
   const urlGetId = `http://localhost:8000/usersLogin/getUserId/${id}`;
@@ -74,20 +71,20 @@ export const UserProfile = () => {
   console.log(profile);
 
   //edit data profile using useRef
-  const name = useRef("");
-  const email = useRef("");
-  const gender = useRef("");
-  const birthdate = useRef("");
+  const inputName = useRef("");
+  const inputEmail = useRef("");
+  const inputGender = useRef("");
+  const inputBirthdate = useRef("");
 
   const editProfile = async () => {
     try {
       const editData = {
-        name: name.current.value,
-        email: email.current.value,
-        gender: gender.current.value,
-        birthdate: birthdate.current.value,
+        name: inputName.current.value,
+        email: inputEmail.current.value,
+        gender: inputGender.current.value,
+        birthdate: inputBirthdate.current.value,
       };
-      const resultEdit = axios.patch(urlUpdateProfile);
+      const resultEdit = axios.patch(urlUpdateProfile, editData);
       console.log(resultEdit);
       Swal.fire({
         icon: "success",
@@ -95,24 +92,23 @@ export const UserProfile = () => {
         text: "Succesfuly Edited",
         timer: 20000,
       });
+      setMove(true);
     } catch (err) {
       console.log(err);
     }
   };
 
   // //get user ID by Formik
-  const getUserId = async () => {
-    try {
-      const res = await axios.get(urlGetId);
-      console.log(res.data);
-      formik.setFieldValue("name", res.data.name);
-      formik.setFieldValue("email", res.data.email);
-      formik.setFieldValue("gender", res.data.gender);
-      formik.setFieldValue("birthdate", res.data.birthdate);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getUserId = async () => {
+  //   try {
+  //     formik.setFieldValue("name", name);
+  //     formik.setFieldValue("email", email);
+  //     formik.setFieldValue("gender", gender);
+  //     formik.setFieldValue("birthdate", birthdate);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   //formik
   const formik = useFormik({
@@ -124,14 +120,17 @@ export const UserProfile = () => {
     },
   });
 
-  console.log(formik);
-
   //panggil UserID
-  useEffect(() => {
-    getUserId();
-  }, []);
+  // useEffect(() => {
+  //   getUserId();
+  // }, []);
 
-  return (
+  return move ? (
+    <Navigate
+      to="/"
+      replace={true}
+    />
+  ) : (
     <>
       <Container>
         <Flex
@@ -164,7 +163,7 @@ export const UserProfile = () => {
                 <Center>
                   <Avatar
                     size={"xl"}
-                    src={`http://localhost:8000/${profile}`}
+                    src={`http://localhost:8000/${profile?.profile_picture_url}`}
                   >
                     <AvatarBadge
                       as={IconButton}
@@ -200,11 +199,12 @@ export const UserProfile = () => {
             <FormControl id="name">
               <FormLabel>Name</FormLabel>
               <Input
-                ref={name}
-                value={formik.values.name}
-                onChange={event =>
-                  formik.setFieldValue("name", event.target.value)
-                }
+                ref={inputName}
+                // value={formik.values.name}
+                // onChange={event =>
+                //   formik.setFieldValue("name", event.target.value)
+                // }
+                defaultValue={ngaran}
                 _placeholder={{ color: "gray.500" }}
                 type="text"
               />
@@ -212,11 +212,12 @@ export const UserProfile = () => {
             <FormControl id="email">
               <FormLabel>Email</FormLabel>
               <Input
-                ref={email}
-                value={formik.values.email}
-                onChange={event =>
-                  formik.setFieldValue("email", event.target.value)
-                }
+                ref={inputEmail}
+                // value={formik.value.email}
+                defaultValue={pesan}
+                // onChange={event =>
+                //   formik.setFieldValue("email", event.target.value)
+                // }
                 _placeholder={{ color: "gray.500" }}
                 type="email"
               />
@@ -224,11 +225,12 @@ export const UserProfile = () => {
             <FormControl id="gender">
               <FormLabel>Gender</FormLabel>
               <Input
-                ref={gender}
-                value={formik.values.gender}
-                onChange={event =>
-                  formik.setFieldValue("gender", event.target.value)
-                }
+                ref={inputGender}
+                // value={formik.value.gender}
+                defaultValue={jenis}
+                // onChange={event =>
+                //   formik.setFieldValue("gender", event.target.value)
+                // }
                 _placeholder={{ color: "gray.500" }}
                 type="text"
               />
@@ -236,11 +238,12 @@ export const UserProfile = () => {
             <FormControl id="birthdate">
               <FormLabel>Birthdate</FormLabel>
               <Input
-                ref={birthdate}
-                value={formik.values.birthdate}
-                onChange={event =>
-                  formik.setFieldValue("birthdate", event.target.value)
-                }
+                ref={inputBirthdate}
+                // value={formik.value.birthdate}
+                defaultValue={ulangTahun}
+                // onChange={event =>
+                //   formik.setFieldValue("birthdate", event.target.value)
+                // }
                 _placeholder={{ color: "gray.500" }}
                 type="text"
               />
@@ -248,23 +251,30 @@ export const UserProfile = () => {
             <Stack
               spacing={6}
               direction={["column", "row"]}
+              display="flex"
+              justifyContent={"space-around"}
             >
-              <Button
-                bg={"red.400"}
-                color={"white"}
-                w="full"
-                _hover={{
-                  bg: "red.500",
-                }}
+              <Box
+                as={Link}
+                to={"/"}
               >
-                Cancel
-              </Button>
+                <Button
+                  bg={"red.400"}
+                  color={"white"}
+                  w="150px"
+                  _hover={{
+                    bg: "red.500",
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Box>
               <Button
                 type="submit"
                 onClick={editProfile}
                 bg={"blue.400"}
                 color={"white"}
-                w="full"
+                w="150px"
                 _hover={{
                   bg: "blue.500",
                 }}

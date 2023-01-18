@@ -35,6 +35,11 @@ module.exports = {
           name: isEmailExist.name,
           is_verified: isEmailExist.is_verified,
           id: isEmailExist.id,
+          phone_number: isEmailExist.phone_number,
+          RoleId: isEmailExist.RoleId,
+          profile_picture_url: isEmailExist.profile_picture_url,
+          gender: isEmailExist.gender,
+          birthdate: isEmailExist.birthdate,
         },
         "kompeni-mart",
       );
@@ -46,7 +51,7 @@ module.exports = {
           id: isEmailExist.id,
           email: isEmailExist.email,
           phone_number: isEmailExist.phone_number,
-          // RoleId: isEmailExist.RoleId,
+          RoleId: isEmailExist.RoleId,
           profile_picture_url: isEmailExist.profile_picture_url,
           gender: isEmailExist.gender,
           birthdate: isEmailExist.birthdate,
@@ -68,13 +73,8 @@ module.exports = {
         raw: true,
       });
 
-      res.status(200).send(
-        //   {
-        //   name: result[0].name,
-        //   id: result[0].id,
-        // }
-        result,
-      );
+      res.status(200).send(result);
+      console.log(result);
     } catch (err) {
       res.status(400).send(err);
     }
