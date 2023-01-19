@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Address extends Model {
     /**
@@ -19,10 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      user_id: {
-        type: DataTypes.INTEGER,
-      },
-      address: {
+      addressFill: {
         type: DataTypes.STRING,
       },
       is_primary: {
@@ -31,32 +28,20 @@ module.exports = (sequelize, DataTypes) => {
       postal_code: {
         type: DataTypes.INTEGER,
       },
-      province_id: {
-        type: DataTypes.INTEGER,
-      },
+      detail: { type: DataTypes.STRING },
+      district: { type: DataTypes.STRING },
       province: {
         type: DataTypes.STRING,
       },
-      city_id: {
-        type: DataTypes.INTEGER,
-      },
+
       city: {
         type: DataTypes.STRING,
-      },
-      coordinate: {
-        type: DataTypes.STRING,
-      },
-      latitude: {
-        type: DataTypes.DOUBLE,
-      },
-      longtitude: {
-        type: DataTypes.DOUBLE,
       },
     },
     {
       sequelize,
-      modelName: 'Address',
-    }
+      modelName: "Address",
+    },
   );
   return Address;
 };

@@ -30,7 +30,7 @@ import logo from "../assets/output-onlinepngtools.png";
 const url = "http://localhost:8000/usersLogin/login";
 
 export const LoginPage = () => {
-  const userSelector = useSelector((state) => state.userSlice);
+  const userSelector = useSelector(state => state.userSlice);
 
   // useRef for password and email
   const password = useRef("");
@@ -82,7 +82,10 @@ export const LoginPage = () => {
     }
   };
   return move ? (
-    <Navigate to="/" replace={true} />
+    <Navigate
+      to="/"
+      replace={true}
+    />
   ) : (
     <>
       <Formik
@@ -91,10 +94,11 @@ export const LoginPage = () => {
           email: "",
         }}
         validationSchema={loginSchema}
-        onSubmit={(values) => {
+        onSubmit={values => {
           onLogin(values);
-        }}>
-        {(props) => {
+        }}
+      >
+        {props => {
           console.log(props);
           return (
             <Flex
@@ -102,20 +106,43 @@ export const LoginPage = () => {
               algin={"center"}
               justify={"center"}
               bgGradient="linear(to-t, #ebf5e9, #ffff)"
-              maxWidth={"506px"}>
-              <Stack spacing={4} mx={"auto"} maxW={"lg"} py={3} px={3}>
-                <Image src={logo} maxW="160px" mb="5" mx="auto" />
+              maxWidth={"506px"}
+            >
+              <Stack
+                spacing={4}
+                mx={"auto"}
+                maxW={"lg"}
+                py={3}
+                px={3}
+              >
+                <Image
+                  src={logo}
+                  maxW="160px"
+                  mb="5"
+                  mx="auto"
+                />
                 <Stack align={"center"}>
-                  <Heading fontSize={"2xl"} color="black">
+                  <Heading
+                    fontSize={"2xl"}
+                    color="black"
+                  >
                     Log in Account
                   </Heading>
                 </Stack>
-                <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+                <Box
+                  rounded={"lg"}
+                  bg={"white"}
+                  boxShadow={"lg"}
+                  p={8}
+                >
                   <Form>
                     <Stack spacing={4}>
                       <FormControl id="email">
                         <FormLabel>Email</FormLabel>
-                        <Input ref={email} name="email" />
+                        <Input
+                          ref={email}
+                          name="email"
+                        />
                         <ErrorMessage
                           name="email"
                           component="div"
@@ -137,7 +164,10 @@ export const LoginPage = () => {
                               style={{ color: "red" }}
                             />
                             <InputRightElement h={"full"}>
-                              <Button variant={"ghost"} onClick={handleClick}>
+                              <Button
+                                variant={"ghost"}
+                                onClick={handleClick}
+                              >
                                 {show ? <ViewIcon /> : <ViewOffIcon />}
                               </Button>
                             </InputRightElement>
@@ -148,11 +178,18 @@ export const LoginPage = () => {
                         <Stack
                           direction={{ base: "column", sm: "row" }}
                           align={"start"}
-                          justify={"space-between"}></Stack>
-                        <Link color={"blue.400"} href="/register">
+                          justify={"space-between"}
+                        ></Stack>
+                        <Link
+                          color={"blue.400"}
+                          href="/register"
+                        >
                           Dont have account?
                         </Link>
-                        <Link color={"blue.400"} href="/verifyResetPassword">
+                        <Link
+                          color={"blue.400"}
+                          href="/verifyResetPassword"
+                        >
                           Reset Password?
                         </Link>
                       </Stack>
@@ -163,7 +200,8 @@ export const LoginPage = () => {
                           bg: "yellow.300",
                         }}
                         onClick={onLogin}
-                        type="submit">
+                        type="submit"
+                      >
                         Sign in
                       </Button>
                       {/* <Button isLoading bg={"blue.300"} color={"white"} /> */}

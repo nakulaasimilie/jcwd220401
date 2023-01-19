@@ -50,7 +50,7 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Navbar() {
-  const { name, cart, email } = useSelector((state) => state.userSlice.value);
+  const { name, cart, email } = useSelector(state => state.userSlice.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -82,7 +82,8 @@ export default function Navbar() {
       bg={useColorModeValue("#ebf5e9")}
       position={"fixed"}
       justifyContent={"center"}
-      bottom={0}>
+      bottom={0}
+    >
       <Container
         as={Stack}
         py={4}
@@ -90,30 +91,49 @@ export default function Navbar() {
         spacing={4}
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
-        position={"relative"}>
-        <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Produk"} href={"/"}>
+        position={"relative"}
+      >
+        <Stack
+          direction={"row"}
+          spacing={6}
+        >
+          <SocialButton
+            label={"Produk"}
+            href={"/"}
+          >
             <Box textAlign={"center"}>
               <FontAwesomeIcon icon={faHouse} />
               <Text>Produk</Text>
             </Box>
           </SocialButton>
           <SocialButton>
-            <IconButton onClick={() => transaksi()} bg="#ebf5e9">
+            <IconButton
+              onClick={() => transaksi()}
+              bg="#ebf5e9"
+            >
               <Box textAlign={"center"}>
-                <Image src={pesanan} margin="auto" />
+                <Image
+                  src={pesanan}
+                  margin="auto"
+                />
                 <Text>Transaksi</Text>
               </Box>
             </IconButton>
           </SocialButton>
-          <SocialButton label={"Cart"} href={"/cart"}>
+          <SocialButton
+            label={"Cart"}
+            href={"/cart"}
+          >
             <Box textAlign={"center"}>
               {/* {name && cart !== 0 ? (
                 <Badge p="1" ml="-2" mt="-3">
                   <Text fontSize="xx-small">{cart}</Text>
                 </Badge>
               ) : null} */}
-              <Image src={keranjang} margin="auto" />
+              <Image
+                src={keranjang}
+                margin="auto"
+              />
               <Text>Keranjang</Text>
             </Box>
           </SocialButton>
@@ -121,8 +141,14 @@ export default function Navbar() {
             <Box textAlign={"center"}>
               {name ? (
                 <Menu>
-                  <MenuButton as={Button} bg>
-                    <Image src={user} margin="auto" />
+                  <MenuButton
+                    as={Button}
+                    bg
+                  >
+                    <Image
+                      src={user}
+                      margin="auto"
+                    />
                     <Text>{name}</Text>
                   </MenuButton>
                   <MenuList>
@@ -133,14 +159,23 @@ export default function Navbar() {
                       <Link href="/changePassword">Change Password</Link>
                     </MenuItem>
                     <MenuItem>
+                      <Link href="/address">Address</Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link onClick={onLogout}>Logout</Link>
                     </MenuItem>
                   </MenuList>
                 </Menu>
               ) : (
                 <>
-                  <SocialButton label={"Akun"} href={"/login"}>
-                    <Image src={user} margin="auto" />
+                  <SocialButton
+                    label={"Akun"}
+                    href={"/login"}
+                  >
+                    <Image
+                      src={user}
+                      margin="auto"
+                    />
                     <Text>Akun</Text>
                   </SocialButton>
                 </>

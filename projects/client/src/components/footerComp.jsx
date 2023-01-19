@@ -11,8 +11,15 @@ import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { Image } from "@chakra-ui/react";
 
-const Logo = (props) => {
-  return <Image src={logo} w="90px" h="70px" margin="auto" />;
+const Logo = props => {
+  return (
+    <Image
+      src={logo}
+      w="90px"
+      h="70px"
+      margin="auto"
+    />
+  );
 };
 
 const SocialButton = ({ children, label, href }) => {
@@ -64,15 +71,27 @@ export default function SmallWithLogoLeft() {
         >
           <Logo />
           <Text>© 2022 Kompeni Mart. All rights reserved</Text>
-          <Stack direction={"row"} spacing={6}>
+          <Stack
+            direction={"row"}
+            spacing={6}
+          >
             <>
-              <SocialButton label={"Twitter"} href={"#"}>
+              <SocialButton
+                label={"Twitter"}
+                href={"#"}
+              >
                 <FaTwitter />
               </SocialButton>
-              <SocialButton label={"YouTube"} href={"#"}>
+              <SocialButton
+                label={"YouTube"}
+                href={"#"}
+              >
                 <FaYoutube />
               </SocialButton>
-              <SocialButton label={"Instagram"} href={"#"}>
+              <SocialButton
+                label={"Instagram"}
+                href={"#"}
+              >
                 <FaInstagram />
               </SocialButton>
             </>

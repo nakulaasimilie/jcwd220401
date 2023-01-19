@@ -29,21 +29,24 @@ export default function CartDetail() {
     name,
     cart,
     id: userId,
-  } = useSelector((state) => state.userSlice.value);
+  } = useSelector(state => state.userSlice.value);
   console.log(cart);
+
+  const { syncAddress } = useSelector(state => state.addressSlice.value);
+
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.cartSlice.value);
+  const data = useSelector(state => state.cartSlice.value);
   console.log(data);
   // const navigate = useNavigate();
 
-  const onDeleteCart = async (id) => {
+  const onDeleteCart = async id => {
     try {
       await axios.delete(`http://localhost:8000/cart/${id}`);
       Swal.fire({
         icon: "success",
         title: "Deleted",
-        text: "Cart Successfully Deleted",
+        text: "Barang telah dihapus",
         timer: 2000,
       });
       const result = await axios.get(`http://localhost:8000/cart/${userId}`);
@@ -76,23 +79,38 @@ export default function CartDetail() {
         bg="#fff"
         maxWidth={"506px"}
       >
-        <Stack spacing={4} mx={"auto"} maxW={"lg"}>
+        <Stack
+          spacing={4}
+          mx={"auto"}
+          maxW={"lg"}
+        >
           <Box
             bg={" #ebf5e9"}
             height="70px"
             marginTop={"25px"}
             paddingTop={"5px"}
           >
-            <Text fontWeight={"bold"} fontSize="xl" align={"center"}>
+            <Text
+              fontWeight={"bold"}
+              fontSize="xl"
+              align={"center"}
+            >
               Keterangan Keranjang
             </Text>
-            <Box display={"flex"} paddingTop={"3px"} justifyContent={"center"}>
+            <Box
+              display={"flex"}
+              paddingTop={"3px"}
+              justifyContent={"center"}
+            >
               <Text fontWeight={"semibold"}>Name: {name}</Text>
             </Box>
           </Box>
           <Divider />
 
-          <Box display="flex" justifyContent={"center"}>
+          <Box
+            display="flex"
+            justifyContent={"center"}
+          >
             <Text fontWeight="bold">Item yang dibeli</Text>
           </Box>
           <Box>
@@ -144,29 +162,44 @@ export default function CartDetail() {
                             </Stack>
                           </Td>
                           <Td>
-                            <Box display="flex" fontSize="xs">
-                              <Text fontWeight="bold" mr="5px">
+                            <Box
+                              display="flex"
+                              fontSize="xs"
+                            >
+                              <Text
+                                fontWeight="bold"
+                                mr="5px"
+                              >
                                 {" "}
                                 {item.Product.name}{" "}
                               </Text>
                             </Box>
                           </Td>
                           <Td>
-                            <Box display="flex" fontSize="xs">
-                              <Text fontWeight="bold" mr="5px">
+                            <Box
+                              display="flex"
+                              fontSize="xs"
+                            >
+                              <Text
+                                fontWeight="bold"
+                                mr="5px"
+                              >
                                 {" "}
                                 {item.Product.price}{" "}
                               </Text>
                             </Box>
                           </Td>
                           <Td>
-                            <Box display="flex" fontSize="xs">
+                            <Box
+                              display="flex"
+                              fontSize="xs"
+                            >
                               <Input
                                 type={"number"}
                                 defaultValue={item.quantity}
                                 fontWeight="bold"
                                 mr="5px"
-                                onChange={(event) =>
+                                onChange={event =>
                                   updateQty(item.id, event.target.value)
                                 }
                               />
@@ -174,7 +207,10 @@ export default function CartDetail() {
                           </Td>
                           <Td>
                             <Button onClick={() => onDeleteCart(item.id)}>
-                              <Icon boxSize="4" as={FaTrashAlt} />
+                              <Icon
+                                boxSize="4"
+                                as={FaTrashAlt}
+                              />
                             </Button>
                           </Td>
                         </Tr>
@@ -185,10 +221,28 @@ export default function CartDetail() {
               </TableContainer>
             )}
           </Box>
-          <Text fontWeight="bold" mr="10px">
+          <br></br>
+          <Text
+            fontWeight="bold"
+            mr="10px"
+            align={"center"}
+          >
             Total Harga:
           </Text>
-          <Box mt="10px" display="flex" justifyContent="flex-end">
+          <br></br>
+          <Text
+            fontWeight="bold"
+            mr="10px"
+            align={"center"}
+          >
+            Pilih Alamat
+          </Text>
+          <br></br>
+          <Box
+            mt="10px"
+            display="flex"
+            justifyContent="flex-end"
+          >
             <Button
               // onClick={() => onBorrow()}
               w="full"

@@ -26,12 +26,12 @@ export default function DetailPage() {
   const dispatch = useDispatch();
   const [state, setState] = useState("");
 
-  const { email } = useSelector((state) => state.userSlice.value);
+  const { email } = useSelector(state => state.userSlice.value);
 
   const getBook = async () => {
     try {
       const result = await Axios.get(
-        `http://localhost:8000/product/list/${params.id}`
+        `http://localhost:8000/product/list/${params.id}`,
       );
       // dispatch(syncData(result.data.result));
       console.log(result.data);
@@ -40,7 +40,7 @@ export default function DetailPage() {
       console.log(err);
     }
   };
-  const onAddCart = async (ProductId) => {
+  const onAddCart = async ProductId => {
     try {
       if (!email) {
         return Swal.fire({
@@ -116,7 +116,11 @@ export default function DetailPage() {
       </Flex>
       <Stack spacing={{ base: 4, md: 4 }}>
         <Box as={"header"}>
-          <Heading lineHeight={2} fontWeight={"bold"} fontSize={"25px"}>
+          <Heading
+            lineHeight={2}
+            fontWeight={"bold"}
+            fontSize={"25px"}
+          >
             {data?.name}
           </Heading>
           <Text
@@ -201,7 +205,11 @@ export default function DetailPage() {
                 bg={"white"}
                 _hover={{ bg: "yellow.400", color: "white" }}
               >
-                <Icon boxSize="4" as={IoCartOutline} mr="5px" />
+                <Icon
+                  boxSize="4"
+                  as={IoCartOutline}
+                  mr="5px"
+                />
                 Keranjang
               </Button>
             </Text>

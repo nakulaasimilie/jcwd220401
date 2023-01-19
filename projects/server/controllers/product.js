@@ -118,7 +118,7 @@ module.exports = {
         },
         {
           where: { id: req.params.id },
-        }
+        },
       );
       const user = await product.findOne({ where: { id: req.params.id } });
       res.status(200).send(user);

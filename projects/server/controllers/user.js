@@ -62,7 +62,7 @@ module.exports = {
       const user = await User.findOne({
         where: Sequelize.and(
           { email },
-          { verification_signature: verificationSignature }
+          { verification_signature: verificationSignature },
         ),
       });
       if (user === null) {
@@ -76,16 +76,16 @@ module.exports = {
           {
             where: Sequelize.and(
               { email },
-              { verification_signature: verificationSignature }
+              { verification_signature: verificationSignature },
             ),
-          }
+          },
         );
 
         if (result[0] === 1) {
           res
             .status(200)
             .send(
-              "Anda telah terverifikasi, silahkan klik link berikut untuk kembali login "
+              "Anda telah terverifikasi, silahkan klik link berikut untuk kembali login ",
             );
           return;
         } else {
@@ -123,7 +123,7 @@ module.exports = {
 
       const isPasswordValid = await bcrypt.compare(
         oldPassword,
-        userObj.password
+        userObj.password,
       );
       if (!isPasswordValid) throw "Wrong Password";
       const userUpdated = await User.update(
@@ -132,7 +132,7 @@ module.exports = {
         },
         {
           where: { email },
-        }
+        },
       );
       res.status(200).send(userObj);
     } catch (err) {

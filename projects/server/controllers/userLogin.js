@@ -25,7 +25,7 @@ module.exports = {
 
       const isPasswordValid = await bcrypt.compare(
         password,
-        isEmailExist.password
+        isEmailExist.password,
       );
       if (!isPasswordValid) throw "Wrong Password";
 
@@ -35,8 +35,13 @@ module.exports = {
           name: isEmailExist.name,
           is_verified: isEmailExist.is_verified,
           id: isEmailExist.id,
+          phone_number: isEmailExist.phone_number,
+          RoleId: isEmailExist.RoleId,
+          profile_picture_url: isEmailExist.profile_picture_url,
+          gender: isEmailExist.gender,
+          birthdate: isEmailExist.birthdate,
         },
-        "kompeni-mart"
+        "kompeni-mart",
       );
 
       res.status(200).send({
@@ -46,7 +51,7 @@ module.exports = {
           id: isEmailExist.id,
           email: isEmailExist.email,
           phone_number: isEmailExist.phone_number,
-          // RoleId: isEmailExist.RoleId,
+          RoleId: isEmailExist.RoleId,
           profile_picture_url: isEmailExist.profile_picture_url,
           gender: isEmailExist.gender,
           birthdate: isEmailExist.birthdate,
@@ -111,7 +116,7 @@ module.exports = {
           where: {
             id: req.params.id,
           },
-        }
+        },
       );
       const getUser = await User.findOne({
         where: {

@@ -12,10 +12,23 @@ import { syncData } from "../redux/productSlice";
 export default function Nav(props) {
   return (
     <>
-      <Box bg={useColorModeValue("white")} px={4} height={20}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+      <Box
+        bg={useColorModeValue("white")}
+        px={4}
+        height={20}
+      >
+        <Flex
+          h={16}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <Box>
-            <Image src={logo} w="90px" h="70px" margin="auto" />
+            <Image
+              src={logo}
+              w="90px"
+              h="70px"
+              margin="auto"
+            />
           </Box>
           <Input
             variant="outline"
