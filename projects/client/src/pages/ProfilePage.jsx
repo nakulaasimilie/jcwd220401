@@ -14,6 +14,7 @@ import {
   Center,
   Box,
   Container,
+  Select,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -31,12 +32,16 @@ export const UserProfile = () => {
     email: pesan,
     gender: jenis,
     birthdate: ulangTahun,
+    profile_picture_url,
   } = useSelector(state => state.userSlice.value);
+
+  console.log(jenis);
 
   //useState untuk panggil data profile dan edit image
   const [profile, setProfile] = useState("");
   const [image, setImage] = useState("");
   const [move, setMove] = useState(false);
+  const [data, setData] = useState([]);
 
   //url get ID dan Update Profile
   const urlGetId = `http://localhost:8000/usersLogin/getUserId/${id}`;
@@ -64,8 +69,13 @@ export const UserProfile = () => {
     });
     console.log(uploadImage.data);
     setProfile(uploadImage.data.profile_picture_url);
-
     setImage({ images: "" });
+
+    Swal.fire({
+      icon: "success",
+      tittle: "Sukses",
+      text: "Gambar Profile Berhasil diganti",
+    });
   };
   console.log(image);
   console.log(profile);
@@ -99,16 +109,14 @@ export const UserProfile = () => {
   };
 
   // //get user ID by Formik
-  // const getUserId = async () => {
-  //   try {
-  //     formik.setFieldValue("name", name);
-  //     formik.setFieldValue("email", email);
-  //     formik.setFieldValue("gender", gender);
-  //     formik.setFieldValue("birthdate", birthdate);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const getUserId = async () => {
+    try {
+      const getId = await axios.get(urlGetId);
+      setData(getId.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   //formik
   const formik = useFormik({
@@ -120,10 +128,12 @@ export const UserProfile = () => {
     },
   });
 
-  //panggil UserID
-  // useEffect(() => {
-  //   getUserId();
-  // }, []);
+  // panggil UserID
+  useEffect(() => {
+    getUserId();
+  }, []);
+
+  console.log(data);
 
   return move ? (
     <Navigate
@@ -132,159 +142,187 @@ export const UserProfile = () => {
     />
   ) : (
     <>
-      <Container>
-        <Flex
-          minH={"100vh"}
-          align={"center"}
-          justify={"center"}
-          // bg={useColorModeValue("pink.50", "whiteAlpha.700")}
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+      >
+        <Stack
+          spacing={4}
+          w={"full"}
+          maxW={"md"}
+          rounded={"xl"}
+          boxShadow={"lg"}
+          p={6}
+          my={12}
+          bg={"#ebf5e9"}
         >
-          <Stack
-            spacing={4}
-            w={"full"}
-            maxW={"md"}
-            // bg={useColorModeValue("white", "pink.700")}
-            rounded={"xl"}
-            boxShadow={"lg"}
-            p={6}
-            my={12}
+          <Heading
+            lineHeight={1.1}
+            fontSize={{ base: "2xl", sm: "3xl" }}
+            textAlign={"center"}
           >
-            <Heading
-              lineHeight={1.1}
-              fontSize={{ base: "2xl", sm: "3xl" }}
-            >
-              User Profile Edit
-            </Heading>
-            <FormControl id="name">
-              <Stack
-                direction={["column", "row"]}
-                spacing={6}
-              >
-                <Center>
-                  <Avatar
-                    size={"xl"}
-                    src={`http://localhost:8000/${profile?.profile_picture_url}`}
-                  >
-                    <AvatarBadge
-                      as={IconButton}
-                      size="sm"
-                      rounded={"full"}
-                      top="-10px"
-                      colorScheme="red"
-                      aria-label="remove Image"
-                      icon={<SmallCloseIcon />}
-                    />
-                  </Avatar>
-                </Center>
-                <Center w={"full"}>
-                  <Button
-                    w="full"
-                    onClick={handleUpload}
-                  >
-                    Change Icon
-                  </Button>
-                </Center>
-                <Center w={"full"}>
-                  <form encType="multipart/form-data">
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      name="file"
-                      onChange={e => handleChoose(e)}
-                    />
-                  </form>
-                </Center>
-              </Stack>
-            </FormControl>
-            <FormControl id="name">
-              <FormLabel>Name</FormLabel>
-              <Input
-                ref={inputName}
-                // value={formik.values.name}
-                // onChange={event =>
-                //   formik.setFieldValue("name", event.target.value)
-                // }
-                defaultValue={ngaran}
-                _placeholder={{ color: "gray.500" }}
-                type="text"
-              />
-            </FormControl>
-            <FormControl id="email">
-              <FormLabel>Email</FormLabel>
-              <Input
-                ref={inputEmail}
-                // value={formik.value.email}
-                defaultValue={pesan}
-                // onChange={event =>
-                //   formik.setFieldValue("email", event.target.value)
-                // }
-                _placeholder={{ color: "gray.500" }}
-                type="email"
-              />
-            </FormControl>
-            <FormControl id="gender">
-              <FormLabel>Gender</FormLabel>
-              <Input
-                ref={inputGender}
-                // value={formik.value.gender}
-                defaultValue={jenis}
-                // onChange={event =>
-                //   formik.setFieldValue("gender", event.target.value)
-                // }
-                _placeholder={{ color: "gray.500" }}
-                type="text"
-              />
-            </FormControl>
-            <FormControl id="birthdate">
-              <FormLabel>Birthdate</FormLabel>
-              <Input
-                ref={inputBirthdate}
-                // value={formik.value.birthdate}
-                defaultValue={ulangTahun}
-                // onChange={event =>
-                //   formik.setFieldValue("birthdate", event.target.value)
-                // }
-                _placeholder={{ color: "gray.500" }}
-                type="text"
-              />
-            </FormControl>
+            User Profile Edit
+          </Heading>
+          <br></br>
+          <FormControl id="name">
             <Stack
-              spacing={6}
               direction={["column", "row"]}
-              display="flex"
-              justifyContent={"space-around"}
+              spacing={6}
             >
-              <Box
-                as={Link}
-                to={"/"}
-              >
-                <Button
-                  bg={"red.400"}
-                  color={"white"}
-                  w="150px"
-                  _hover={{
-                    bg: "red.500",
-                  }}
+              <Center>
+                <Avatar
+                  size={"xl"}
+                  src={`http://localhost:8000/${profile_picture_url}`}
                 >
-                  Cancel
+                  <AvatarBadge
+                    as={IconButton}
+                    size="sm"
+                    rounded={"full"}
+                    top="-10px"
+                    colorScheme="red"
+                    aria-label="remove Image"
+                    icon={<SmallCloseIcon />}
+                  />
+                </Avatar>
+              </Center>
+              <Center w={"full"}>
+                <Button
+                  w="full"
+                  onClick={handleUpload}
+                >
+                  Change Icon
                 </Button>
-              </Box>
+              </Center>
+              <Center w={"full"}>
+                <form encType="multipart/form-data">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    name="file"
+                    onChange={e => handleChoose(e)}
+                  />
+                </form>
+              </Center>
+            </Stack>
+          </FormControl>
+          <FormControl id="name">
+            <FormLabel>Name</FormLabel>
+            <Input
+              ref={inputName}
+              // value={formik.values.name}
+              // onChange={event =>
+              //   formik.setFieldValue("name", event.target.value)
+              // }
+              defaultValue={ngaran}
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+            />
+          </FormControl>
+          <FormControl id="email">
+            <FormLabel>Email</FormLabel>
+            <Input
+              ref={inputEmail}
+              // value={formik.value.email}
+              defaultValue={pesan}
+              // onChange={event =>
+              //   formik.setFieldValue("email", event.target.value)
+              // }
+              _placeholder={{ color: "gray.500" }}
+              type="email"
+            />
+          </FormControl>
+          <FormControl id="gender">
+            <FormLabel>Gender</FormLabel>
+            <Select
+              border={"2px"}
+              borderColor="yellow.300"
+              width={"max"}
+              ml="8"
+              ref={inputGender}
+            >
+              <option
+                selected={jenis === ""}
+                value=""
+              >
+                Select Gender
+              </option>
+              <option
+                selected={jenis === "male"}
+                value="male"
+              >
+                Male
+              </option>
+              <option
+                selected={jenis === "female"}
+                value="female"
+              >
+                Female
+              </option>
+            </Select>
+          </FormControl>
+          {/* <FormControl id="gender">
+            <FormLabel>Gender</FormLabel>
+            <Input
+              ref={inputGender}
+              // value={formik.value.gender}
+              defaultValue={jenis}
+              // onChange={event =>
+              //   formik.setFieldValue("gender", event.target.value)
+              // }
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+            />
+          </FormControl> */}
+          <FormControl id="birthdate">
+            <FormLabel>Birthdate</FormLabel>
+            <Input
+              ref={inputBirthdate}
+              // value={formik.value.birthdate}
+              defaultValue={ulangTahun}
+              // onChange={event =>
+              //   formik.setFieldValue("birthdate", event.target.value)
+              // }
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+            />
+          </FormControl>
+          <Stack
+            spacing={6}
+            direction={["column", "row"]}
+            display="flex"
+            justifyContent={"space-around"}
+          >
+            <Box
+              as={Link}
+              to={"/"}
+            >
               <Button
-                type="submit"
-                onClick={editProfile}
-                bg={"blue.400"}
+                bg={"red.400"}
                 color={"white"}
                 w="150px"
                 _hover={{
-                  bg: "blue.500",
+                  bg: "red.500",
                 }}
               >
-                Submit
+                Cancel
               </Button>
-            </Stack>
+            </Box>
+            <Button
+              type="submit"
+              onClick={editProfile}
+              bg={"blue.400"}
+              color={"white"}
+              w="150px"
+              _hover={{
+                bg: "blue.500",
+              }}
+            >
+              Submit
+            </Button>
           </Stack>
-        </Flex>
-      </Container>
+        </Stack>
+      </Flex>
       );
     </>
   );

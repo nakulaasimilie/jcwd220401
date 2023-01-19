@@ -31,6 +31,9 @@ export default function CartDetail() {
     id: userId,
   } = useSelector(state => state.userSlice.value);
   console.log(cart);
+
+  const { syncAddress } = useSelector(state => state.addressSlice.value);
+
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.cartSlice.value);
@@ -43,7 +46,7 @@ export default function CartDetail() {
       Swal.fire({
         icon: "success",
         title: "Deleted",
-        text: "Cart Successfully Deleted",
+        text: "Barang telah dihapus",
         timer: 2000,
       });
       const result = await axios.get(`http://localhost:8000/cart/${userId}`);
@@ -218,12 +221,23 @@ export default function CartDetail() {
               </TableContainer>
             )}
           </Box>
+          <br></br>
           <Text
             fontWeight="bold"
             mr="10px"
+            align={"center"}
           >
             Total Harga:
           </Text>
+          <br></br>
+          <Text
+            fontWeight="bold"
+            mr="10px"
+            align={"center"}
+          >
+            Pilih Alamat
+          </Text>
+          <br></br>
           <Box
             mt="10px"
             display="flex"

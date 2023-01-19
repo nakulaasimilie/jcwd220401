@@ -27,6 +27,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -37,6 +38,7 @@ export const AddAddress = () => {
   const [selectProvince, setSelectProvince] = useState(0);
   const [selectCity, setSelectCity] = useState(0);
   const [selectPostal, setSelectPostal] = useState(0);
+  const [move, setMove] = useState(false);
   const inputAddressFill = useRef("");
   const inputCity = useRef("");
   const inputProvince = useRef("");
@@ -66,9 +68,11 @@ export const AddAddress = () => {
       );
       Swal.fire({
         icon: "success",
-        text: "Address Added",
+        title: "Added",
+        text: "Alamat Telah ditambah",
+        timer: 2000,
       });
-      navigate("/address");
+      setMove(true);
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -184,7 +188,12 @@ export const AddAddress = () => {
     getPostal();
   }, []);
 
-  return (
+  return move ? (
+    <Navigate
+      to="/address:id"
+      replace={true}
+    />
+  ) : (
     <>
       <Flex
         minH={"100vh"}
