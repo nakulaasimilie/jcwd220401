@@ -7,6 +7,7 @@ router.get("/search", productController.searchBy);
 router.get("/view", productController.view);
 router.get("/sort", productController.sortBy);
 router.get("/list/:id", productController.getById);
+router.delete("/remove/:id", productController.remove);
 router.get("/list/total", productController.totalProduct);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { cartSync } from "./redux/cartSlice";
 import { login } from "./redux/userSlice";
+import { loginAdmin } from "./redux/adminSlice";
 
 //Component and Pages
 import HomePage from "./pages/HomePage";
@@ -16,7 +17,9 @@ import Register from "./components/register";
 import DetailPage from "./pages/DetailPage";
 import NotFound from "./components/404";
 import Search from "./components/search";
-import CartDetail from "./components/CartComp";
+import CartPage from "./pages/cartPage";
+import { LoginAdmin } from "./pages/LoginAdmin";
+import { AdminPage } from "./pages/AdminPage";
 import { ListAddressUser } from "./components/listAddressUser";
 import { AddAddress } from "./components/addAddress";
 import { UpdateAddress } from "./components/updateAddress";
@@ -30,6 +33,9 @@ function App() {
   //keeplogin token
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+  const tokenAdmin = localStorage.getItem("tokenAdmin");
+  const tokenBranch = localStorage.getItem("tokenBranch");
+
   // console.log(token)
 
   //Function keeplogin
@@ -51,8 +57,51 @@ function App() {
     }
   };
 
+  // useEffect(() => {
+  //   keepLogin();
+  // }, []);
+
+  const keepLoginAdmin = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8000/admin/keepLogin`, {
+        headers: {
+          Authorization: `Bearer ${tokenAdmin}`,
+        },
+      });
+      console.log(res.data);
+      dispatch(loginAdmin(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const keepLoginBranch = async () => {
+    try {
+      const resBranch = await axios.get(
+        `http://localhost:8000/admin/keepLogin`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenBranch}`,
+          },
+        },
+      );
+      console.log(resBranch.data);
+      dispatch(loginAdmin(resBranch.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    keepLogin();
+    token ? keepLogin() : console.log("Check Database");
+  }, []);
+
+  useEffect(() => {
+    tokenAdmin ? keepLoginAdmin() : console.log("Check Database");
+  }, []);
+
+  useEffect(() => {
+    tokenBranch ? keepLoginBranch() : console.log("Check Database");
   }, []);
 
   const [location, setLocation] = useState({
@@ -104,121 +153,133 @@ function App() {
   };
 
   return (
-    <div style={bodyStyle}>
-      <div style={myStyle}>
-        <Routes>
-          <Route
-            path="/profile"
-            element={<UserProfile />}
-          />
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-          <Route
-            path="/changePassword"
-            element={<ChangePassword />}
-          />
-          <Route
-            path="/cart"
-            element={
-              <>
-                <CartDetail />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/address"
-            element={
-              <>
-                <ListAddressUser />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/address/:id"
-            element={
-              <>
-                <ListAddressUser />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/updateAddress/:id"
-            element={
-              <>
-                <UpdateAddress />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/addAddress/:id"
-            element={
-              <>
-                <AddAddress />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/*"
-            element={
-              <>
-                <NotFound />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <>
-                <HomePage />
-              </>
-            }
-          />
+    // <div style={bodyStyle}>
+    //   <div style={myStyle}>
+    <Routes>
+      <Route
+        path="/dashboard"
+        element={
+          <>
+            <AdminPage />
+          </>
+        }
+      />
+      <Route
+        path="/profile"
+        element={<UserProfile />}
+      />
+      <Route
+        path="/login"
+        element={<LoginPage />}
+      />
+      <Route
+        path="/changePassword"
+        element={<ChangePassword />}
+      />
+      <Route
+        path="/loginAdmin"
+        element={<LoginAdmin />}
+      />
 
-          <Route
-            path="/detail/:id"
-            element={
-              <>
-                <Search />
-                <DetailPage />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          />
-          <Route
-            path="/verifyResetPassword"
-            element={
-              <>
-                <SendEmailPassword />
-              </>
-            }
-          />
-          <Route
-            path="/resetPassword"
-            element={
-              <>
-                <ResetPassword />
-              </>
-            }
-          />
-        </Routes>
-      </div>
-    </div>
+      <Route
+        path="/cart"
+        element={
+          <>
+            <CartPage />
+          </>
+        }
+      />
+      <Route
+        path="/address"
+        element={
+          <>
+            <ListAddressUser />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/address/:id"
+        element={
+          <>
+            <ListAddressUser />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/updateAddress/:id"
+        element={
+          <>
+            <UpdateAddress />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/addAddress/:id"
+        element={
+          <>
+            <AddAddress />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/*"
+        element={
+          <>
+            <NotFound />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <>
+            <HomePage />
+          </>
+        }
+      />
+
+      <Route
+        path="/detail/:id"
+        element={
+          <>
+            <Search />
+            <DetailPage />
+            <Navbar />
+          </>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <>
+            <Register />
+          </>
+        }
+      />
+      <Route
+        path="/verifyResetPassword"
+        element={
+          <>
+            <SendEmailPassword />
+          </>
+        }
+      />
+      <Route
+        path="/resetPassword"
+        element={
+          <>
+            <ResetPassword />
+          </>
+        }
+      />
+    </Routes>
+    //   </div>
+    // </div>
   );
 }
 

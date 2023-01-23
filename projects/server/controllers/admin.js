@@ -1,41 +1,110 @@
 const db = require("../models");
-const User = db.User;
+const admin = db.Admin;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  loginAdmin: async (req, res) => {
+  register: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { name, email, password, isSuper } = req.body;
+
+      if (password.length < 8) throw "Minimum 8 characters";
+
+      const salt = await bcrypt.genSalt(10);
+
+      const hashPass = await bcrypt.hash(password, salt);
+
+      const data = await admin.create({
+        name,
+        email,
+        password: hashPass,
+        isSuper,
+      });
+
+      const token = jwt.sign({ email: email }, "jcwd2204");
+
+      res.status(200).send({
+        massage: "Register Succes",
+        data,
+        token,
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+
+  login: async (req, res) => {
+    try {
       console.log(req.body);
-      const emailExist = await User.findOne({
+      const { password, email } = req.body;
+      const isEmailExist = await admin.findOne({
         where: {
           email,
         },
         raw: true,
       });
 
-      if (emailExist.role == "user") throw "User unauthorized";
-      if (emailExist === null) throw "Email Not Found";
-      const isValid = await bcrypt.compare(password, emailExist.password);
-      if (!isValid) throw "Password Incorrect";
+      console.log(isEmailExist);
+
+      if (!isEmailExist) throw "User Not Found";
+
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        isEmailExist.password,
+      );
+      if (!isPasswordValid) throw "Wrong Password";
+
       const token = jwt.sign(
         {
-          id: emailExist.id,
-          email: emailExist.email,
-          name: emailExist.name,
+          email: isEmailExist.email,
+          name: isEmailExist.name,
+          id: isEmailExist.id,
+          isSuper: isEmailExist.isSuper,
         },
-        "kompeni-mart",
+        "jcwd2204",
       );
 
       res.status(200).send({
+        msg: "Login Sukses",
         user: {
-          id: emailExist.id,
-          name: emailExist.name,
-          email: emailExist.email,
+          name: isEmailExist.name,
+          id: isEmailExist.id,
+          email: isEmailExist.email,
+          isSuper: isEmailExist.isSuper,
         },
         token,
       });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
+
+  keepLogin: async (req, res) => {
+    try {
+      const verify = jwt.verify(req.token, "jcwd2204");
+      const result = await admin.findOne({
+        where: {
+          email: verify.email,
+        },
+        raw: true,
+      });
+      console.log(result);
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+  findAll: async (req, res) => {
+    try {
+      const admins = await admin.findAll({
+        where: {
+          isSuper: 1,
+        },
+        attributes: ["name", "email", "isSuper"],
+        raw: true,
+      });
+      res.status(200).send(admins);
     } catch (err) {
       console.log(err);
       res.status(400).send(err);

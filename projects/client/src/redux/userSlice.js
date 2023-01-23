@@ -37,6 +37,7 @@ const userSlice = createSlice({
       state.value.province = action.payload.province;
       state.value.detail = action.payload.detail;
       state.value.district = action.payload.district;
+      state.value.cart = action.payload.cart;
     },
     logout: state => {
       state.value.id = "";

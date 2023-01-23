@@ -16,6 +16,7 @@ const {
   userRoutes,
   userRoutesAdmin,
   productRoutes,
+  userRoutesBranch,
   addressRoutes,
 } = require("../routers");
 
@@ -40,9 +41,10 @@ app.use(bearerToken());
 
 // user Router
 app.use("/usersLogin", userRoutesLogin);
-app.use("/adminLogin", userRoutesAdmin);
+app.use("/admin", userRoutesAdmin);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
+app.use("/branch", userRoutesBranch);
 app.use("/address", addressRoutes);
 
 app.get("/api", (req, res) => {
