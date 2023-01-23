@@ -26,8 +26,6 @@ import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const SocialButton = ({ children, label, href }) => {
   return (

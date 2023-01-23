@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "kula22",
-    "database": "database_grocery",
+    "password": "asudesu1998",
+    "database": "grocery",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
