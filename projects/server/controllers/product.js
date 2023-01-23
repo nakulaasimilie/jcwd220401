@@ -23,6 +23,84 @@ module.exports = {
       res.status(400).send(err);
     }
   },
+  create: async (req, res) => {
+    try {
+      const { name, statement, detail, size } = req.body;
+
+      if (!name && !statement && !detail && !size) throw "required field";
+
+      await product.create({
+        name,
+        statement,
+        detail,
+        size,
+      });
+      res.status(200).send({
+        message: "Successfully Added",
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+
+  createCategory: async (req, res) => {
+    try {
+      const { categoryName } = req.body;
+
+      await category.create({
+        categoryName,
+      });
+      res.status(200).send({
+        message: "Successfully Added",
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+
+  removeCategory: async (req, res) => {
+    try {
+      await category.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      console.log(req.params.id);
+      const users = await category.findAll();
+      res.status(200).send(users);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+
+  getAllCategory: async (req, res) => {
+    try {
+      const users = await category.findAll({
+        attributes: ["id", "categoryName", "categoryPicture"],
+      });
+      res.status(200).send(users);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+
+  updateCategory: async (req, res) => {
+    try {
+      const { categoryName } = req.body;
+      await category.update(
+        {
+          categoryName,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+      const users = await category.findOne({ where: { id: req.params.id } });
+      res.status(200).send(users);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
 
   getById: async (req, res) => {
     try {
@@ -216,6 +294,66 @@ module.exports = {
       });
     } catch (error) {
       res.status(400).send(error);
+    }
+  },
+
+  uploadFile: async (req, res) => {
+    try {
+      let fileUploaded = req.file;
+      console.log("controller", fileUploaded);
+      await product.update(
+        {
+          images: `images/${fileUploaded.filename}`,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      const getImages = await product.findOne({
+        where: {
+          id: req.params.id,
+        },
+        raw: true,
+      });
+      res.status(200).send({
+        id: getImages.id,
+        images: getImages.picture,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  },
+
+  uploadCategory: async (req, res) => {
+    try {
+      let fileUploaded = req.file;
+      console.log("controller", fileUploaded);
+      await category.update(
+        {
+          categoryPicture: `images/${fileUploaded.filename}`,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      const getPicture = await category.findOne({
+        where: {
+          id: req.params.id,
+        },
+        raw: true,
+      });
+      res.status(200).send({
+        id: getPicture.id,
+        categoryPicture: getPicture.categoryPicture,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
     }
   },
 };

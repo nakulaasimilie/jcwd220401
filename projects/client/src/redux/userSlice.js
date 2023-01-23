@@ -27,6 +27,7 @@ const userSlice = createSlice({
       state.value.profile_picture_url = action.payload.profile_picture_url;
       state.value.gender = action.payload.gender;
       state.value.birthdate = action.payload.birthdate;
+      state.value.cart = action.payload.cart;
     },
     logout: (state) => {
       state.value.id = "";

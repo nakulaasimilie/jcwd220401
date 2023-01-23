@@ -7,14 +7,15 @@ import {
   useColorModeValue,
   VisuallyHidden,
   Image,
-  Link,
   MenuButton,
   MenuList,
   MenuItem,
   Menu,
   Button,
   Badge,
+  IconButton,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
@@ -23,6 +24,8 @@ import user from "../assets/user.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -36,6 +39,7 @@ const SocialButton = ({ children, label, href }) => {
       alignItems={"center"}
       justifyContent={"center"}
       transition={"background 0.3s ease"}
+      onClick={onclick}
       // _hover={{
       //   bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
       // }}
@@ -47,14 +51,31 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Navbar() {
-  const { name, cart } = useSelector((state) => state.userSlice.value);
+  const { name, cart, email } = useSelector((state) => state.userSlice.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLogout = () => {
     dispatch(logout());
     dispatch(cartDel());
     localStorage.removeItem("token");
     sessionStorage.removeItem("id");
+  };
+
+  const transaksi = () => {
+    if (!email) {
+      return Swal.fire({
+        icon: "error",
+        title: "Akses Ditolak",
+        text: "Silahkan Masukan Akun Anda",
+        timer: 2000,
+        customClass: {
+          container: "my-swal",
+        },
+      });
+    } else {
+      return navigate(`/cart`, { replace: true });
+    }
   };
 
   return (
@@ -80,19 +101,16 @@ export default function Navbar() {
               <Text>Produk</Text>
             </Box>
           </SocialButton>
-          <SocialButton label={"Transaksi"} href={"#"}>
-            <Box textAlign={"center"}>
-              <Image src={pesanan} margin="auto" />
-              <Text>Transaksi</Text>
-            </Box>
+          <SocialButton>
+            <IconButton onClick={() => transaksi()}>
+              <Box textAlign={"center"}>
+                <Image src={pesanan} margin="auto" />
+                <Text>Transaksi</Text>
+              </Box>
+            </IconButton>
           </SocialButton>
           <SocialButton label={"Cart"} href={"/cart"}>
             <Box textAlign={"center"}>
-              {/* {name && cart !== 0 ? (
-                <Badge p="1" ml="-2" mt="-3">
-                  <Text fontSize="xx-small">{cart}</Text>
-                </Badge>
-              ) : null} */}
               <Image src={keranjang} margin="auto" />
               <Text>Keranjang</Text>
             </Box>
@@ -120,8 +138,10 @@ export default function Navbar() {
               ) : (
                 <>
                   <SocialButton label={"Akun"} href={"/login"}>
-                    <Image src={user} margin="auto" />
-                    <Text>Akun</Text>
+                    <Box textAlign={"center"}>
+                      <Image src={user} margin="auto" />
+                      <Text>Akun</Text>
+                    </Box>
                   </SocialButton>
                 </>
               )}

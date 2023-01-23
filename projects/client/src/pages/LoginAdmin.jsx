@@ -22,15 +22,16 @@ import * as Yup from "yup";
 import { Formik, ErrorMessage, Form, Field } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/userSlice";
+import { loginAdmin } from "../redux/adminSlice";
 
 //img logo import
 import logo from "../assets/output-onlinepngtools.png";
 
 //url login and keeplogin
-const url = "http://localhost:8000/usersLogin/login";
+const url = "http://localhost:8000/admin/login";
 
-export const LoginPage = () => {
-  const userSelector = useSelector((state) => state.userSlice);
+export const LoginAdmin = () => {
+  const adminSelector = useSelector((state) => state.adminSlice);
 
   // useRef for password and email
   const password = useRef("");
@@ -56,15 +57,20 @@ export const LoginPage = () => {
   //Login Function
   const onLogin = async () => {
     try {
-      const user = {
+      const admin = {
         password: password.current.value,
         email: email.current.value,
       };
-      const result = await axios.post(url, user);
+      const result = await axios.post(url, admin);
       console.log(result.data);
-      dispatch(login(result.data.user));
+      dispatch(loginAdmin(result.data.user));
       console.log(result.data.user);
-      localStorage.setItem("token", result.data.token);
+      // localStorage.setItem("tokenAdmin", result.data.token);
+      if (result.data.user.isSuper === 2) {
+        localStorage.setItem("tokenAdmin", result.data.token);
+      } else if (result.data.user.isSuper === 1) {
+        localStorage.setItem("tokenBranch", result.data.token);
+      }
       setMove(true);
 
       Swal.fire({
@@ -81,6 +87,7 @@ export const LoginPage = () => {
       });
     }
   };
+
   const myStyle = {
     maxWidth: "506px",
     heigth: "auto",
@@ -93,7 +100,7 @@ export const LoginPage = () => {
     height: "auto",
   };
   return move ? (
-    <Navigate to="/" replace={true} />
+    <Navigate to="/dashboard" replace={true} />
   ) : (
     <div style={bodyStyle}>
       <div style={myStyle}>
@@ -121,7 +128,7 @@ export const LoginPage = () => {
                   <Image src={logo} maxW="160px" mb="5" mx="auto" />
                   <Stack align={"center"}>
                     <Heading fontSize={"2xl"} color="black">
-                      Log in Account
+                      Login Admin
                     </Heading>
                   </Stack>
                   <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
@@ -157,16 +164,6 @@ export const LoginPage = () => {
                               </InputRightElement>
                             </InputGroup>
                           </FormControl>
-                        </Stack>
-                        <Stack spacing={2}>
-                          <Stack
-                            direction={{ base: "column", sm: "row" }}
-                            align={"start"}
-                            justify={"space-between"}
-                          ></Stack>
-                          <Link color={"blue.400"} href="/register">
-                            Dont have account?
-                          </Link>
                         </Stack>
                         <Button
                           bg={"yellow.400"}
