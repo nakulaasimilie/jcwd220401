@@ -5,224 +5,78 @@ import {
   Wrap,
   WrapItem,
   useColorModeValue,
+  Text,
+  Avatar,
+  Center,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
-
-import { Image } from "@chakra-ui/react";
-
-import produk from "../assets/semua_produk.png";
-import sayuran from "../assets/sayuran.png";
-import daging from "../assets/daging.png";
-import buah from "../assets/buah.png";
-import ikan from "../assets/ikan.png";
-import unggas from "../assets/ayam.png";
-import minuman from "../assets/minuman.png";
-import camilan from "../assets/camilan.png";
-import sembako from "../assets/sembako.png";
-import kebersihan from "../assets/kebersihan.png";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import Axios from "axios";
+import { syncCategory } from "../redux/categorySlice";
 
 export default function Kategori() {
+  // const [category, setCategory] = useState();
+  const data = useSelector(state => state.categorySlice.value);
+  // const data = useSelector(state => state.inventorySlice.value);
+  const dispatch = useDispatch();
+
+  const getCategory = async () => {
+    try {
+      const res = await Axios.get(`http://localhost:8000/product/listCategory`);
+      dispatch(syncCategory(res.data));
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+
   return (
     <>
-      <Box
-        bg={useColorModeValue("white")}
-        mt="3"
-        position={"relative"}
-        height="auto"
-        width="auto"
-        justifyContent="center"
-        borderTopRadius={15}
-        borderBottomRadius={15}
+      <Center
+        mt="10px"
+        mb="10px"
       >
-        <Stack direction="column">
-          <Wrap
-            marginTop={3}
-            spacing={10}
-            marginLeft={"9%"}
-            marginRight={"9%"}
-            marginBottom={3}
-          >
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={produk} />}
-                />
-              </WrapItem>
-              Produk
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={sayuran} />}
-                />
-              </WrapItem>
-              Sayur
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={daging} />}
-                />
-              </WrapItem>
-              Daging
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={unggas} />}
-                />
-              </WrapItem>
-              Unggas
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={ikan} />}
-                />
-              </WrapItem>
-              Makanan Laut
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={buah} />}
-                />
-              </WrapItem>
-              Buah
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={minuman} />}
-                />
-              </WrapItem>
-              Minuman
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={camilan} />}
-                />
-              </WrapItem>
-              Camilan
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={sembako} />}
-                />
-              </WrapItem>
-              Sembako
-            </Box>
-
-            <Box
-              textAlign={"center"}
-              margin={"auto"}
-              width={"50px"}
-              fontSize={"10px"}
-              fontWeight={"bold"}
-            >
-              <WrapItem>
-                <IconButton
-                  width="50px"
-                  height="50px"
-                  isRound="true"
-                  icon={<Image src={kebersihan} />}
-                />
-              </WrapItem>
-              Alat Mandi
-            </Box>
-          </Wrap>
-        </Stack>
-      </Box>
+        <Flex
+          flexWrap="wrap"
+          // w={[330, 330, 400]}
+          justifyContent="center"
+        >
+          {data?.map(item => {
+            return (
+              <div>
+                <Button
+                  bg={"#ebf5e9"}
+                  _hover={{ bg: "yellow.400", color: "white" }}
+                  rounded="full"
+                  mr={[5, 5, 5]}
+                  ml={[5, 5, 5]}
+                  mt="20px"
+                  w="50px"
+                  h="50px"
+                  name="Grocery"
+                  src={item.image}
+                  // as={Link}
+                  // to={`/category/${item.id}`}
+                ></Button>
+                <Text
+                  fontSize="small"
+                  color={"#285430"}
+                  align={"center"}
+                >
+                  {item.categoryName}
+                </Text>
+              </div>
+            );
+          })}
+        </Flex>
+      </Center>
+      {/* {tokenLocalStorage ? <InventoryList /> : <ProductList />} */}
     </>
   );
 }

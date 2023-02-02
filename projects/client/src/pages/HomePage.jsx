@@ -34,7 +34,7 @@ export default function HomePage() {
           <HomeComp />
         </div>
         <Kategori />
-        <Product />
+        {/* <Product /> */}
         <Footer />
         <Navbar />
       </div>

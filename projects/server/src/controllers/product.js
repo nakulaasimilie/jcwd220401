@@ -3,20 +3,13 @@ const { sequelize } = require("../models");
 const db = require("../models");
 const cart = db.Cart;
 const product = db.Product;
+const category = db.Category;
 
 module.exports = {
   getAll: async (req, res) => {
     try {
       const user = await product.findAll({
-        attributes: [
-          "id",
-          "name",
-          "category",
-          "price",
-          "images",
-          "statement",
-          "size",
-        ],
+        attributes: ["id", "name", "price", "images", "statement", "size"],
       });
       res.status(200).send(user);
     } catch (err) {
@@ -25,9 +18,10 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      const { name, statement, detail, size } = req.body;
+      const { name, statement, detail, size, price } = req.body;
 
-      if (!name && !statement && !detail && !size) throw "required field";
+      if (!name && !statement && !detail && !size && !price)
+        throw "required field";
 
       await product.create({
         name,
@@ -75,10 +69,10 @@ module.exports = {
 
   getAllCategory: async (req, res) => {
     try {
-      const users = await category.findAll({
-        attributes: ["id", "categoryName", "categoryPicture"],
+      const result = await category.findAll({
+        attributes: ["id", "categoryName", "image"],
       });
-      res.status(200).send(users);
+      res.status(200).send(result);
     } catch (err) {
       res.status(400).send(err);
     }
@@ -93,7 +87,7 @@ module.exports = {
         },
         {
           where: { id: req.params.id },
-        }
+        },
       );
       const users = await category.findOne({ where: { id: req.params.id } });
       res.status(200).send(users);
@@ -184,22 +178,22 @@ module.exports = {
   update: async (req, res) => {
     try {
       const { name, category, price } = req.body;
-      let fileUploaded = req.file;
+      // let fileUploaded = req.file;
       await product.update(
         {
           name,
-          category,
-          price,
+          // category,
+          // price,
         },
-        {
-          images: fileUploaded.filename,
-        },
+        // {
+        //   images: fileUploaded.filename,
+        // },
         {
           where: { id: req.params.id },
         },
       );
-      const user = await product.findOne({ where: { id: req.params.id } });
-      res.status(200).send(user);
+      const edit = await product.findOne({ where: { id: req.params.id } });
+      res.status(200).send(edit);
     } catch (err) {
       res.status(400).send(err);
     }
@@ -221,10 +215,10 @@ module.exports = {
     try {
       const { page, limit, search_query, order, order_direction } = req.query;
       const productList_page = parseInt(page) || 0;
-      const list_limit = parseInt(limit) || 6;
+      const list_limit = parseInt(limit) || 5;
       const search = search_query || "";
       const offset = list_limit * productList_page;
-      const orderby = order || "name";
+      const orderby = order || "productName";
       const direction = order_direction || "ASC";
       const totalRows = await product.count({
         where: {
@@ -236,11 +230,6 @@ module.exports = {
             },
             {
               price: {
-                [Op.like]: "%" + search + "%",
-              },
-            },
-            {
-              category: {
                 [Op.like]: "%" + search + "%",
               },
             },
@@ -264,11 +253,6 @@ module.exports = {
             },
             {
               price: {
-                [Op.like]: "%" + search + "%",
-              },
-            },
-            {
-              category: {
                 [Op.like]: "%" + search + "%",
               },
             },
@@ -309,7 +293,7 @@ module.exports = {
           where: {
             id: req.params.id,
           },
-        }
+        },
       );
       const getImages = await product.findOne({
         where: {
@@ -333,13 +317,13 @@ module.exports = {
       console.log("controller", fileUploaded);
       await category.update(
         {
-          categoryPicture: `images/${fileUploaded.filename}`,
+          image: `images/${fileUploaded.filename}`,
         },
         {
           where: {
             id: req.params.id,
           },
-        }
+        },
       );
       const getPicture = await category.findOne({
         where: {
@@ -349,7 +333,7 @@ module.exports = {
       });
       res.status(200).send({
         id: getPicture.id,
-        categoryPicture: getPicture.categoryPicture,
+        image: getPicture.image,
       });
     } catch (err) {
       console.log(err);

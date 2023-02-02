@@ -118,7 +118,7 @@ export const BranchManagement = () => {
 
   const getBranch = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/branch/findAll`);
+      const res = await Axios.get(`http://localhost:8000/branch/getAll`);
       console.log(res.data);
       setData2(res.data);
     } catch (err) {
@@ -198,11 +198,11 @@ export const BranchManagement = () => {
                             align="flex-start"
                           >
                             <FormControl isRequired>
-                              <FormLabel htmlFor="username">Name</FormLabel>
+                              <FormLabel htmlFor="name">Name</FormLabel>
                               <Field
                                 as={Input}
                                 type="text"
-                                name="username"
+                                name="name"
                                 variant="filled"
                               />
                               <ErrorMessage

@@ -6,12 +6,13 @@ const rajaOngkirKey = process.env.RAJA_KEY;
 const openCageKey = process.env.GEO_KEY;
 
 module.exports = {
-  findAll: async (req, res) => {
+  getAll: async (req, res) => {
     try {
-      const branch = await branch.findAll({
+      const branches = await branch.findAll({
         attributes: ["id", "branchName"],
+        raw: true,
       });
-      res.status(200).send(branch);
+      res.status(200).send(branches);
     } catch (err) {
       res.status(400).send(err);
     }
@@ -35,7 +36,7 @@ module.exports = {
             where: {
               id: findBranch.id,
             },
-          }
+          },
         );
         await branch.update(
           {
@@ -45,7 +46,7 @@ module.exports = {
             where: {
               id: id,
             },
-          }
+          },
         );
         res.status(200).json({
           message: "success",
@@ -60,7 +61,7 @@ module.exports = {
             where: {
               id: id,
             },
-          }
+          },
         );
         res.status(200).json({
           message: "success",
@@ -137,14 +138,14 @@ module.exports = {
       const { branchName, address, city, province, postalCode, phoneNumber } =
         req.body;
       const provinceAndCity = await axios.get(
-        `https://api.rajaongkir.com/starter/city?id=${city}&province=${province}&key=${rajaOngkirKey}`
+        `https://api.rajaongkir.com/starter/city?id=${city}&province=${province}&key=${rajaOngkirKey}`,
       );
       const provinceName = provinceAndCity.data.rajaongkir.results.province;
       const cityName = provinceAndCity.data.rajaongkir.results.city_name;
       const cityType = provinceAndCity.data.rajaongkir.results.type;
       const cityNameAndType = `${cityType} ${cityName}`;
       const location = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?key=${openCageKey}&q=${cityNameAndType},${provinceName}`
+        `https://api.opencagedata.com/geocode/v1/json?key=${openCageKey}&q=${cityNameAndType},${provinceName}`,
       );
       const lattitude = location.data.results[0].geometry.lat;
       const longitude = location.data.results[0].geometry.lng;
@@ -205,14 +206,14 @@ module.exports = {
       const { branchName, address, province, city, postalCode } = req.body;
       const { id } = req.params;
       const provinceAndCity = await axios.get(
-        `https://api.rajaongkir.com/starter/city?id=${city}&province=${province}&key=${rajaOngkirKey}`
+        `https://api.rajaongkir.com/starter/city?id=${city}&province=${province}&key=${rajaOngkirKey}`,
       );
       const provinceName = provinceAndCity.data.rajaongkir.results.province;
       const cityName = provinceAndCity.data.rajaongkir.results.city_name;
       const cityType = provinceAndCity.data.rajaongkir.results.type;
       const cityNameAndType = `${cityType} ${cityName}`;
       const location = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?key=${openCageKey}&q=${cityNameAndType},${provinceName}`
+        `https://api.opencagedata.com/geocode/v1/json?key=${openCageKey}&q=${cityNameAndType},${provinceName}`,
       );
       const lattitude = location.data.results[0].geometry.lat;
       const longitude = location.data.results[0].geometry.lng;
@@ -232,7 +233,7 @@ module.exports = {
           where: {
             id: id,
           },
-        }
+        },
       );
       const findData = await branch.findByPk(id);
       res.status(200).json({
@@ -241,6 +242,20 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.status(400).send(err);
+    }
+  },
+
+  findAdminByBranch: async (req, res) => {
+    try {
+      const response = await branch.findOne({
+        where: {
+          AdminId: req.params.id,
+          // id: req.body.id,
+        },
+      });
+      res.status(200).send(response);
+    } catch (err) {
       res.status(400).send(err);
     }
   },

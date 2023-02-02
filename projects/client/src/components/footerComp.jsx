@@ -46,7 +46,7 @@ const SocialButton = ({ children, label, href }) => {
   );
 };
 
-export default function SmallWithLogoLeft() {
+export default function Footer() {
   return (
     <>
       <Box

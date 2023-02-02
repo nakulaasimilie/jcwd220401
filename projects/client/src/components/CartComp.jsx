@@ -157,7 +157,7 @@ export default function CartDetail() {
                               <Image
                                 boxSize="35px"
                                 objectFit="cover"
-                                src={item.Product.image}
+                                src={item.Product.images}
                               />
                             </Stack>
                           </Td>

@@ -4,7 +4,7 @@ const cors = require("cors");
 const { join } = require("path");
 
 //sequileze db
-const db = require("../models");
+const db = require("./models");
 
 //bearer Token
 const bearerToken = require("express-bearer-token");
@@ -18,7 +18,9 @@ const {
   productRoutes,
   userRoutesBranch,
   addressRoutes,
-} = require("../routers");
+  transaksiRoutes,
+  inventoryRoutes,
+} = require("./routers");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -46,6 +48,8 @@ app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/branch", userRoutesBranch);
 app.use("/address", addressRoutes);
+app.use("/transaksi", transaksiRoutes);
+app.use("/inventory", inventoryRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -93,7 +97,7 @@ app.get("*", (req, res) => {
 //#endregion
 
 app.listen(PORT, err => {
-  // db.sequelize.sync({ alter: true });
+  db.sequelize.sync({ alter: true });
   if (err) {
     console.log(`ERROR: ${err}`);
   } else {

@@ -323,7 +323,6 @@ export const UserProfile = () => {
           </Stack>
         </Stack>
       </Flex>
-      );
     </>
   );
 };
