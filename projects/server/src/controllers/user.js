@@ -205,11 +205,19 @@ module.exports = {
         },
         {
           where: { verification_signature: verificationSignature },
-        }
+        },
       );
       res.status(200).send(userObj);
     } catch (err) {
       console.log(err);
+      res.status(400).send(err);
+    }
+  },
+  findAllUser: async (req, res) => {
+    try {
+      const users = await User.findAll({ raw: true });
+      return res.status(200).send(users);
+    } catch (err) {
       res.status(400).send(err);
     }
   },

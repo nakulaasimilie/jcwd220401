@@ -25,6 +25,13 @@ import { AddAddress } from "./components/addAddress";
 import { UpdateAddress } from "./components/updateAddress";
 import SendEmailPassword from "./pages/SendEmailPage";
 import ResetPassword from "./pages/ResetPassword";
+import { Add } from "./components/produkManagement";
+import CreateComp, { AddProduct } from "./components/addProduk";
+import BarAdmin from "./components/BarAdmin";
+import { BranchManagement } from "./components/BranchManagement";
+import Footer from "./components/footerComp";
+import { AdminInventory } from "./components/addInventory";
+// import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -164,6 +171,16 @@ function App() {
           </>
         }
       />
+
+      <Route
+        path="/addInventory"
+        element={
+          <>
+            <AdminInventory />
+          </>
+        }
+      />
+
       <Route
         path="/profile"
         element={<UserProfile />}
@@ -208,6 +225,25 @@ function App() {
         }
       />
       <Route
+        path="/dashboard/crud"
+        element={
+          <>
+            <BarAdmin />
+            <Add />
+            <Footer />
+          </>
+        }
+      />
+
+      <Route
+        path="/create"
+        element={
+          <>
+            <CreateComp />
+          </>
+        }
+      />
+      <Route
         path="/updateAddress/:id"
         element={
           <>
@@ -222,6 +258,17 @@ function App() {
           <>
             <AddAddress />
             <Navbar />
+          </>
+        }
+      />
+
+      <Route
+        path="/dashboard/branchManagement"
+        element={
+          <>
+            <BarAdmin />
+            <BranchManagement />
+            <Footer />
           </>
         }
       />

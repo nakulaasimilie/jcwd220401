@@ -9,8 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Branch.hasMany(models.Admin);
-      Branch.hasMany(models.Transaction);
+      Branch.belongsTo(models.Admin);
+      Branch.hasMany(models.Inventory);
+
+      // Branch.hasMany(models.Transaction);
     }
   }
   Branch.init(
@@ -29,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Branch",
-    }
+    },
   );
   return Branch;
 };

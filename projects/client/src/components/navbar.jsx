@@ -26,6 +26,7 @@ import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -154,13 +155,13 @@ export default function Navbar() {
                   </MenuButton>
                   <MenuList>
                     <MenuItem>
-                      <Link href="/profile">Profile</Link>
+                      <Link to="/profile">Profile</Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link href="/changePassword">Change Password</Link>
+                      <Link to="/changePassword">Change Password</Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link href="/address">Address</Link>
+                      <Link to="/address">Address</Link>
                     </MenuItem>
                     <MenuItem>
                       <Link onClick={onLogout}>Logout</Link>

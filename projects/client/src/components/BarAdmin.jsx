@@ -4,6 +4,7 @@ import {
   Flex,
   Avatar,
   HStack,
+  chakra,
   Link,
   IconButton,
   Button,
@@ -21,6 +22,8 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
+  Icon,
+  VisuallyHidden,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
@@ -28,7 +31,7 @@ import React from "react";
 
 const Links = ["Dashboard", "Projects", "Team"];
 
-const NavLink = ({ children }) => (
+const NavLink = ({ children, href }) => (
   <Link
     px={2}
     py={1}
@@ -37,34 +40,93 @@ const NavLink = ({ children }) => (
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
-    href={"#"}
+    href={href}
   >
     {children}
   </Link>
 );
 
+const ButtonDraw = ({ children, label, href }) => {
+  return (
+    <chakra.button
+      w={"full"}
+      h={"50px"}
+      cursor={"pointer"}
+      as={"a"}
+      href={href}
+      display={"inline-flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      transition={"background 0.3s ease"}
+      onClick={onclick}
+      _hover={{
+        bg: useColorModeValue("green.300"),
+      }}
+    >
+      <VisuallyHidden>{label}</VisuallyHidden>
+      {children}
+    </chakra.button>
+  );
+};
+
 export default function BarAdmin() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, cart, email } = useSelector((state) => state.adminSlice.value);
+  const { name, cart, email } = useSelector(state => state.adminSlice.value);
   const [placement, setPlacement] = React.useState("left");
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Button colorScheme="green" onClick={onOpen}>
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        px={4}
+      >
+        <Flex
+          h={16}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Button
+            colorScheme="green"
+            onClick={onOpen}
+          >
             Menu
           </Button>
-          <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
+          <Drawer
+            placement={placement}
+            onClose={onClose}
+            isOpen={isOpen}
+          >
             <DrawerOverlay />
             <DrawerContent>
               <DrawerHeader borderBottomWidth="1px">
                 Super Admin Menu
               </DrawerHeader>
               <DrawerBody>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <ButtonDraw href={"/dashboard"}>
+                  <Box textAlign={"center"}>
+                    <Text>Dashboard</Text>
+                  </Box>
+                </ButtonDraw>
+                <ButtonDraw href={"/dashboard/branchManagement"}>
+                  <Box textAlign={"center"}>
+                    <Text>Branch Management</Text>
+                  </Box>
+                </ButtonDraw>
+                <ButtonDraw href={"/dashboard/crud"}>
+                  <Box textAlign={"center"}>
+                    <Text>Product and Category Management</Text>
+                  </Box>
+                </ButtonDraw>
+                <ButtonDraw href={"/dashboard/crud"}>
+                  <Box textAlign={"center"}>
+                    <Text>Transaction</Text>
+                  </Box>
+                </ButtonDraw>
+                <ButtonDraw href={"/dashboard/crud"}>
+                  <Box textAlign={"center"}>
+                    <Text>Sales Report</Text>
+                  </Box>
+                </ButtonDraw>
               </DrawerBody>
             </DrawerContent>
           </Drawer>
@@ -75,7 +137,7 @@ export default function BarAdmin() {
             fontSize={{ base: "2xl", sm: "3xl" }}
             textAlign="center"
           >
-            SUPER ADMIN{" "}
+            DASHBOARD
           </Box>
           <Flex alignItems={"center"}>
             {name ? (
@@ -96,7 +158,6 @@ export default function BarAdmin() {
                   <Text>{name}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Link1</MenuItem>
                   <MenuItem>Link 2</MenuItem>
                   <MenuDivider />
                   <MenuItem>Link 3</MenuItem>
@@ -111,9 +172,15 @@ export default function BarAdmin() {
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
+          <Box
+            pb={4}
+            display={{ md: "none" }}
+          >
+            <Stack
+              as={"nav"}
+              spacing={4}
+            >
+              {Links.map(link => (
                 <NavLink key={link}>{link}</NavLink>
               ))}
             </Stack>
