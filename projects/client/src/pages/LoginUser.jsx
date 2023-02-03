@@ -198,6 +198,12 @@ export const LoginPage = () => {
                           >
                             Dont have account?
                           </Link>
+                          <Link
+                            color={"blue.400"}
+                            href="/verifyResetPassword"
+                          >
+                            Reset Password?
+                          </Link>
                         </Stack>
                         <Button
                           bg={"yellow.400"}

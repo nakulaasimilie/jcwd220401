@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Product.hasMany(models.Cart);
       Product.hasMany(models.Category);
       Product.hasMany(models.Inventory);
+      Product.hasMany(models.Product_store_reference);
     }
   }
   Product.init(

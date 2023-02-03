@@ -31,6 +31,8 @@ import BarAdmin from "./components/BarAdmin";
 import { BranchManagement } from "./components/BranchManagement";
 import Footer from "./components/footerComp";
 import { AdminInventory } from "./components/addInventory";
+import { BranchOrderList } from "./components/branchOrderList";
+import { OrderList } from "./components/orderListPage";
 // import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
@@ -321,6 +323,26 @@ function App() {
         element={
           <>
             <ResetPassword />
+          </>
+        }
+      />
+      <Route
+        path="/dashboard/orderList"
+        element={
+          <>
+            <BarAdmin />
+            <OrderList />
+            <Footer />
+          </>
+        }
+      />
+      <Route
+        path="/dashboard/branchOrder"
+        element={
+          <>
+            <BarAdmin />
+            <BranchOrderList />
+            <Footer />
           </>
         }
       />

@@ -2,6 +2,9 @@ const db = require("../models");
 const admin = db.Admin;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
+const { sequelize } = require("../models");
+const { QueryTypes } = require("sequelize");
 
 module.exports = {
   register: async (req, res) => {
@@ -107,6 +110,49 @@ module.exports = {
       res.status(200).send(admins);
     } catch (err) {
       console.log(err);
+      res.status(400).send(err);
+    }
+  },
+  getOrder: async (req, res) => {
+    try {
+      const orders = await sequelize.query(
+        "SELECT users.name, branches.branchName, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id;",
+        {
+          logging: console.log,
+          plain: false,
+          raw: false,
+          type: QueryTypes.SELECT,
+        },
+      );
+      console.log("get order", orders);
+      res.status(200).send(orders);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+  getBranchOrder: async (req, res) => {
+    try {
+      const token = req.header("tokenBranch");
+      const decodedHeader = jwt_decode(token);
+      const email = decodedHeader.email;
+
+      console.log("decode Header", decodedHeader);
+      console.log("email", email);
+
+      const branchOrders = await sequelize.query(
+        'SELECT users.name, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id inner join admins on branches.AdminId = admins.id where admins.email = "' +
+          email +
+          '"',
+        {
+          logging: console.log,
+          plain: false,
+          raw: false,
+          type: QueryTypes.SELECT,
+        },
+      );
+      console.log("get Branch Order", branchOrders);
+      res.status(200).send(branchOrders);
+    } catch (err) {
       res.status(400).send(err);
     }
   },

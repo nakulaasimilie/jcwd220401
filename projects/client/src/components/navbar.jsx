@@ -14,6 +14,7 @@ import {
   Button,
   Badge,
   IconButton,
+  Link,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,7 +26,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
 const SocialButton = ({ children, label, href }) => {

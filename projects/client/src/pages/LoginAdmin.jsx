@@ -31,7 +31,7 @@ import logo from "../assets/output-onlinepngtools.png";
 const url = "http://localhost:8000/admin/login";
 
 export const LoginAdmin = () => {
-  const adminSelector = useSelector((state) => state.adminSlice);
+  const adminSelector = useSelector(state => state.adminSlice);
 
   // useRef for password and email
   const password = useRef("");
@@ -100,7 +100,10 @@ export const LoginAdmin = () => {
     height: "auto",
   };
   return move ? (
-    <Navigate to="/dashboard" replace={true} />
+    <Navigate
+      to="/dashboard"
+      replace={true}
+    />
   ) : (
     <div style={bodyStyle}>
       <div style={myStyle}>
@@ -110,11 +113,11 @@ export const LoginAdmin = () => {
             email: "",
           }}
           validationSchema={loginSchema}
-          onSubmit={(values) => {
+          onSubmit={values => {
             onLogin(values);
           }}
         >
-          {(props) => {
+          {props => {
             console.log(props);
             return (
               <Flex
@@ -124,19 +127,41 @@ export const LoginAdmin = () => {
                 bgGradient="linear(to-t, #ebf5e9, #ffff)"
                 maxWidth={"506px"}
               >
-                <Stack spacing={4} mx={"auto"} maxW={"lg"} py={3} px={3}>
-                  <Image src={logo} maxW="160px" mb="5" mx="auto" />
+                <Stack
+                  spacing={4}
+                  mx={"auto"}
+                  maxW={"lg"}
+                  py={3}
+                  px={3}
+                >
+                  <Image
+                    src={logo}
+                    maxW="160px"
+                    mb="5"
+                    mx="auto"
+                  />
                   <Stack align={"center"}>
-                    <Heading fontSize={"2xl"} color="black">
+                    <Heading
+                      fontSize={"2xl"}
+                      color="black"
+                    >
                       Login Admin
                     </Heading>
                   </Stack>
-                  <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+                  <Box
+                    rounded={"lg"}
+                    bg={"white"}
+                    boxShadow={"lg"}
+                    p={8}
+                  >
                     <Form>
                       <Stack spacing={4}>
                         <FormControl id="email">
                           <FormLabel>Email</FormLabel>
-                          <Input ref={email} name="email" />
+                          <Input
+                            ref={email}
+                            name="email"
+                          />
                           <ErrorMessage
                             name="email"
                             component="div"
@@ -158,7 +183,10 @@ export const LoginAdmin = () => {
                                 style={{ color: "red" }}
                               />
                               <InputRightElement h={"full"}>
-                                <Button variant={"ghost"} onClick={handleClick}>
+                                <Button
+                                  variant={"ghost"}
+                                  onClick={handleClick}
+                                >
                                   {show ? <ViewIcon /> : <ViewOffIcon />}
                                 </Button>
                               </InputRightElement>

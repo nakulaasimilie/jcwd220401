@@ -78,7 +78,7 @@ export const BranchManagement = () => {
   const onRegister = async data => {
     try {
       const result = await Axios.post(
-        `http://localhost:8000/admin/register`,
+        `${process.env.REACT_APP_API_BASE_URL_ADMIN}/register`,
         data,
       );
       Swal.fire({

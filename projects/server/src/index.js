@@ -42,6 +42,7 @@ app.use(bearerToken());
 // NOTE : Add your routes here
 
 // user Router
+app.use("/users", userRoutes);
 app.use("/usersLogin", userRoutesLogin);
 app.use("/admin", userRoutesAdmin);
 app.use("/product", productRoutes);
@@ -64,7 +65,6 @@ app.get("/api/greetings", (req, res, next) => {
 // ===========================
 
 // not found
-app.use("/users", userRoutes);
 app.use((req, res, next) => {
   if (req.path.includes("/api/")) {
     res.status(404).send("Not found !");
@@ -103,7 +103,7 @@ app.get("*", (req, res) => {
 //#endregion
 
 app.listen(PORT, err => {
-  db.sequelize.sync({ alter: true });
+  // db.sequelize.sync({ alter: true });
   if (err) {
     console.log(`ERROR: ${err}`);
   } else {

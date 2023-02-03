@@ -74,6 +74,9 @@ export default function BarAdmin() {
   const { name, cart, email } = useSelector(state => state.adminSlice.value);
   const [placement, setPlacement] = React.useState("left");
 
+  const tokenLocalStorageSuper = localStorage.getItem("tokenAdmin");
+  const tokenLocalStorageBranch = localStorage.getItem("tokenBranch");
+
   return (
     <>
       <Box
@@ -117,6 +120,19 @@ export default function BarAdmin() {
                     <Text>Product and Category Management</Text>
                   </Box>
                 </ButtonDraw>
+                {tokenLocalStorageSuper ? (
+                  <ButtonDraw href={"/dashboard/orderList"}>
+                    <Box textAlign={"center"}>
+                      <Text>Admin Order List</Text>
+                    </Box>
+                  </ButtonDraw>
+                ) : (
+                  <ButtonDraw href={"/dashboard/branchOrder"}>
+                    <Box textAlign={"center"}>
+                      <Text>Branch Order List</Text>
+                    </Box>
+                  </ButtonDraw>
+                )}
                 <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Transaction</Text>
