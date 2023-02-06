@@ -1,7 +1,6 @@
 import Pages404 from "../components/404";
-import BarAdmin from "../components/BarAdmin";
 import SuperPage from "./superPage";
-
+import BranchPage from "./branchPage";
 export const AdminPage = () => {
   const tokenLocalStorageSuper = localStorage.getItem("tokenAdmin");
   const tokenLocalStorageBranch = localStorage.getItem("tokenBranch");
@@ -11,7 +10,7 @@ export const AdminPage = () => {
       {tokenLocalStorageSuper ? (
         <SuperPage />
       ) : tokenLocalStorageBranch ? (
-        <BarAdmin />
+        <BranchPage />
       ) : (
         <Pages404 />
       )}

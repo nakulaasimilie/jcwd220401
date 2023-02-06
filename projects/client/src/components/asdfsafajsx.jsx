@@ -74,7 +74,7 @@ export const BranchManagement = () => {
   const onRegister = async data => {
     try {
       const result = await Axios.post(
-        `${process.env.REACT_APP_API_BASE_URL_ADMIN}/register`,
+        `http://localhost:8000/admin/register`,
         data,
       );
       Swal.fire({
@@ -157,7 +157,7 @@ export const BranchManagement = () => {
               fontSize={{ base: "2xl", sm: "3xl" }}
               textAlign="center"
             >
-              Branch Admin Management
+              Inventory{" "}
             </Text>
           </Center>
 
@@ -171,118 +171,84 @@ export const BranchManagement = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <Formik
-                  initialValues={{
-                    name: "",
-                    email: "",
-                    password: "",
-                  }}
-                  validationSchema={registerSchema}
-                  onSubmit={(values, action) => {
-                    onRegister(values);
-                    action.setFieldValue("name", "");
-                    action.setFieldValue("email", "");
-                    action.setFieldValue("password", "");
-                  }}
-                >
-                  {props => {
-                    return (
-                      <>
-                        <Form>
-                          <VStack
-                            spacing={4}
-                            align="flex-start"
-                          >
-                            <FormControl isRequired>
-                              <FormLabel htmlFor="name">Name</FormLabel>
-                              <Field
-                                as={Input}
-                                type="text"
-                                name="name"
-                                variant="filled"
-                              />
-                              <ErrorMessage
-                                style={{ color: "red" }}
-                                component="div"
-                                name="username"
-                              />
-                            </FormControl>
-                            <FormControl isRequired>
-                              <FormLabel htmlFor="email">Email</FormLabel>
-                              <Field
-                                as={Input}
-                                type="email"
-                                name="email"
-                                variant="filled"
-                              />
-                              <ErrorMessage
-                                style={{ color: "red" }}
-                                component="div"
-                                name="email"
-                              />
-                            </FormControl>
-                            <FormControl>
-                              <FormLabel>Branch</FormLabel>
-                              <Select placeholder="Select Branch">
-                                {data2.map(item => {
-                                  return (
-                                    <>
-                                      <option>{item.branchName}</option>
-                                    </>
-                                  );
-                                })}
-                              </Select>
-                            </FormControl>
-                            <FormControl isRequired>
-                              <FormLabel htmlFor="password">Password</FormLabel>
-                              <InputGroup>
-                                <Field
-                                  as={Input}
-                                  type={showPassword ? "text" : "password"}
-                                  name="password"
-                                  variant="filled"
-                                />
-                                <InputRightElement h={"full"}>
-                                  <Button
-                                    variant={"ghost"}
-                                    onClick={() =>
-                                      setShowPassword(
-                                        showPassword => !showPassword,
-                                      )
-                                    }
-                                  >
-                                    {showPassword ? (
-                                      <ViewIcon />
-                                    ) : (
-                                      <ViewOffIcon />
-                                    )}
-                                  </Button>
-                                </InputRightElement>
-                              </InputGroup>
-                              <ErrorMessage
-                                component="div"
-                                name="password"
-                                style={{ color: "red" }}
-                              />
-                            </FormControl>
+                <Form>
+                  <VStack
+                    spacing={4}
+                    align="flex-start"
+                  >
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="name">Name</FormLabel>
+                      <Field
+                        as={Input}
+                        type="text"
+                        name="name"
+                        variant="filled"
+                      />
+                      <ErrorMessage
+                        style={{ color: "red" }}
+                        component="div"
+                        name="username"
+                      />
+                    </FormControl>
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <Field
+                        as={Input}
+                        type="email"
+                        name="email"
+                        variant="filled"
+                      />
+                      <ErrorMessage
+                        style={{ color: "red" }}
+                        component="div"
+                        name="email"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Branch</FormLabel>
+                      <Select placeholder="Select Branch">
+                        {data2.map(item => {
+                          return (
+                            <>
+                              <option>{item.branchName}</option>
+                            </>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <InputGroup>
+                        <Field
+                          as={Input}
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          variant="filled"
+                        />
+                        <InputRightElement h={"full"}>
+                          <Button></Button>
+                        </InputRightElement>
+                      </InputGroup>
+                      <ErrorMessage
+                        component="div"
+                        name="password"
+                        style={{ color: "red" }}
+                      />
+                    </FormControl>
 
-                            <Button
-                              type="submit"
-                              width="100%"
-                              bg={"green.400"}
-                              color={"white"}
-                              _hover={{
-                                bg: "green.500",
-                              }}
-                            >
-                              Sign up
-                            </Button>
-                          </VStack>
-                        </Form>
-                      </>
-                    );
-                  }}
-                </Formik>
+                    <Button
+                      type="submit"
+                      width="100%"
+                      bg={"green.400"}
+                      color={"white"}
+                      _hover={{
+                        bg: "green.500",
+                      }}
+                    >
+                      Sign up
+                    </Button>
+                  </VStack>
+                </Form>
               </TabPanel>
               <TabPanel>
                 <TableContainer>

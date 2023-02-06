@@ -1,6 +1,5 @@
 import React from "react";
 import Footer from "../components/footerComp";
-import BarAdmin from "../components/BarAdmin";
 import StatsComp from "../components/StatsComp";
 import Axios from "axios";
 import { syncName } from "../redux/nameSlice";
@@ -8,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { syncData } from "../redux/listSlice";
 import { useEffect } from "react";
 import { loanSync } from "../redux/loanAdminSlice";
+import BarAdminBranch from "../components/barBranch";
 
-export default function SuperPage() {
+export default function BranchPage() {
   const dispatch = useDispatch();
 
   const getData = async () => {
@@ -56,7 +56,7 @@ export default function SuperPage() {
 
   return (
     <>
-      <BarAdmin />
+      <BarAdminBranch />
       <StatsComp />
       <Footer />
     </>

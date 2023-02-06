@@ -1,12 +1,9 @@
-import { ReactNode } from "react";
 import {
   Box,
   Flex,
   Avatar,
-  HStack,
   chakra,
   Link,
-  IconButton,
   Button,
   Menu,
   MenuButton,
@@ -22,12 +19,10 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  Icon,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import { logoutAdmin } from "../redux/adminSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -71,22 +66,19 @@ const ButtonDraw = ({ children, label, href }) => {
   );
 };
 
-export default function BarAdmin() {
+export default function BarAdminBranch() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, cart, email } = useSelector(state => state.adminSlice.value);
+  const { name } = useSelector(state => state.adminSlice.value);
   const [placement, setPlacement] = React.useState("left");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onLogout = () => {
     dispatch(logoutAdmin());
-    localStorage.removeItem("tokenAdmin");
+    localStorage.removeItem("tokenBranch");
     sessionStorage.removeItem("id");
     return navigate(`/loginAdmin`, { replace: true });
   };
-
-  const tokenLocalStorageSuper = localStorage.getItem("tokenAdmin");
-  const tokenLocalStorageBranch = localStorage.getItem("tokenBranch");
 
   return (
     <>
@@ -113,7 +105,7 @@ export default function BarAdmin() {
             <DrawerOverlay />
             <DrawerContent>
               <DrawerHeader borderBottomWidth="1px">
-                Super Admin Menu
+                Branch Admin Menu
               </DrawerHeader>
               <DrawerBody>
                 <ButtonDraw href={"/dashboard"}>
@@ -121,29 +113,16 @@ export default function BarAdmin() {
                     <Text>Dashboard</Text>
                   </Box>
                 </ButtonDraw>
-                <ButtonDraw href={"/dashboard/branchManagement"}>
+                {/* <ButtonDraw href={"/dashboard/branchManagement"}>
                   <Box textAlign={"center"}>
                     <Text>Branch Management</Text>
                   </Box>
-                </ButtonDraw>
-                <ButtonDraw href={"/dashboard/crud"}>
+                </ButtonDraw> */}
+                {/* <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Product and Category Management</Text>
                   </Box>
-                </ButtonDraw>
-                {tokenLocalStorageSuper ? (
-                  <ButtonDraw href={"/dashboard/orderList"}>
-                    <Box textAlign={"center"}>
-                      <Text>Admin Order List</Text>
-                    </Box>
-                  </ButtonDraw>
-                ) : (
-                  <ButtonDraw href={"/dashboard/branchOrder"}>
-                    <Box textAlign={"center"}>
-                      <Text>Branch Order List</Text>
-                    </Box>
-                  </ButtonDraw>
-                )}
+                </ButtonDraw> */}
                 <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Transaction</Text>

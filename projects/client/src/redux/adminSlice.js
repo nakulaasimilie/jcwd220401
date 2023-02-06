@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: {
+    id: "",
     name: "",
     email: "",
     password: "",
@@ -14,11 +15,13 @@ export const adminSlice = createSlice({
   initialState,
   reducers: {
     loginAdmin: (state, action) => {
+      state.value.id = action.payload.id;
       state.value.name = action.payload.name;
       state.value.email = action.payload.email;
       state.value.isSuper = action.payload.isSuper;
     },
-    logoutAdmin: (state) => {
+    logoutAdmin: state => {
+      state.value.id = "";
       state.value.name = "";
       state.value.email = "";
       state.value.isSuper = 0;

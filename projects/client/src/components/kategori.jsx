@@ -6,7 +6,7 @@ import {
   WrapItem,
   useColorModeValue,
   Text,
-  Avatar,
+  Image,
   Center,
   Flex,
   Button,
@@ -50,20 +50,21 @@ export default function Kategori() {
           {data?.map(item => {
             return (
               <div>
-                <Button
+                <Image
+                  src={`http://localhost:8000/` + item.image}
+                  w="50px"
+                  h="50px"
+                  cursor={"pointer"}
                   bg={"#ebf5e9"}
                   _hover={{ bg: "yellow.400", color: "white" }}
                   rounded="full"
                   mr={[5, 5, 5]}
                   ml={[5, 5, 5]}
                   mt="20px"
-                  w="50px"
-                  h="50px"
                   name="Grocery"
-                  src={item.image}
                   // as={Link}
                   // to={`/category/${item.id}`}
-                ></Button>
+                />
                 <Text
                   fontSize="small"
                   color={"#285430"}

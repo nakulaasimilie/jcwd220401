@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Product.hasMany(models.Cart);
-      Product.hasMany(models.Category);
+      Product.belongsTo(models.Category);
       Product.hasMany(models.Inventory);
       Product.hasMany(models.Product_store_reference);
     }
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       price: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       images: {
         type: DataTypes.STRING,

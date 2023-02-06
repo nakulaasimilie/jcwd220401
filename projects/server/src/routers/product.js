@@ -21,5 +21,10 @@ router.post(
   multerUpload.single("file"),
   productController.uploadCategory,
 );
+router.post(
+  "/single-uploaded/:id",
+  multerUpload.single("file"),
+  productController.uploadFile,
+);
 
 module.exports = router;
