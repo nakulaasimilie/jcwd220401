@@ -8,18 +8,13 @@ import {
   Center,
   Flex,
   FormControl,
-  FormHelperText,
-  Icon,
   Image,
-  Input,
-  InputGroup,
-  InputRightElement,
   SimpleGrid,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { BiSearchAlt } from "react-icons/bi";
+
 import Axios from "axios";
 import { syncInventory } from "../../redux/inventorySlice";
 import Swal from "sweetalert2";
@@ -27,36 +22,18 @@ import { cartSync } from "../../redux/cartSlice";
 import { addCart } from "../../redux/userSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+
 import { Link } from "react-router-dom";
 
 export const InventoryList = () => {
   const [state, setState] = useState();
   const [state2, setState2] = useState();
   const [state3, setState3] = useState();
+  const [state4, setState4] = useState();
+  const [state5, setState5] = useState();
   const dispatch = useDispatch();
   const { id, cart } = useSelector(state => state.userSlice.value);
   const data = useSelector(state => state.inventorySlice.value);
-  console.log();
-
-  const getData2 = async () => {
-    try {
-      const result = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/address/findDefault/${id}`,
-      );
-      console.log(result.data.defaultAdd);
-      console.log(result.data.defaultAdd["Branch.id"]);
-      setState2(result.data.defaultAdd);
-      setState3(result.data.defaultAdd["Branch.id"]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getData2();
-  }, [id]);
 
   const getProduct = async () => {
     try {
@@ -67,6 +44,8 @@ export const InventoryList = () => {
       );
       dispatch(syncInventory(res.data));
       console.log(res.data);
+      console.log(res.data[3]?.Product?.Price?.productPrice);
+      setState5(res.data?.Product?.Price?.productPrice);
     } catch (err) {
       console.log(err);
     }
@@ -74,7 +53,7 @@ export const InventoryList = () => {
 
   useEffect(() => {
     getProduct();
-  }, [state2]);
+  }, []);
 
   const onAddCart = async (ProductId, BranchId) => {
     try {
@@ -114,20 +93,6 @@ export const InventoryList = () => {
       });
     }
   };
-
-  //   const formik = useFormik({
-  //     initialValues: {
-  //       searchName: ``,
-  //     },
-  //     validationSchema: Yup.object().shape({
-  //       searchName: Yup.string().min(3, "Minimal 3 huruf"),
-  //     }),
-  //     validationOnChange: false,
-  //     onSubmit: async () => {
-  //       const { searchName } = formik.values;
-  //       setSearchProduct(searchName);
-  //     },
-  //   });
 
   return (
     <div>
@@ -351,9 +316,18 @@ export const InventoryList = () => {
                       >
                         {item.Product.productName}
                       </Text>
-                      <Text fontSize={"xs"}>
-                        Rp{item.Product.Price.productPrice}
-                      </Text>
+                      <Box>
+                        <Text
+                          mt
+                          as={"s"}
+                          fontSize={"xs"}
+                        >
+                          Rp{item.Product.Price.productPrice}
+                        </Text>
+                        <Text fontSize={"xs"}>
+                          Rp{item.Product.Price.discPrice}
+                        </Text>
+                      </Box>
                       <Text>{item.stockQty} pcs</Text>
                     </CardBody>
                   </Center>
@@ -370,6 +344,7 @@ export const InventoryList = () => {
             );
           })}
         </SimpleGrid>
+        {/* <Button onClick={onDiscount}>discount</Button> */}
       </Box>
     </div>
   );

@@ -18,7 +18,7 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      const { name, statement, detail, size, price } = req.body;
+      const { name, statement, detail, size, price, CategoryId } = req.body;
 
       if (!name && !statement && !detail && !size && !price)
         throw "required field";
@@ -28,6 +28,8 @@ module.exports = {
         statement,
         detail,
         size,
+        price,
+        CategoryId,
       });
       res.status(200).send({
         message: "Successfully Added",
@@ -218,7 +220,7 @@ module.exports = {
       const list_limit = parseInt(limit) || 5;
       const search = search_query || "";
       const offset = list_limit * productList_page;
-      const orderby = order || "productName";
+      const orderby = order || "name";
       const direction = order_direction || "ASC";
       const totalRows = await product.count({
         where: {
@@ -303,7 +305,7 @@ module.exports = {
       });
       res.status(200).send({
         id: getImages.id,
-        images: getImages.picture,
+        images: getImages.images,
       });
     } catch (err) {
       console.log(err);

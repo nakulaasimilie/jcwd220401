@@ -34,9 +34,17 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  FormHelperText,
+  InputRightElement,
+  Icon,
+  InputGroup,
+  Select,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import Axios from "axios";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { BiSearchAlt, BiReset } from "react-icons/bi";
 import { syncData } from "../redux/productSlice";
 import Swal from "sweetalert2";
 import { useRef } from "react";
@@ -44,9 +52,12 @@ import { UpdateCategoryComp } from "./updateKategori";
 import { UpdateProductComp } from "./updateProduk";
 import CreateComp from "./addProduk";
 import { syncCategory } from "../redux/categorySlice";
+import { BsFilterLeft } from "react-icons/bs";
 
 export const Add = () => {
+  const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
+  const [profile, setProfile] = useState("images");
   const [profile2, setProfile2] = useState("images");
   const categoryName = useRef("");
   const [edit, setEdit] = useState({});
@@ -97,6 +108,20 @@ export const Add = () => {
     fetchCategory();
     fetchLimit();
   }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      searchName: ``,
+    },
+    validationSchema: Yup.object().shape({
+      searchName: Yup.string().min(3, "Minimal 3 huruf"),
+    }),
+    validateOnChange: false,
+    onSubmit: async () => {
+      const { searchName } = formik.values;
+      setSearchProduct(searchName);
+    },
+  });
 
   const onDelete = async id => {
     try {
@@ -195,7 +220,35 @@ export const Add = () => {
     setImage2({ image: "" });
     console.log(image2);
     console.log(profile2);
-    window.location.replace("/dashboard");
+    window.location.replace("/dashboard/crud");
+  };
+
+  const handleChoose = e => {
+    console.log("e.target.files", e.target.files);
+    setImage1(e.target.files[0]);
+  };
+
+  const handleUpload = async id => {
+    const data = new FormData();
+    console.log(data);
+    data.append("file", image1);
+    console.log(data.get("file"));
+
+    const resultImage = await Axios.post(
+      `http://localhost:8000/product/single-uploaded/${id}`,
+      data,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      },
+    );
+    console.log(resultImage.data);
+    setProfile(resultImage.data.picture);
+    setImage1({ image: "" });
+    console.log(image1);
+    console.log(profile);
+    window.location.replace("/dashboard/crud");
   };
 
   return (
@@ -350,6 +403,169 @@ export const Add = () => {
               </TabPanel>
               <TabPanel>
                 <TableContainer>
+                  <Center>
+                    <Flex
+                      flexWrap={"wrap"}
+                      color={useColorModeValue("black", "white")}
+                    >
+                      <Box className="filter">
+                        <Box
+                          m="10px"
+                          mb="20px"
+                          borderWidth="1px"
+                          boxShadow="md"
+                          borderRadius="7px"
+                        >
+                          <Box
+                            alignItems={"center"}
+                            h="50px"
+                            borderTopRadius="7px"
+                            align="center"
+                            bg="pink.400"
+                            display="flex"
+                          >
+                            <Box
+                              h="25px"
+                              ml="10px"
+                            >
+                              <Icon
+                                boxSize="6"
+                                as={BsFilterLeft}
+                              />
+                            </Box>
+                            <Box h="25px">
+                              <Text
+                                mx="10px"
+                                fontWeight="bold"
+                              >
+                                Filter & Search
+                              </Text>
+                            </Box>
+                            <Icon
+                              sx={{ _hover: { cursor: "pointer" } }}
+                              boxSize="6"
+                              as={BiReset}
+                              onClick={() => {
+                                function submit() {
+                                  setSearchProduct("");
+                                  setOrder("id");
+                                  setOrder_direction("ASC");
+                                  setLimit(5);
+                                  document.getElementById("search").value = "";
+                                  document.getElementById("category").value =
+                                    "";
+                                  document.getElementById("sort").value = "ASC";
+                                  document.getElementById("limit").value = "5";
+                                  formik.values.searchName = "";
+                                }
+                                submit();
+                              }}
+                            />
+                          </Box>
+                          <Flex
+                            m={2}
+                            wrap="wrap"
+                          >
+                            <FormControl
+                              w=""
+                              m={1}
+                            >
+                              <FormLabel fontSize="x-small">
+                                Sort Name
+                              </FormLabel>
+                              <Select
+                                onChange={event => {
+                                  fetchCategory(event.target.value);
+                                }}
+                                id="category"
+                              >
+                                <option value="">
+                                  <Text
+                                    color={useColorModeValue("black", "white")}
+                                  >
+                                    Select{" "}
+                                  </Text>
+                                </option>
+                                <option value="name">Nama Produk</option>
+                                <option value="price">Harga</option>
+                              </Select>
+                            </FormControl>
+                            <FormControl
+                              w=""
+                              m={1}
+                            >
+                              <FormLabel fontSize="x-small">
+                                Format Sort
+                              </FormLabel>
+                              <Select
+                                onChange={event => {
+                                  fetchProduct(event.target.value);
+                                }}
+                                id="sort"
+                              >
+                                <option value="ASC">A-Z</option>
+                                <option value="DESC">Z-A</option>
+                              </Select>
+                            </FormControl>
+                            <FormControl
+                              w=""
+                              m={1}
+                            >
+                              <FormLabel fontSize="x-small">Show</FormLabel>
+                              <Select
+                                onChange={event => {
+                                  fetchLimit(event.target.value);
+                                }}
+                                id="limit"
+                              >
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                              </Select>
+                            </FormControl>
+
+                            <FormControl
+                              w=""
+                              m={1}
+                            >
+                              <FormLabel fontSize="x-small">
+                                Find Product{" "}
+                              </FormLabel>
+                              <InputGroup>
+                                <Input
+                                  placeholder="Find Product"
+                                  _placeholder={{
+                                    color: useColorModeValue("black", "white"),
+                                    opacity: 0.5,
+                                  }}
+                                  id="search"
+                                  type="text"
+                                  onChange={event =>
+                                    formik.setFieldValue(
+                                      "searchName",
+                                      event.target.value,
+                                    )
+                                  }
+                                />
+                                <InputRightElement>
+                                  <Icon
+                                    fontSize="xl"
+                                    as={BiSearchAlt}
+                                    sx={{ _hover: { cursor: "pointer" } }}
+                                    onClick={() => formik.handleSubmit()}
+                                  />
+                                </InputRightElement>
+                              </InputGroup>
+                              <FormHelperText color="red">
+                                {formik.errors.searchName}
+                              </FormHelperText>
+                            </FormControl>
+                          </Flex>
+                        </Box>
+                      </Box>
+                    </Flex>
+                  </Center>
                   <Table
                     variant="simple"
                     colorScheme="teal"
@@ -388,13 +604,14 @@ export const Add = () => {
                               </Box>
                             </Td>
                             <Td color={"#285430"}>{item.name}</Td>
+                            <Td color={"#285430"}>{item.price}</Td>
                             <Td color={"#285430"}>{item.statement}</Td>
                             <Td color={"#285430"}>{item.detail}</Td>
                             <Td color={"#285430"}>{item.size}</Td>
                             <Td>
                               <Image
                                 boxSize={"50px"}
-                                src={`{http://localhost:8000/` + item.image}
+                                src={`http://localhost:8000/` + item.images}
                               />
                               <ButtonGroup size="sm">
                                 <form encType="multipart/form-data">
@@ -404,7 +621,7 @@ export const Add = () => {
                                     accept="image/*"
                                     name="file"
                                     size={"100px"}
-                                    // onChange={e => handleChoose(e)}
+                                    onChange={e => handleChoose(e)}
                                   ></input>
                                 </form>
                                 <Button
@@ -415,7 +632,7 @@ export const Add = () => {
                                   color="gray.800"
                                   width={"100%"}
                                   justifyContent="center"
-                                  // onClick={handleUpload}
+                                  onClick={() => handleUpload(item.id)}
                                   size="sm"
                                 >
                                   Upload

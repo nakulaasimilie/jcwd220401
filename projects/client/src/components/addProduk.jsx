@@ -22,6 +22,7 @@ export default function CreateComp() {
   const inputDetail = useRef("");
   const inputSize = useRef("");
   const inputPrice = useRef("");
+  const inputCategory = useRef("");
 
   const onCreate = async () => {
     try {
@@ -31,6 +32,7 @@ export default function CreateComp() {
         statement: inputStatement.current.value,
         detail: inputDetail.current.value,
         size: inputSize.current.value,
+        CategoryId: inputCategory.current.value,
       };
 
       const res = await Axios.post(
@@ -44,7 +46,7 @@ export default function CreateComp() {
         width: "370px",
       });
       setTimeout(() => {
-        window.location.replace("/dashboard");
+        window.location.replace("/dashboard/crud");
       }, 900);
       console.log(res);
     } catch (err) {
@@ -149,12 +151,19 @@ export default function CreateComp() {
             color={"#285430"}
             borderColor="#285430"
             width="100%"
+            ref={inputCategory}
+            // onChange={e => console.log(e.target.value)}
           >
             <option>Select Category</option>
             {data2?.map(item => {
               return (
                 <>
-                  <option color="#285430">{item.categoryName}</option>
+                  <option
+                    color="#285430"
+                    value={item.id}
+                  >
+                    {item.categoryName}
+                  </option>
                 </>
               );
             })}

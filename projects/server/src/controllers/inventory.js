@@ -88,7 +88,7 @@ module.exports = {
     try {
       const inventories = await inventory.findAll({
         where: {
-          BranchId: req.params.BranchId,
+          BranchId: req.params.id,
         },
         include: [
           {
