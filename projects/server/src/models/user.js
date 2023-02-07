@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Address);
       User.belongsTo(models.Role);
       User.hasMany(models.Cart);
+      User.hasMany(models.Order_item);
       // User.hasMany(models.Transaction);
       User.hasOne(models.Cart);
     }

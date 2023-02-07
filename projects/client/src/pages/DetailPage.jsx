@@ -31,10 +31,10 @@ export default function DetailPage() {
   const getBook = async () => {
     try {
       const result = await Axios.get(
-        `http://localhost:8000/product/list/${params.id}`,
+        `${process.env.REACT_APP_API_BASE}/product/list/${params.id}`,
       );
       // dispatch(syncData(result.data.result));
-      console.log(result.data);
+      // console.log(result.data);
       setData(result.data);
     } catch (err) {
       console.log(err);
@@ -64,12 +64,17 @@ export default function DetailPage() {
       //     },
       //   });
       // }
-      const result = await Axios.post("http://localhost:8000/cart/add", {
-        ProductId,
-        UserId: email,
-      });
+      const result = await Axios.post(
+        `${process.env.REACT_APP_API_BASE}/cart/add`,
+        {
+          ProductId,
+          UserId: email,
+        },
+      );
       setState(result.data);
-      const res = await Axios.get(`http://localhost:8000/cart/${email}`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/cart/${email}`,
+      );
       dispatch(cartSync(res.data));
       dispatch(addCart());
       getBook();

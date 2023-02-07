@@ -31,12 +31,12 @@ import * as Yup from "yup";
 import logo from "../assets/output-onlinepngtools.png";
 import { useLocation } from "react-router-dom";
 
-const url = "http://localhost:8000/users/register";
+const url = `${process.env.REACT_APP_API_BASE}/users/register`;
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const param = useLocation();
-  console.log("ini param", param);
+  // console.log("ini param", param);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const email = param?.search?.split("=")[1]?.split("&")[0];
   const verificationSignature = param?.search?.split("=")[2];
@@ -55,9 +55,9 @@ export default function SignupCard() {
 
   const onRegister = async data => {
     try {
-      console.log("cek data", data);
+      // console.log("cek data", data);
       const res = await Axios.post(url, data);
-      console.log("result", res.data);
+      // console.log("result", res.data);
       Swal.fire({
         icon: "success",
         title: "Sukses",
@@ -76,7 +76,7 @@ export default function SignupCard() {
   const getData = async () => {
     try {
       const res = await Axios.get(
-        `http://localhost:8000/users/verification?email=${email}&verification_signature=${verificationSignature}`,
+        `${process.env.REACT_APP_API_BASE}/users/verification?email=${email}&verification_signature=${verificationSignature}`,
       );
       onClose();
       Swal.fire({
@@ -84,7 +84,7 @@ export default function SignupCard() {
         title: "Sukses",
         text: "Verifikasi Berhasil",
       });
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -128,12 +128,12 @@ export default function SignupCard() {
         }}
         validationSchema={registerSchema}
         onSubmit={values => {
-          console.log("onSubmit", values);
+          // console.log("onSubmit", values);
           onRegister(values);
         }}
       >
         {props => {
-          console.log(props);
+          // console.log(props);
           return (
             <>
               <Form onSubmit={props.handleSubmit}>

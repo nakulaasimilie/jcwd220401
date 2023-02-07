@@ -26,7 +26,7 @@ export const ChangePassword = data => {
   const newPassword = useRef("");
   const confirmPassword = useRef("");
   const { id, email } = useSelector(state => state.userSlice.value);
-  const url = `http://localhost:8000/users/changePassword/${id}`;
+  const url = `${process.env.REACT_APP_API_BASE}/users/changePassword/${id}`;
 
   const [move, setMove] = useState(false);
 
@@ -47,9 +47,9 @@ export const ChangePassword = data => {
         confirmPassword: confirmPassword.current.value,
         email,
       };
-      console.log("user", user);
+      // console.log("user", user);
       const res = await Axios.patch(url, user);
-      console.log("result", res.data);
+      // console.log("result", res.data);
       setMove(true);
       Swal.fire({
         icon: "success",
@@ -87,7 +87,7 @@ export const ChangePassword = data => {
         }}
       >
         {props => {
-          console.log(props);
+          // console.log(props);
           return (
             <Container>
               <Flex

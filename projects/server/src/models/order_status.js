@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Order_status.hasMany(models.Order);
     }
   }
   Order_status.init(
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      status: {
+      status_order: {
         type: DataTypes.STRING,
       },
     },

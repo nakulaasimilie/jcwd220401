@@ -15,8 +15,10 @@ export default function SuperPage() {
 
   const getData = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/product/list`);
-      console.log(res.data);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/list`,
+      );
+      // console.log(res.data);
       dispatch(syncData(res.data));
     } catch (err) {
       console.log(err);
@@ -29,8 +31,10 @@ export default function SuperPage() {
 
   const getUser = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/users/allUser`);
-      console.log(res.data);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/users/allUser`,
+      );
+      // console.log(res.data);
       dispatch(syncName(res.data));
     } catch (err) {
       console.log(err);
@@ -43,8 +47,10 @@ export default function SuperPage() {
 
   const getTrans = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/transaksi/list`);
-      console.log(res.data);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/transaksi/list`,
+      );
+      // console.log(res.data);
       dispatch(loanSync(res.data));
     } catch (err) {
       console.log(err);

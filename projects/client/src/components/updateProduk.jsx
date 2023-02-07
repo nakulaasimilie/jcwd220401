@@ -31,7 +31,7 @@ export const AddProduct = () => {
         // distributor: inputDistributor.current.value,
       };
       const res = await Axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/product/create`,
+        `${process.env.REACT_APP_API_BASE}/product/create`,
         addProduct,
       );
       Swal.fire({
@@ -42,7 +42,7 @@ export const AddProduct = () => {
       setTimeout(() => {
         window.location.replace("/admin");
       }, 900);
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -51,9 +51,9 @@ export const AddProduct = () => {
   const getCategory = async () => {
     try {
       const res = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/product/listCategory`,
+        `${process.env.REACT_APP_API_BASE}/product/listCategory`,
       );
-      console.log(res.data);
+      // console.log(res.data);
       setData2(res.data);
     } catch (err) {
       console.log(err);

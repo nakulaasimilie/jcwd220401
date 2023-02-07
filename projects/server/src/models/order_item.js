@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Order_item.belongsTo(models.Product_store_reference);
+      Order_item.belongsTo(models.User);
+      Order_item.belongsTo(models.Order);
     }
   }
   Order_item.init(
@@ -23,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       // product_store_reference_id: {
       //   type: DataTypes.INTEGER,
       // },
-      user_id: {
-        type: DataTypes.INTEGER,
-      },
-      order_id: {
-        type: DataTypes.INTEGER,
-      },
+      // user_id: {
+      //   type: DataTypes.INTEGER,
+      // },
+      // order_id: {
+      //   type: DataTypes.INTEGER,
+      // },
       quantity: {
         type: DataTypes.INTEGER,
       },

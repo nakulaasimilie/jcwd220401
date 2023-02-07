@@ -8,5 +8,6 @@ router.get("/keepLogin", adminController.keepLogin);
 router.get("/findAll", adminController.findAll);
 router.get("/order", adminController.getOrder);
 router.get("/branchOrder", adminController.getBranchOrder);
+router.get("/sendOrder", adminController.sendOrder);
 
 module.exports = router;

@@ -38,15 +38,15 @@ export const InventoryList = () => {
   const dispatch = useDispatch();
   const { id, cart } = useSelector(state => state.userSlice.value);
   const data = useSelector(state => state.inventorySlice.value);
-  console.log();
+  // console.log();
 
   const getData2 = async () => {
     try {
       const result = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/address/findDefault/${id}`,
+        `${process.env.REACT_APP_API_BASE}/address/findDefault/${id}`,
       );
-      console.log(result.data.defaultAdd);
-      console.log(result.data.defaultAdd["Branch.id"]);
+      // console.log(result.data.defaultAdd);
+      // console.log(result.data.defaultAdd["Branch.id"]);
       setState2(result.data.defaultAdd);
       setState3(result.data.defaultAdd["Branch.id"]);
     } catch (err) {
@@ -61,12 +61,12 @@ export const InventoryList = () => {
   const getProduct = async () => {
     try {
       const res = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/inventory/findByBranch/${Number(
+        `${process.env.REACT_APP_API_BASE}/inventory/findByBranch/${Number(
           state2["Branch.longitude"],
         )}/${Number(state2.longitude)}`,
       );
       dispatch(syncInventory(res.data));
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +79,7 @@ export const InventoryList = () => {
   const onAddCart = async (ProductId, BranchId) => {
     try {
       const result = await Axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/cart/create`,
+        `${process.env.REACT_APP_API_BASE}/cart/create`,
         {
           UserId: id,
           ProductId,
@@ -88,7 +88,7 @@ export const InventoryList = () => {
       );
       setState(result.data);
       const res = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/cart/findBy/${id}`,
+        `${process.env.REACT_APP_API_BASE}/cart/findBy/${id}`,
       );
       dispatch(cartSync(res.data));
       dispatch(addCart(res.data));
@@ -341,7 +341,7 @@ export const InventoryList = () => {
                       <Image
                         boxSize={"50px"}
                         src={
-                          `${process.env.REACT_APP_API_BASE_URL}/` +
+                          `${process.env.REACT_APP_API_BASE}/` +
                           item.Product.picture
                         }
                       />

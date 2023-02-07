@@ -62,9 +62,9 @@ export const LoginAdmin = () => {
         email: email.current.value,
       };
       const result = await axios.post(url, admin);
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(loginAdmin(result.data.user));
-      console.log(result.data.user);
+      // console.log(result.data.user);
       // localStorage.setItem("tokenAdmin", result.data.token);
       if (result.data.user.isSuper === 2) {
         localStorage.setItem("tokenAdmin", result.data.token);
@@ -118,7 +118,7 @@ export const LoginAdmin = () => {
           }}
         >
           {props => {
-            console.log(props);
+            // console.log(props);
             return (
               <Flex
                 minH={"100vh"}

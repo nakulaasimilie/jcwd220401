@@ -24,9 +24,11 @@ export default function Kategori() {
 
   const getCategory = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/product/listCategory`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/listCategory`,
+      );
       dispatch(syncCategory(res.data));
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }

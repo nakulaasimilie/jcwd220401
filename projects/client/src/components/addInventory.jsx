@@ -38,11 +38,11 @@ export const AdminInventory = () => {
   const getData = async BranchId => {
     try {
       const result = await Axios.get(
-        `http://localhost:8000/inventory/findAllByBranch/${data}`,
+        `${process.env.REACT_APP_API_BASE}/inventory/findAllByBranch/${data}`,
       );
       setData2(result.data);
-      console.log(result.data);
-      console.log(result.data[0]?.id);
+      // console.log(result.data);
+      // console.log(result.data[0]?.id);
     } catch (err) {
       console.log(err);
     }
@@ -54,9 +54,11 @@ export const AdminInventory = () => {
 
   const getProduct = async () => {
     try {
-      const result = await Axios.get(`http://localhost:8000/product/list`);
+      const result = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/list`,
+      );
       setData3(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     } catch (err) {
       console.log(err);
     }
@@ -75,7 +77,7 @@ export const AdminInventory = () => {
         BranchId: data,
       };
       const result = await Axios.post(
-        `http://localhost:8000/inventory/create`,
+        `${process.env.REACT_APP_API_BASE}/inventory/create`,
         addProduct,
       );
       Swal.fire({
@@ -83,7 +85,7 @@ export const AdminInventory = () => {
         text: "Stock Updated",
       });
       setTimeout(() => window.location.replace("/dashboard"), 2000);
-      console.log(result);
+      // console.log(result);
     } catch (err) {
       console.log(err);
     }
@@ -92,13 +94,13 @@ export const AdminInventory = () => {
   const getBranch = async AdminId => {
     try {
       const result = await Axios.get(
-        `http://localhost:8000/branch/adminByBranch/2`,
+        `${process.env.REACT_APP_API_BASE}/branch/adminByBranch/2`,
       );
       // dispatch(loginAdmin(res.data))
       setBranch(result.data);
-      console.log(result.data);
-      setData(result.data?.id);
-      console.log(result.data.id);
+      // console.log(result.data);
+      // setData(result.data?.id);
+      // console.log(result.data.id);
     } catch (err) {
       console.log(err);
     }

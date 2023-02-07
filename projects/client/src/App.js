@@ -36,7 +36,7 @@ import { OrderList } from "./components/orderListPage";
 // import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
-const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
+const urlKeepLogin = `${process.env.REACT_APP_API_BASE}/usersLogin/keepLogin`;
 
 function App() {
   //keeplogin token
@@ -58,7 +58,9 @@ function App() {
       // console.log(res.data);
 
       // Get cart data by id user
-      const cart = await axios.get(`http://localhost:8000/cart/${res.data.id}`);
+      const cart = await axios.get(
+        `${process.env.REACT_APP_API_BASE}/cart/${res.data.id}`,
+      );
       dispatch(cartSync(cart.data));
       dispatch(login(res.data));
     } catch (err) {
@@ -72,11 +74,14 @@ function App() {
 
   const keepLoginAdmin = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/admin/keepLogin`, {
-        headers: {
-          Authorization: `Bearer ${tokenAdmin}`,
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE}/admin/keepLogin`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenAdmin}`,
+          },
         },
-      });
+      );
       console.log(res.data);
       dispatch(loginAdmin(res.data));
     } catch (err) {
@@ -87,7 +92,7 @@ function App() {
   const keepLoginBranch = async () => {
     try {
       const resBranch = await axios.get(
-        `http://localhost:8000/admin/keepLogin`,
+        `${process.env.REACT_APP_API_BASE}/admin/keepLogin`,
         {
           headers: {
             Authorization: `Bearer ${tokenBranch}`,

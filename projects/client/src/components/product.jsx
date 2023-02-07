@@ -36,7 +36,9 @@ export default function BookCard() {
   const data = useSelector(state => state.productSlice.value);
   const [state, setState] = useState("");
 
-  const url = `http://localhost:8000/product/view?search_query=${searchProduct}&page=${
+  const url = `${
+    process.env.REACT_APP_API_BASE
+  }/product/view?search_query=${searchProduct}&page=${
     page - 1
   }&limit=${limit}&order=${order ? order : `id`}&order_direction=${
     order_direction ? order_direction : "ASC"
@@ -87,12 +89,17 @@ export default function BookCard() {
       //     },
       //   });
       // }
-      const result = await Axios.post("http://localhost:8000/cart/add", {
-        UserId: id,
-        ProductId,
-      });
+      const result = await Axios.post(
+        `${process.env.REACT_APP_API_BASE}/cart/add`,
+        {
+          UserId: id,
+          ProductId,
+        },
+      );
       setState(result.data);
-      const res = await Axios.get(`http://localhost:8000/cart/${id}`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/cart/${id}`,
+      );
       dispatch(cartSync(res.data));
       dispatch(addCart());
       getData();

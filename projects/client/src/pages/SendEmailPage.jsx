@@ -21,7 +21,7 @@ import { useEffect, useState, useRef } from "react";
 export default function SendEmailPassword() {
   const email = useRef("");
   // const navigate = useNavigate()
-  const url = `http://localhost:8000/users/verifyResetPassword`;
+  const url = `${process.env.REACT_APP_API_BASE}/users/verifyResetPassword`;
 
   // const dispatch = useDispatch();
 
@@ -37,9 +37,9 @@ export default function SendEmailPassword() {
       const user = {
         email: email.current.value,
       };
-      console.log("user", user);
+      // console.log("user", user);
       const res = await Axios.post(url, user);
-      console.log("result", res.data);
+      // console.log("result", res.data);
       // dispatch(ChangePassword(res.data.user));
       // console.log("user hasil", res.data.user);
       // setMove(true);
@@ -66,18 +66,20 @@ export default function SendEmailPassword() {
         email: "",
       }}
       validationSchema={resetpasswordSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
         onResetPassword(values);
-      }}>
-      {(props) => {
-        console.log(props);
+      }}
+    >
+      {props => {
+        // console.log(props);
         return (
           <Container>
             <Flex
               minH={"100vh"}
               align={"center"}
               justify={"center"}
-              bg="gray.50">
+              bg="gray.50"
+            >
               <Stack
                 spacing={4}
                 w={"full"}
@@ -86,15 +88,25 @@ export default function SendEmailPassword() {
                 rounded={"xl"}
                 boxShadow={"lg"}
                 p={6}
-                my={12}>
-                <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
+                my={12}
+              >
+                <Heading
+                  lineHeight={1.1}
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                >
                   Send Email to Reset Password
                 </Heading>
                 <Form>
-                  <FormControl id="email" isRequired>
+                  <FormControl
+                    id="email"
+                    isRequired
+                  >
                     <FormLabel>Email</FormLabel>
                     <InputGroup>
-                      <Input ref={email} name="email" />
+                      <Input
+                        ref={email}
+                        name="email"
+                      />
                       <ErrorMessage
                         name="email"
                         component="div"
@@ -111,7 +123,8 @@ export default function SendEmailPassword() {
                         bg: "blue.500",
                       }}
                       onClick={onResetPassword}
-                      type="submit">
+                      type="submit"
+                    >
                       Submit
                     </Button>
                   </Stack>

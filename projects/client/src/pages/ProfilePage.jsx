@@ -35,7 +35,7 @@ export const UserProfile = () => {
     profile_picture_url,
   } = useSelector(state => state.userSlice.value);
 
-  console.log(jenis);
+  // console.log(jenis);
 
   //useState untuk panggil data profile dan edit image
   const [profile, setProfile] = useState("");
@@ -44,30 +44,30 @@ export const UserProfile = () => {
   const [data, setData] = useState([]);
 
   //url get ID dan Update Profile
-  const urlGetId = `http://localhost:8000/usersLogin/getUserId/${id}`;
-  const urlUpdateProfile = `http://localhost:8000/usersLogin/editProfile/${id}`;
-  const urlUpdateImage = `http://localhost:8000/usersLogin/uploadFile/${id}`;
+  const urlGetId = `${process.env.REACT_APP_API_BASE}/usersLogin/getUserId/${id}`;
+  const urlUpdateProfile = `${process.env.REACT_APP_API_BASE}/usersLogin/editProfile/${id}`;
+  const urlUpdateImage = `${process.env.REACT_APP_API_BASE}/usersLogin/uploadFile/${id}`;
 
   //choose file upload
   const handleChoose = e => {
-    console.log("e.target.files", e.target.files);
+    // console.log("e.target.files", e.target.files);
     setImage(e.target.files[0]);
-    console.log(setImage);
+    // console.log(setImage);
   };
 
   //upload picture
   const handleUpload = async () => {
     const up = new FormData();
-    console.log(up);
+    // console.log(up);
     up.append("file", image);
-    console.log(up.get("file"));
+    // console.log(up.get("file"));
 
     const uploadImage = await axios.post(urlUpdateImage, up, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(uploadImage.data);
+    // console.log(uploadImage.data);
     setProfile(uploadImage.data.profile_picture_url);
     setImage({ images: "" });
 
@@ -77,8 +77,8 @@ export const UserProfile = () => {
       text: "Gambar Profile Berhasil diganti",
     });
   };
-  console.log(image);
-  console.log(profile);
+  // console.log(image);
+  // console.log(profile);
 
   //edit data profile using useRef
   const inputName = useRef("");
@@ -95,7 +95,7 @@ export const UserProfile = () => {
         birthdate: inputBirthdate.current.value,
       };
       const resultEdit = axios.patch(urlUpdateProfile, editData);
-      console.log(resultEdit);
+      // console.log(resultEdit);
       Swal.fire({
         icon: "success",
         title: "Edited",
@@ -133,7 +133,7 @@ export const UserProfile = () => {
     getUserId();
   }, []);
 
-  console.log(data);
+  // console.log(data);
 
   return move ? (
     <Navigate
@@ -173,7 +173,7 @@ export const UserProfile = () => {
               <Center>
                 <Avatar
                   size={"xl"}
-                  src={`http://localhost:8000/${profile_picture_url}`}
+                  src={`${process.env.REACT_APP_API_BASE}/${profile_picture_url}`}
                 >
                   <AvatarBadge
                     as={IconButton}

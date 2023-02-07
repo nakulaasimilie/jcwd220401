@@ -39,11 +39,11 @@ export const ListAddressUser = () => {
   const getAddress = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:8000/address/addressById/${id}`,
+        `${process.env.REACT_APP_API_BASE}/address/addressById/${id}`,
       );
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(syncAddress(result.data));
-      console.log(syncAddress(result.data));
+      // console.log(syncAddress(result.data));
     } catch (err) {
       console.log(err);
     }
@@ -56,9 +56,9 @@ export const ListAddressUser = () => {
   const onDeleteAddress = async id => {
     try {
       const resDel = await axios.delete(
-        `http://localhost:8000/address/delAddress/${id}`,
+        `${process.env.REACT_APP_API_BASE}/address/delAddress/${id}`,
       );
-      console.log(resDel);
+      // console.log(resDel);
       getAddress();
     } catch (err) {
       console.log(err);
@@ -73,7 +73,7 @@ export const ListAddressUser = () => {
     navigate(`/updateAddress/${addressId}`);
   };
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Flex

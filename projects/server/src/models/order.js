@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Order.hasMany(models.Order_item);
+      Order.belongsTo(models.Order_status);
     }
   }
   Order.init(
@@ -19,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      order_status_id: {
-        type: DataTypes.INTEGER,
-      },
+      // order_status_id: {
+      //   type: DataTypes.INTEGER,
+      // },
       proof_image_url: {
         type: DataTypes.STRING,
       },

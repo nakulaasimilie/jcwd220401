@@ -13,10 +13,10 @@ export const UpdateCategoryComp = ({ data }) => {
       };
 
       const res = await Axios.patch(
-        `http://localhost:8000/product/updateCategory/${id}`,
+        `${process.env.REACT_APP_API_BASE}/product/updateCategory/${id}`,
         updateCategory,
       );
-      console.log(res);
+      // console.log(res);
       Swal.fire({
         icon: "success",
         text: "Data Updated",

@@ -3,7 +3,7 @@ const admin = db.Admin;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
-const { sequelize } = require("../models");
+const { sequelize, Sequelize } = require("../models");
 const { QueryTypes } = require("sequelize");
 
 module.exports = {
@@ -116,7 +116,7 @@ module.exports = {
   getOrder: async (req, res) => {
     try {
       const orders = await sequelize.query(
-        "SELECT users.name, branches.branchName, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id;",
+        "SELECT users.name, branches.branchName, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price, order_statuses.status_order from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.UserId inner join orders on order_items.OrderId = orders.id inner join order_statuses on order_statuses.id = orders.OrderStatusId;",
         {
           logging: console.log,
           plain: false,
@@ -140,7 +140,7 @@ module.exports = {
       console.log("email", email);
 
       const branchOrders = await sequelize.query(
-        'SELECT users.name, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id inner join admins on branches.AdminId = admins.id where admins.email = "' +
+        'SELECT users.name, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price, order_statuses.status_order from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.UserId inner join admins on branches.AdminId = admins.id inner join orders on order_items.OrderId = orders.id inner join order_statuses on order_statuses.id = orders.OrderStatusId where admins.email = "' +
           email +
           '"',
         {
@@ -152,6 +152,26 @@ module.exports = {
       );
       console.log("get Branch Order", branchOrders);
       res.status(200).send(branchOrders);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
+  sendOrder: async (req, res) => {
+    try {
+      const OrderStatusId = req.query.OrderStatusId;
+      const OrderId = req.query.OrderId;
+      console.log("OrderStatusId", OrderStatusId);
+      console.log("OrderId", OrderId);
+      const users = await sequelize.query(
+        "UPDATE database_grocery.orders SET OrderStatusId = 4 WHERE id = 1 ",
+        {
+          logging: console.log,
+          plain: false,
+          raw: false,
+          type: sequelize.QueryTypes.UPDATE,
+        },
+      );
+      res.status(200).send("test");
     } catch (err) {
       res.status(400).send(err);
     }
