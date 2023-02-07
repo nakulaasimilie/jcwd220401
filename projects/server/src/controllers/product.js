@@ -342,4 +342,32 @@ module.exports = {
       res.status(400).send(err);
     }
   },
+
+  findByCategoryId: async (req, res) => {
+    try {
+      const products = await category.findAll({
+        where: {
+          id: req.params.id,
+        },
+        include: [
+          {
+            model: productCategory,
+            include: [
+              {
+                model: product,
+                include: [
+                  {
+                    model: price,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      res.status(200).send(products);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  },
 };

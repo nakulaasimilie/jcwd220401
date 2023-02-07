@@ -5,6 +5,7 @@ import Search from "../components/search";
 import Kategori from "../components/kategori";
 import Navbar from "../components/navbar";
 import Product from "../components/product";
+import InventoryList from "../components/inventory";
 
 export default function HomePage() {
   const header = {
@@ -34,8 +35,7 @@ export default function HomePage() {
           <HomeComp />
         </div>
         <Kategori />
-        {/* <Product /> */}
-        <Footer />
+        <InventoryList />
         <Navbar />
       </div>
     </div>

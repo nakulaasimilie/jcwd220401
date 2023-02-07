@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { Op } = require("sequelize");
+const { Sequelize } = require("../models");
 const db = require("../models");
 const branch = db.Branch;
 const rajaOngkirKey = process.env.RAJA_KEY;
@@ -95,42 +96,88 @@ module.exports = {
   },
 
   branchById: async (req, res) => {
+    //       const latitude = 28.626137;
+    //       const longitude = 79.821602;
+    //       const distance = 1;
+
+    //       const haversine = `(
+    //     6371 * acos(
+    //         cos(radians(${latitude}))
+    //         * cos(radians(latitude))
+    //         * cos(radians(longitude) - radians(${longitude}))
+    //         + sin(radians(${latitude})) * sin(radians(latitude))
+    //     )
+    // )`;
+
+    //       const users = await User.findAll({
+    //         attributes: ["id", [sequelize.literal(haversine), "distance"]],
+    //         where: {
+    //           status: 1,
+    //         },
+    //         order: sequelize.col("distance"),
+    //         having: sequelize.literal(`distance <= ${distance}`),
+    //         limit: 5,
+    //       });
+
     try {
-      const { branchName = "", address = "" } = req.query;
-      if (branchName || address) {
-        const res = await address.findAll({
-          where: {
-            // UserId: req.user.id,
-            [Op.or]: {
-              branchName: {
-                [Op.like]: `%${branchName}%`,
-              },
-              address: {
-                [Op.like]: `${address}%`,
-              },
-            },
-          },
-          //   order: [["defaultAddress", "DESC"]],
-        });
-        // res.status(200).send({
-        //   message: "Get user Address by name and full Address",
-        //   data: res,
-        // });
-      }
-      const response = await branch.findAll({
-        where: {
-          // UserId: req.user.id,
-        },
-        // order: [["defaultAddress", "DESC"]],
+      const { lattitude, longitude } = req.body;
+
+      const haversine = `(
+          6371 * acos(
+              cos(radians(${lattitude}))
+              * cos(radians(lattitude))
+              * cos(radians(longitude) - radians(${longitude}))
+              + sin(radians(${lattitude})) * sin(radians(lattitude))
+          )
+      )`;
+
+      const user = await branch.findAll({
+        attributes: ["id", [Sequelize.literal(haversine), "distance"]],
+        order: Sequelize.col("distance"),
+        limit: 1,
       });
-      return res.status(200).send({
-        message: "Get Branch Address",
-        data: response,
-      });
+      res.status(200).send(user[0]);
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
     }
+
+    // try {
+    //   const { branchName = "", address = "" } = req.query;
+    //   if (branchName || address) {
+    //     const res = await address.findAll({
+    //       where: {
+    //         // UserId: req.user.id,
+    //         [Op.or]: {
+    //           branchName: {
+    //             [Op.like]: `%${branchName}%`,
+    //           },
+    //           address: {
+    //             [Op.like]: `${address}%`,
+    //           },
+    //         },
+    //       },
+    //       //   order: [["defaultAddress", "DESC"]],
+    //     });
+    //     // res.status(200).send({
+    //     //   message: "Get user Address by name and full Address",
+    //     //   data: res,
+    //     // });
+    //   }
+    //   const response = await branch.findAll({
+    //     where: {
+    //       // UserId: req.user.id,
+    //     },
+    //     // order: [["defaultAddress", "DESC"]],
+    //   });
+    //   return res.status(200).send({
+    //     message: "Get Branch Address",
+    //     data: response,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    //   res.status(400).send(err);
+    // }
   },
 
   createBranch: async (req, res) => {
@@ -140,13 +187,16 @@ module.exports = {
       const provinceAndCity = await axios.get(
         `https://api.rajaongkir.com/starter/city?id=${city}&province=${province}&key=${rajaOngkirKey}`,
       );
+      console.log(provinceAndCity.data.rajaongkir.results);
       const provinceName = provinceAndCity.data.rajaongkir.results.province;
       const cityName = provinceAndCity.data.rajaongkir.results.city_name;
       const cityType = provinceAndCity.data.rajaongkir.results.type;
       const cityNameAndType = `${cityType} ${cityName}`;
+
       const location = await axios.get(
         `https://api.opencagedata.com/geocode/v1/json?key=${openCageKey}&q=${cityNameAndType},${provinceName}`,
       );
+      console.log(location.data.results);
       const lattitude = location.data.results[0].geometry.lat;
       const longitude = location.data.results[0].geometry.lng;
 

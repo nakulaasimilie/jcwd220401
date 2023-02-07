@@ -28,6 +28,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { syncAddress } from "../redux/addressSlice";
+import BarAdmin from "./BarAdmin";
+import Navbar from "./navbar";
 
 export const ListAddressUser = () => {
   const { data } = useSelector(state => state.addressSlice.value);
@@ -75,111 +77,123 @@ export const ListAddressUser = () => {
 
   // console.log(data);
 
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
+
   return (
-    <Flex
-      minH={"100vh"}
-      // algin={"center"}
-      // justify={"center"}
-      bg="#ffff"
-      maxWidth={"506px"}
-      flexDirection="column"
-    >
-      <Stack
-        spacing={4}
-        mx={"auto"}
-        maxW={"lg"}
-        py={3}
-        px={3}
-      >
-        <Stack
-          align={"center"}
-          marginBottom="15px"
-          marginTop="10px"
+    <div style={bodyStyle}>
+      <div style={myStyle}>
+        <Flex
+          minH={"100vh"}
+          // algin={"center"}
+          // justify={"center"}
+          bg="#ffff"
+          maxWidth={"506px"}
+          flexDirection="column"
         >
-          <Heading
-            fontSize={"2xl"}
-            color="black"
+          <Stack
+            spacing={4}
+            mx={"auto"}
+            w="400px"
           >
-            Alamat
-          </Heading>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={"#ebf5e9"}
-          boxShadow={"lg"}
-          p={8}
-          marginTop="5px"
-        >
-          <Stack spacing={4}>
-            <Stack>
-              {data?.map(item => {
-                return (
-                  <>
-                    <Flex justifyContent={"space-between"}>
-                      <Menu theme={{ direction: "rtl" }}>
-                        <MenuButton
-                          color={"black"}
-                          minBlockSize="10px"
-                          as={IconButton}
-                          aria-label="Options"
-                          icon={<HamburgerIcon />}
-                          variant="ghost"
-                          _
-                          bg={"yellow.400"}
-                          _hover={{
-                            bg: "yellow.300",
-                          }}
-                        />
-                        <MenuList bgColor={"white"}>
-                          <MenuItem
-                            as={"button"}
-                            onClick={() => toUpdateAddress(item.id)}
-                            icon={<EditIcon />}
-                            bgColor={"white"}
-                            textColor={"black"}
-                            placement="bottom"
-                            direction="ltr"
-                          >
-                            Edit Address
-                          </MenuItem>
-                          <MenuItem
-                            as={"button"}
-                            onClick={() => onDeleteAddress(item.id)}
-                            icon={<DeleteIcon />}
-                            bgColor={"white"}
-                            textColor={"black"}
-                          >
-                            Delete Address
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Flex>
+            <Stack
+              align={"center"}
+              marginBottom="15px"
+              marginTop="10px"
+            >
+              <Heading
+                fontSize={"2xl"}
+                color="black"
+              >
+                Alamat
+              </Heading>
+            </Stack>
+            <Box
+              rounded={"lg"}
+              bg={"#ebf5e9"}
+              boxShadow={"lg"}
+              p={8}
+              marginTop="5px"
+            >
+              <Stack spacing={4}>
+                <Stack>
+                  {data?.map(item => {
+                    return (
+                      <>
+                        <Flex justifyContent={"space-between"}>
+                          <Menu theme={{ direction: "rtl" }}>
+                            <MenuButton
+                              color={"black"}
+                              minBlockSize="10px"
+                              as={IconButton}
+                              aria-label="Options"
+                              icon={<HamburgerIcon />}
+                              variant="ghost"
+                              _
+                              bg={"yellow.400"}
+                              _hover={{
+                                bg: "yellow.300",
+                              }}
+                            />
+                            <MenuList bgColor={"white"}>
+                              <MenuItem
+                                as={"button"}
+                                onClick={() => toUpdateAddress(item.id)}
+                                icon={<EditIcon />}
+                                bgColor={"white"}
+                                textColor={"black"}
+                                placement="bottom"
+                                direction="ltr"
+                              >
+                                Edit Address
+                              </MenuItem>
+                              <MenuItem
+                                as={"button"}
+                                onClick={() => onDeleteAddress(item.id)}
+                                icon={<DeleteIcon />}
+                                bgColor={"white"}
+                                textColor={"black"}
+                              >
+                                Delete Address
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Flex>
 
-                    <Text>{item.addressFill}</Text>
-                    <Text>{item.district}</Text>
-                    <Text>{item.city}</Text>
-                    <Text>{item.province}</Text>
+                        <Text>{item.addressFill}</Text>
+                        <Text>{item.district}</Text>
+                        <Text>{item.city}</Text>
+                        <Text>{item.province}</Text>
 
-                    <Text>{item.detail}</Text>
-                    <Text>Alamat Utama?</Text>
-                  </>
-                );
-              })}
-              <Center>
-                <Button
-                  bg={"yellow.400"}
-                  color={"black"}
-                  _hover={{
-                    bg: "yellow.300",
-                  }}
-                  onClick={toAddAddress}
-                  width="160px"
-                  justifyContent="center"
-                >
-                  Add Address
-                </Button>
-              </Center>
-              {/* <Menu>
+                        <Text>{item.detail}</Text>
+                        <Text>Alamat Utama?</Text>
+                      </>
+                    );
+                  })}
+                  <Center>
+                    <Button
+                      bg={"yellow.400"}
+                      color={"black"}
+                      _hover={{
+                        bg: "yellow.300",
+                      }}
+                      onClick={toAddAddress}
+                      width="160px"
+                      justifyContent="center"
+                    >
+                      Add Address
+                    </Button>
+                  </Center>
+                  {/* <Menu>
                 <MenuButton
                   as={Button}
                   rightIcon={<ChevronDownIcon />}
@@ -193,10 +207,13 @@ export const ListAddressUser = () => {
                   <MenuItem>contoh Jakarta</MenuItem>
                 </MenuList>
               </Menu> */}
-            </Stack>
+                </Stack>
+              </Stack>
+            </Box>
           </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          <Navbar />
+        </Flex>
+      </div>
+    </div>
   );
 };

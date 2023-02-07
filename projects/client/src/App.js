@@ -33,6 +33,8 @@ import Footer from "./components/footerComp";
 import { AdminInventory } from "./components/addInventory";
 import { BranchOrderList } from "./components/branchOrderList";
 import { OrderList } from "./components/orderListPage";
+import { syncBranch } from "./redux/branch";
+import { syncInventory } from "./redux/inventorySlice";
 // import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
@@ -44,6 +46,7 @@ function App() {
   const token = localStorage.getItem("token");
   const tokenAdmin = localStorage.getItem("tokenAdmin");
   const tokenBranch = localStorage.getItem("tokenBranch");
+  const { id } = useSelector(state => state.branchSlice.value);
 
   // console.log(token)
 
@@ -127,8 +130,8 @@ function App() {
     setLocation({
       loaded: true,
       coordinates: {
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
       },
     });
   };
@@ -150,10 +153,47 @@ function App() {
         message: "geolocation not supported",
       });
     }
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);
   console.log(location);
 
+  const getBranch = async () => {
+    try {
+      const branch = {
+        lattitude: location.coordinates.latitude,
+        longitude: location.coordinates.longitude,
+        // lattitude: " -6.0793752",
+        // longitude: "106.6528214",
+      };
+      console.log(branch);
+      const result = await axios.post(
+        `${process.env.REACT_APP_API_BASE}/branch/branchById`,
+        branch,
+      );
+      console.log(result.data);
+      dispatch(syncBranch(result.data));
+      console.log(result.data);
+    } catch {}
+  };
+  useEffect(() => {
+    getBranch();
+  }, [location]);
+
+  const getProduct = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE}/inventory/findAllByBranch/${id}`,
+      );
+      dispatch(syncInventory(res.data));
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [id]);
   const myStyle = {
     maxWidth: "506px",
     heigth: "auto",
@@ -218,7 +258,6 @@ function App() {
         element={
           <>
             <ListAddressUser />
-            <Navbar />
           </>
         }
       />
@@ -264,7 +303,6 @@ function App() {
         element={
           <>
             <AddAddress />
-            <Navbar />
           </>
         }
       />
@@ -301,9 +339,7 @@ function App() {
         path="/detail/:id"
         element={
           <>
-            <Search />
             <DetailPage />
-            <Navbar />
           </>
         }
       />

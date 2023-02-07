@@ -28,51 +28,47 @@ export default function CartDetail() {
   const {
     name,
     cart,
-    id: userId,
+    // id: userId,
   } = useSelector(state => state.userSlice.value);
-  // console.log(cart);
+  console.log(cart);
 
   const { syncAddress } = useSelector(state => state.addressSlice.value);
 
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.cartSlice.value);
-  // console.log(data);
+  console.log(data);
   // const navigate = useNavigate();
 
-  const onDeleteCart = async id => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_API_BASE}/cart/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Deleted",
-        text: "Barang telah dihapus",
-        timer: 2000,
-      });
-      const result = await axios.get(
-        `${process.env.REACT_APP_API_BASE}/cart/${userId}`,
-      );
-      dispatch(deleteCart());
-      dispatch(cartSync(result.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const onDeleteCart = async id => {
+  //   try {
+  //     await axios.delete(`http://localhost:8000/cart/${id}`);
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Deleted",
+  //       text: "Barang telah dihapus",
+  //       timer: 2000,
+  //     });
+  //     const result = await axios.get(`http://localhost:8000/cart/${userId}`);
+  //     dispatch(deleteCart());
+  //     dispatch(cartSync(result.data));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  const updateQty = async (id, quantity) => {
-    if (!quantity) return;
-    try {
-      await axios.patch(`${process.env.REACT_APP_API_BASE}/cart/${id}`, {
-        quantity,
-      });
-      const result = await axios.get(
-        `${process.env.REACT_APP_API_BASE}/cart/${userId}`,
-      );
-      dispatch(cartSync(result.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const updateQty = async (id, quantity) => {
+  //   if (!quantity) return;
+  //   try {
+  //     await axios.patch(`http://localhost:8000/cart/${id}`, {
+  //       quantity,
+  //     });
+  //     const result = await axios.get(`http://localhost:8000/cart/${userId}`);
+  //     dispatch(cartSync(result.data));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <>
@@ -161,7 +157,10 @@ export default function CartDetail() {
                               <Image
                                 boxSize="35px"
                                 objectFit="cover"
-                                src={item.Product.images}
+                                src={
+                                  `${process.env.REACT_APP_API_BASE}/` +
+                                  item.Product?.images
+                                }
                               />
                             </Stack>
                           </Td>
@@ -175,7 +174,7 @@ export default function CartDetail() {
                                 mr="5px"
                               >
                                 {" "}
-                                {item.Product.name}{" "}
+                                {item.Product?.name}{" "}
                               </Text>
                             </Box>
                           </Td>
@@ -189,7 +188,7 @@ export default function CartDetail() {
                                 mr="5px"
                               >
                                 {" "}
-                                {item.Product.price}{" "}
+                                {item.Product?.price}{" "}
                               </Text>
                             </Box>
                           </Td>
@@ -203,14 +202,16 @@ export default function CartDetail() {
                                 defaultValue={item.quantity}
                                 fontWeight="bold"
                                 mr="5px"
-                                onChange={event =>
-                                  updateQty(item.id, event.target.value)
-                                }
+                                // onChange={event =>
+                                //   updateQty(item.id, event.target.value)
+                                // }
                               />
                             </Box>
                           </Td>
                           <Td>
-                            <Button onClick={() => onDeleteCart(item.id)}>
+                            <Button
+                            // onClick={() => onDeleteCart(item.id)}
+                            >
                               <Icon
                                 boxSize="4"
                                 as={FaTrashAlt}

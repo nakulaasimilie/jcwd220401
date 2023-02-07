@@ -28,10 +28,10 @@ import { loginAdmin } from "../redux/adminSlice";
 import logo from "../assets/output-onlinepngtools.png";
 
 //url login and keeplogin
-const url = "http://localhost:8000/admin/login";
 
 export const LoginAdmin = () => {
   const adminSelector = useSelector(state => state.adminSlice);
+  const url = `${process.env.REACT_APP_API_BASE}/admin/login`;
 
   // useRef for password and email
   const password = useRef("");

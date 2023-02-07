@@ -10,6 +10,8 @@ import addressSlice from "./addressSlice";
 import loanAdminSlice from "./loanAdminSlice";
 import categorySlice from "./categorySlice";
 import locationSlice from "./location";
+import branchSlice from "./branch";
+import inventorySlice from "./inventorySlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +26,7 @@ export const store = configureStore({
     loanAdminSlice,
     categorySlice,
     locationSlice,
+    branchSlice,
+    inventorySlice,
   },
 });

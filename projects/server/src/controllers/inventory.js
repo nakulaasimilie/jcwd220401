@@ -86,9 +86,9 @@ module.exports = {
 
   findAllByBranch: async (req, res) => {
     try {
-      const inventories = await inventory.findAll({
+      const result = await inventory.findAll({
         where: {
-          BranchId: req.params.id,
+          BranchId: req.params.BranchId,
         },
         include: [
           {
@@ -102,7 +102,7 @@ module.exports = {
           // },
         ],
       });
-      res.status(200).send(inventories);
+      res.status(200).send(result);
     } catch (err) {
       console.log(err);
       res.status(400).send(err);

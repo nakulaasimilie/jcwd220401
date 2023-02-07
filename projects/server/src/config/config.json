@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "jcwd220401",
-    "password": "group1",
-    "database": "jcwd220401",
+    "username": "root",
+    "password": "asudesu1998",
+    "database": "grocery",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

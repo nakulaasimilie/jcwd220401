@@ -53,7 +53,7 @@ export default function Kategori() {
             return (
               <div>
                 <Image
-                  src={`http://localhost:8000/` + item.image}
+                  src={`${process.env.REACT_APP_API_BASE}/` + item.image}
                   w="50px"
                   h="50px"
                   cursor={"pointer"}

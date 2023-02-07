@@ -14,7 +14,9 @@ export default function BranchPage() {
 
   const getData = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/product/list`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/list`,
+      );
       console.log(res.data);
       dispatch(syncData(res.data));
     } catch (err) {
@@ -28,7 +30,9 @@ export default function BranchPage() {
 
   const getUser = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/users/allUser`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/users/allUser`,
+      );
       console.log(res.data);
       dispatch(syncName(res.data));
     } catch (err) {
@@ -42,7 +46,9 @@ export default function BranchPage() {
 
   const getTrans = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/transaksi/list`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/transaksi/list`,
+      );
       console.log(res.data);
       dispatch(loanSync(res.data));
     } catch (err) {

@@ -30,6 +30,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Navbar from "./navbar";
 
 export const AddAddress = () => {
   const [province, setProvince] = useState([]);
@@ -188,125 +189,140 @@ export const AddAddress = () => {
     getPostal();
   }, []);
 
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
+
   return move ? (
     <Navigate
       to="/address:id"
       replace={true}
     />
   ) : (
-    <>
-      <Flex
-        minH={"100vh"}
-        // algin={"center"}
-        // justify={"center"}
-        bg="#ffff"
-        maxWidth={"506px"}
-        flexDirection="column"
-      >
-        <Box
-          as={Link}
-          to={"/address"}
+    <div style={bodyStyle}>
+      <div style={myStyle}>
+        <Flex
+          minH={"105vh"}
+          // algin={"center"}
+          // justify={"center"}
+          bg="#ffff"
+          maxWidth={"506px"}
+          flexDirection="column"
         >
-          <ArrowBackIcon
-            mt={"20px"}
-            ml={"20px"}
-            pos={"fixed"}
-            color={"black"}
-            fontSize={"20px"}
-            position="absolute"
-          />
-        </Box>
-        <Stack
-          spacing={4}
-          mx={"auto"}
-          maxW={"lg"}
-          py={3}
-          px={3}
-        >
-          <Stack
-            align={"center"}
-            marginBottom="15px"
-            marginTop="10px"
-          >
-            <Heading
-              fontSize={"2xl"}
-              color="black"
-            >
-              Buat Alamat Baru
-            </Heading>
-          </Stack>
           <Box
-            rounded={"lg"}
-            bg={"#ebf5e9"}
-            boxShadow={"lg"}
-            p={8}
-            marginTop="5px"
+            as={Link}
+            to={"/address"}
           >
-            <Stack spacing={4}>
-              <Stack>
-                <FormControl>
-                  <FormLabel>Alamat</FormLabel>
-                  <Input
-                    ref={inputAddressFill}
-                    placeholder="Alamat"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Kecamatan</FormLabel>
-                  <Input ref={inputDistrict} />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Provinsi</FormLabel>
-                  <Select
-                    placeholder="pilih provinsi"
-                    onChange={provinceHandle}
-                  >
-                    {rendProvince()}
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Kota</FormLabel>
-                  <Select
-                    placeholder="pilih kota"
-                    onChange={cityHandle}
-                  >
-                    {rendCity()}
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Kode Pos</FormLabel>
-                  <Input ref={inputPostal} />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Detail Alamat</FormLabel>
-                  <Textarea
-                    ref={inputDetail}
-                    placeholder="blok/lantai atau persimpangan"
-                  ></Textarea>
-                  <Checkbox iconSize={"1rem"}>
-                    Pakai Sebagai Alamat Utama
-                  </Checkbox>
-                </FormControl>
-                <Center>
-                  <Button
-                    onClick={createAddress}
-                    bg={"yellow.400"}
-                    color={"black"}
-                    _hover={{
-                      bg: "yellow.300",
-                    }}
-                    width="160px"
-                    justifyContent="center"
-                  >
-                    {" "}
-                    Buat Alamat Baru
-                  </Button>
-                </Center>
-              </Stack>
-            </Stack>
+            <ArrowBackIcon
+              mt={"20px"}
+              ml={"20px"}
+              pos={"fixed"}
+              color={"black"}
+              fontSize={"20px"}
+              position="absolute"
+            />
           </Box>
-        </Stack>
-      </Flex>
-    </>
+          <Stack
+            spacing={4}
+            mx={"auto"}
+            maxW={"lg"}
+            py={3}
+            px={3}
+          >
+            <Stack
+              align={"center"}
+              marginBottom="15px"
+              marginTop="10px"
+            >
+              <Heading
+                fontSize={"2xl"}
+                color="black"
+              >
+                Buat Alamat Baru
+              </Heading>
+            </Stack>
+            <Box
+              rounded={"lg"}
+              bg={"#ebf5e9"}
+              boxShadow={"lg"}
+              p={8}
+              marginTop="5px"
+            >
+              <Stack spacing={4}>
+                <Stack>
+                  <FormControl>
+                    <FormLabel>Alamat</FormLabel>
+                    <Input
+                      ref={inputAddressFill}
+                      placeholder="Alamat"
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Kecamatan</FormLabel>
+                    <Input ref={inputDistrict} />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Provinsi</FormLabel>
+                    <Select
+                      placeholder="pilih provinsi"
+                      onChange={provinceHandle}
+                    >
+                      {rendProvince()}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Kota</FormLabel>
+                    <Select
+                      placeholder="pilih kota"
+                      onChange={cityHandle}
+                    >
+                      {rendCity()}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Kode Pos</FormLabel>
+                    <Input ref={inputPostal} />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Detail Alamat</FormLabel>
+                    <Textarea
+                      ref={inputDetail}
+                      placeholder="blok/lantai atau persimpangan"
+                    ></Textarea>
+                    <Checkbox iconSize={"1rem"}>
+                      Pakai Sebagai Alamat Utama
+                    </Checkbox>
+                  </FormControl>
+                  <Center>
+                    <Button
+                      onClick={createAddress}
+                      bg={"yellow.400"}
+                      color={"black"}
+                      _hover={{
+                        bg: "yellow.300",
+                      }}
+                      width="160px"
+                      justifyContent="center"
+                    >
+                      {" "}
+                      Buat Alamat Baru
+                    </Button>
+                  </Center>
+                </Stack>
+              </Stack>
+            </Box>
+          </Stack>
+        </Flex>
+        <Navbar />
+      </div>
+    </div>
   );
 };
