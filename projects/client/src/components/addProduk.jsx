@@ -36,7 +36,7 @@ export default function CreateComp() {
       };
 
       const res = await Axios.post(
-        `http://localhost:8000/product/create`,
+        `${process.env.REACT_APP_API_BASE}/product/create`,
         addProduct,
       );
 
@@ -48,7 +48,7 @@ export default function CreateComp() {
       setTimeout(() => {
         window.location.replace("/dashboard/crud");
       }, 900);
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -56,8 +56,10 @@ export default function CreateComp() {
 
   const getCategory = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/product/listCategory`);
-      console.log(res.data);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/listCategory`,
+      );
+      // console.log(res.data);
       setData2(res.data);
     } catch (err) {
       console.log(err);

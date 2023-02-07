@@ -63,10 +63,10 @@ export const UpdateAddress = () => {
         detail: inputDetail.current.value,
       };
       const res = await axios.patch(
-        `http://localhost:8000/address/updateAddress/${params.id}`,
+        `${process.env.REACT_APP_API_BASE}/address/updateAddress/${params.id}`,
         addressUpdate,
       );
-      console.log(res);
+      // console.log(res);
       Swal.fire({
         icon: "success",
         text: "Address Updated",
@@ -80,7 +80,7 @@ export const UpdateAddress = () => {
   const getProvince = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/province`,
+        `${process.env.REACT_APP_API_BASE}/address/province`,
       );
       setProvince(response.data.results);
       // console.log("get Province", response);
@@ -106,9 +106,9 @@ export const UpdateAddress = () => {
   const getCity = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/city/${selectProvince}`,
+        `${process.env.REACT_APP_API_BASE}/address/city/${selectProvince}`,
       );
-      console.log("get city", response);
+      // console.log("get city", response);
       setCity(response.data.results);
     } catch (err) {
       console.log(err);
@@ -131,9 +131,9 @@ export const UpdateAddress = () => {
   const getPostal = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/postal/${selectPostal}`,
+        `${process.env.REACT_APP_API_BASE}/address/postal/${selectPostal}`,
       );
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -156,13 +156,13 @@ export const UpdateAddress = () => {
     const { value } = target;
     setSelectProvince(value);
     // console.log(setSelectProvince(value));
-    console.log(selectProvince);
+    // console.log(selectProvince);
   };
 
   const cityHandle = ({ target }) => {
     const { value } = target;
     setSelectCity(value);
-    console.log(selectCity);
+    // console.log(selectCity);
   };
 
   const postalHandle = ({ target }) => {
@@ -185,9 +185,9 @@ export const UpdateAddress = () => {
   const getData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/address/findAddressById/${params.id}`,
+        `${process.env.REACT_APP_API_BASE}/address/findAddressById/${params.id}`,
       );
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(syncAddress(res.data));
     } catch (err) {
       console.log(err);
@@ -207,7 +207,7 @@ export const UpdateAddress = () => {
     window.location.replace(`/address/${id}`);
   };
 
-  console.log("params", params);
+  // console.log("params", params);
   return (
     <>
       <Flex

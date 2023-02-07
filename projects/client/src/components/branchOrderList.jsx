@@ -50,7 +50,7 @@ export const BranchOrderList = () => {
           },
         },
       );
-      console.log(res.data);
+      // console.log("data", res.data);
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -136,6 +136,7 @@ export const BranchOrderList = () => {
                         <Th color={"#285430"}>Quantity</Th>
                         <Th color={"#285430"}>Price</Th>
                         <Th color={"#285430"}>Total Price</Th>
+                        <Th color={"#285430"}>status</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
@@ -148,6 +149,7 @@ export const BranchOrderList = () => {
                             <Td color={"#285430"}>{item.quantity}</Td>
                             <Td color={"#285430"}>{item.price}</Td>
                             <Td color={"#285430"}>{item.total_price}</Td>
+                            <Td color={"#285430"}>{item.status_order}</Td>
                           </Tr>
                         );
                       })}

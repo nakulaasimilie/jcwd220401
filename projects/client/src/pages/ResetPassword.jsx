@@ -23,10 +23,10 @@ export default function ResetPassword() {
   const password = useRef("");
   const confirmPassword = useRef("");
   const param = useLocation();
-  console.log("ini param", param);
+  // console.log("ini param", param);
   const email = param?.search.split("=")[1]?.split("&");
   const verificationSignature = param?.search?.split("=")[2];
-  const url = `http://localhost:8000/users/resetPassword?=${email}&verification_signature=${verificationSignature}`;
+  const url = `${process.env.REACT_APP_API_BASE}/users/resetPassword?=${email}&verification_signature=${verificationSignature}`;
 
   const [move, setMove] = useState(false);
 
@@ -45,9 +45,9 @@ export default function ResetPassword() {
         confirmPassword: confirmPassword.current.value,
         verificationSignature,
       };
-      console.log("user", user);
+      // console.log("user", user);
       const res = await Axios.post(url, user);
-      console.log("result", res.data);
+      // console.log("result", res.data);
       setMove(true);
       Swal.fire({
         icon: "success",
@@ -67,7 +67,10 @@ export default function ResetPassword() {
   useEffect(() => {}, []);
 
   return move ? (
-    <Navigate to="/login" replace={true} />
+    <Navigate
+      to="/login"
+      replace={true}
+    />
   ) : (
     <>
       <Formik
@@ -76,18 +79,20 @@ export default function ResetPassword() {
           confirmPassword: "",
         }}
         validationSchema={resetpasswordSchema}
-        onSubmit={(values) => {
+        onSubmit={values => {
           onResetPassword(values);
-        }}>
-        {(props) => {
-          console.log(props);
+        }}
+      >
+        {props => {
+          // console.log(props);
           return (
             <Container>
               <Flex
                 minH={"100vh"}
                 align={"center"}
                 justify={"center"}
-                bg="gray.50">
+                bg="gray.50"
+              >
                 <Stack
                   spacing={4}
                   w={"full"}
@@ -96,14 +101,19 @@ export default function ResetPassword() {
                   rounded={"xl"}
                   boxShadow={"lg"}
                   p={6}
-                  my={12}>
+                  my={12}
+                >
                   <Heading
                     lineHeight={1.1}
-                    fontSize={{ base: "2xl", md: "3xl" }}>
+                    fontSize={{ base: "2xl", md: "3xl" }}
+                  >
                     Reset Password
                   </Heading>
                   <Form>
-                    <FormControl id="password" isRequired>
+                    <FormControl
+                      id="password"
+                      isRequired
+                    >
                       <FormLabel>Password</FormLabel>
                       <InputGroup>
                         <Input
@@ -117,13 +127,19 @@ export default function ResetPassword() {
                           style={{ color: "red" }}
                         />
                         <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={handleClick}
+                          >
                             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
                     </FormControl>
-                    <FormControl id="confirmPassword" isRequired>
+                    <FormControl
+                      id="confirmPassword"
+                      isRequired
+                    >
                       <FormLabel>Confirm Password</FormLabel>
                       <InputGroup>
                         <Input
@@ -137,7 +153,10 @@ export default function ResetPassword() {
                           style={{ color: "red" }}
                         />
                         <InputRightElement h={"full"}>
-                          <Button variant={"ghost"} onClick={handleClick}>
+                          <Button
+                            variant={"ghost"}
+                            onClick={handleClick}
+                          >
                             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                           </Button>
                         </InputRightElement>
@@ -152,7 +171,8 @@ export default function ResetPassword() {
                           bg: "blue.500",
                         }}
                         onClick={onResetPassword}
-                        type="submit">
+                        type="submit"
+                      >
                         Submit
                       </Button>
                     </Stack>

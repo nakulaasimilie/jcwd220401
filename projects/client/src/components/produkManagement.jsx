@@ -74,7 +74,9 @@ export const Add = () => {
   const [order, setOrder] = useState("name");
   const [order_direction, setOrder_direction] = useState("ASC");
   const data = useSelector(state => state.productSlice.value);
-  const url = `http://localhost:8000/product/view?search_query=${searchProduct}&page=${
+  const url = `${
+    process.env.REACT_APP_API_BASE
+  }/product/view?search_query=${searchProduct}&page=${
     page - 1
   }&limit=${limit}&order=${order ? order : `id`}&order_direction=${
     order_direction ? order_direction : "ASC"
@@ -126,9 +128,9 @@ export const Add = () => {
   const onDelete = async id => {
     try {
       const res = await Axios.delete(
-        `http://localhost:8000/product/remove/${id}`,
+        `${process.env.REACT_APP_API_BASE}/product/remove/${id}`,
       );
-      console.log(res);
+      // console.log(res);
       getData();
     } catch (err) {
       console.log(err);
@@ -149,7 +151,7 @@ export const Add = () => {
         categoryName: categoryName.current.value,
       };
       const res = await Axios.post(
-        `http://localhost:8000/product/createCategory`,
+        `${process.env.REACT_APP_API_BASE}/product/createCategory`,
         addProduct,
       );
       Swal.fire({
@@ -161,7 +163,7 @@ export const Add = () => {
       setTimeout(() => {
         window.location.replace("/dashboard/crud");
       }, 900);
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -169,11 +171,13 @@ export const Add = () => {
 
   const getCategory = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/product/listCategory`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/product/listCategory`,
+      );
       setCategory(res.data);
       dispatch(syncCategory(res.data));
-      console.log(res.data.result);
-      console.log(res.data);
+      // console.log(res.data.result);
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -186,9 +190,9 @@ export const Add = () => {
   const onDeleteCategory = async id => {
     try {
       const res = await Axios.delete(
-        `http://localhost:8000/product/removeCategory/${id}`,
+        `${process.env.REACT_APP_API_BASE}/product/removeCategory/${id}`,
       );
-      console.log(res);
+      // console.log(res);
       getCategory();
     } catch (err) {
       console.log(err);
@@ -196,18 +200,18 @@ export const Add = () => {
   };
 
   const handleChoose1 = e => {
-    console.log("e.target.files", e.target.files);
+    // console.log("e.target.files", e.target.files);
     setImage2(e.target.files[0]);
   };
 
   const handleUpload1 = async id => {
     const data = new FormData();
-    console.log(data);
+    // console.log(data);
     data.append("file", image2);
-    console.log(data.get("file"));
+    // console.log(data.get("file"));
 
     const resultImage = await Axios.post(
-      `http://localhost:8000/product/single-uploaded-category/${id}`,
+      `${process.env.REACT_APP_API_BASE}/product/single-uploaded-category/${id}`,
       data,
       {
         headers: {
@@ -215,7 +219,7 @@ export const Add = () => {
         },
       },
     );
-    console.log(resultImage.data);
+    // console.log(resultImage.data);
     setProfile2(resultImage.data.image);
     setImage2({ image: "" });
     console.log(image2);
@@ -347,7 +351,10 @@ export const Add = () => {
                               <Td>
                                 <Image
                                   boxSize={"50px"}
-                                  src={`http://localhost:8000/` + item.image}
+                                  src={
+                                    `${process.env.REACT_APP_API_BASE}/` +
+                                    item.image
+                                  }
                                 />
                                 <ButtonGroup size="sm">
                                   <form encType="multipart/form-data">
@@ -611,7 +618,10 @@ export const Add = () => {
                             <Td>
                               <Image
                                 boxSize={"50px"}
-                                src={`http://localhost:8000/` + item.images}
+                                src={
+                                  `{${process.env.REACT_APP_API_BASE}/` +
+                                  item.image
+                                }
                               />
                               <ButtonGroup size="sm">
                                 <form encType="multipart/form-data">

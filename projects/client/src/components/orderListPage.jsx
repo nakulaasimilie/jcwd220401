@@ -43,8 +43,10 @@ export const OrderList = () => {
 
   const getData = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8000/admin/order`);
-      console.log(res.data);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE_URL_ADMIN}/order`,
+      );
+      // console.log(res.data);
       setData(res.data);
     } catch (err) {
       console.log(err);
@@ -129,7 +131,7 @@ export const OrderList = () => {
                             <Td color={"#285430"}>{item.quantity}</Td>
                             <Td color={"#285430"}>{item.price}</Td>
                             <Td color={"#285430"}>{item.total_price}</Td>
-                            {/* <Td color={"#285430"}>{item.status}</Td> */}
+                            <Td color={"#285430"}>{item.status_order}</Td>
                           </Tr>
                         );
                       })}

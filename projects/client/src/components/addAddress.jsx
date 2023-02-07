@@ -60,10 +60,10 @@ export const AddAddress = () => {
         detail: inputDetail.current.value,
       };
 
-      console.log("addAddress", addAddress);
+      // console.log("addAddress", addAddress);
 
       const response = await axios.post(
-        `http://localhost:8000/address/createAddress/${params.id}`,
+        `${process.env.REACT_APP_API_BASE}/address/createAddress/${params.id}`,
         addAddress,
       );
       Swal.fire({
@@ -73,7 +73,7 @@ export const AddAddress = () => {
         timer: 2000,
       });
       setMove(true);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -82,11 +82,11 @@ export const AddAddress = () => {
   const getProvince = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/province`,
+        `${process.env.REACT_APP_API_BASE}/address/province`,
       );
       setProvince(response.data.results);
-      console.log("get Province", response);
-      console.log("get province result", response.data.results);
+      // console.log("get Province", response);
+      // console.log("get province result", response.data.results);
     } catch (err) {
       console.log(err);
     }
@@ -108,11 +108,11 @@ export const AddAddress = () => {
   const getCity = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/city/${selectProvince}`,
+        `${process.env.REACT_APP_API_BASE}/address/city/${selectProvince}`,
       );
-      console.log("get city", response);
+      // console.log("get city", response);
       setCity(response.data.results);
-      console.log("get city result", response.data.results);
+      // console.log("get city result", response.data.results);
     } catch (err) {
       console.log(err);
     }
@@ -134,9 +134,9 @@ export const AddAddress = () => {
   const getPostal = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/address/postal/${selectPostal}`,
+        `${process.env.REACT_APP_API_BASE}/address/postal/${selectPostal}`,
       );
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -158,17 +158,17 @@ export const AddAddress = () => {
   const provinceHandle = ({ target }) => {
     const { value } = target;
     setSelectProvince(value);
-    console.log("value", value);
-    console.log("setSelectProvince", setSelectProvince(value));
-    console.log("Select Province", selectProvince);
+    // console.log("value", value);
+    // console.log("setSelectProvince", setSelectProvince(value));
+    // console.log("Select Province", selectProvince);
   };
 
   const cityHandle = ({ target }) => {
     const { value } = target;
     setSelectCity(value);
-    console.log("value", value);
-    console.log("setSelectCity", setSelectCity(value));
-    console.log("Select City", selectCity);
+    // console.log("value", value);
+    // console.log("setSelectCity", setSelectCity(value));
+    // console.log("Select City", selectCity);
   };
 
   const postalHandle = ({ target }) => {

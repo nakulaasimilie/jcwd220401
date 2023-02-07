@@ -27,7 +27,7 @@ import { login } from "../redux/userSlice";
 import logo from "../assets/output-onlinepngtools.png";
 
 //url login and keeplogin
-const url = "http://localhost:8000/usersLogin/login";
+const url = `${process.env.REACT_APP_API_BASE}/usersLogin/login`;
 
 export const LoginPage = () => {
   const userSelector = useSelector(state => state.userSlice);
@@ -61,9 +61,9 @@ export const LoginPage = () => {
         email: email.current.value,
       };
       const result = await axios.post(url, user);
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(login(result.data.user));
-      console.log(result.data.user);
+      // console.log(result.data.user);
       localStorage.setItem("token", result.data.token);
       setMove(true);
 
@@ -111,7 +111,7 @@ export const LoginPage = () => {
           }}
         >
           {props => {
-            console.log(props);
+            // console.log(props);
             return (
               <Flex
                 minH={"100vh"}

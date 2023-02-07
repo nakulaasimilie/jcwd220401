@@ -30,26 +30,28 @@ export default function CartDetail() {
     cart,
     id: userId,
   } = useSelector(state => state.userSlice.value);
-  console.log(cart);
+  // console.log(cart);
 
   const { syncAddress } = useSelector(state => state.addressSlice.value);
 
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.cartSlice.value);
-  console.log(data);
+  // console.log(data);
   // const navigate = useNavigate();
 
   const onDeleteCart = async id => {
     try {
-      await axios.delete(`http://localhost:8000/cart/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_BASE}/cart/${id}`);
       Swal.fire({
         icon: "success",
         title: "Deleted",
         text: "Barang telah dihapus",
         timer: 2000,
       });
-      const result = await axios.get(`http://localhost:8000/cart/${userId}`);
+      const result = await axios.get(
+        `${process.env.REACT_APP_API_BASE}/cart/${userId}`,
+      );
       dispatch(deleteCart());
       dispatch(cartSync(result.data));
     } catch (err) {
@@ -60,10 +62,12 @@ export default function CartDetail() {
   const updateQty = async (id, quantity) => {
     if (!quantity) return;
     try {
-      await axios.patch(`http://localhost:8000/cart/${id}`, {
+      await axios.patch(`${process.env.REACT_APP_API_BASE}/cart/${id}`, {
         quantity,
       });
-      const result = await axios.get(`http://localhost:8000/cart/${userId}`);
+      const result = await axios.get(
+        `${process.env.REACT_APP_API_BASE}/cart/${userId}`,
+      );
       dispatch(cartSync(result.data));
     } catch (err) {
       console.log(err);
