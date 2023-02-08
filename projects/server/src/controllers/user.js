@@ -37,7 +37,7 @@ module.exports = {
         from: "nakulabaiduri@gmail.com",
         to: "nakulabaiduri@gmail.com",
         subject: "Verifikasi Email",
-        html: `<a href="http://localhost:3000/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
+        html: `<a href="${process.env.REACT_APP_API_BASE}/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
       };
       await transporter.sendMail(message, (err, info) => {
         if (err) {
