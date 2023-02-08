@@ -16,6 +16,8 @@ router.get("/listCategory", productController.getAllCategory);
 router.patch("/updateCategory/:id", productController.updateCategory);
 router.delete("/removeCategory/:id", productController.removeCategory);
 router.patch("/update/:id", productController.update);
+router.get("/listCategory/:id", productController.findByCategoryId);
+
 router.post(
   "/single-uploaded-category/:id",
   multerUpload.single("file"),

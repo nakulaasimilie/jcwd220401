@@ -128,6 +128,11 @@ export default function BarAdminBranch() {
                     <Text>Transaction</Text>
                   </Box>
                 </ButtonDraw>
+                <ButtonDraw href={"/addInventory"}>
+                  <Box textAlign={"center"}>
+                    <Text>Add Inventory</Text>
+                  </Box>
+                </ButtonDraw>
                 <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Sales Report</Text>
