@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { syncCategory } from "../redux/categorySlice";
+import { Link } from "react-router-dom";
 
 export default function Kategori() {
   // const [category, setCategory] = useState();
@@ -64,13 +65,13 @@ export default function Kategori() {
                   ml={[5, 5, 5]}
                   mt="20px"
                   name="Grocery"
-                  // as={Link}
-                  // to={`/category/${item.id}`}
                 />
                 <Text
                   fontSize="small"
                   color={"#285430"}
                   align={"center"}
+                  as={Link}
+                  to={`/category/${item.id}`}
                 >
                   {item.categoryName}
                 </Text>

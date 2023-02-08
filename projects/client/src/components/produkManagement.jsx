@@ -239,7 +239,7 @@ export const Add = () => {
     console.log(data.get("file"));
 
     const resultImage = await Axios.post(
-      `http://localhost:8000/product/single-uploaded/${id}`,
+      `${process.env.REACT_APP_API_BASE}/product/single-uploaded/${id}`,
       data,
       {
         headers: {
@@ -620,7 +620,7 @@ export const Add = () => {
                                 boxSize={"50px"}
                                 src={
                                   `{${process.env.REACT_APP_API_BASE}/` +
-                                  item.image
+                                  item?.image
                                 }
                               />
                               <ButtonGroup size="sm">

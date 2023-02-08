@@ -74,7 +74,7 @@ export const BranchManagement = () => {
   const onRegister = async data => {
     try {
       const result = await Axios.post(
-        `${process.env.REACT_APP_API_BASE_URL_ADMIN}/register`,
+        `${process.env.REACT_APP_API_BASE}/register`,
         data,
       );
       Swal.fire({
@@ -100,9 +100,7 @@ export const BranchManagement = () => {
 
   const getData = async () => {
     try {
-      const res = await Axios.get(
-        `${process.env.REACT_APP_API_BASE_URL_ADMIN}/findAll`,
-      );
+      const res = await Axios.get(`${process.env.REACT_APP_API_BASE}/findAll`);
       // console.log(res.data);
       // setData(res.data);
     } catch (err) {

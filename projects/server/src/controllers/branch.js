@@ -132,7 +132,11 @@ module.exports = {
       )`;
 
       const user = await branch.findAll({
-        attributes: ["id", [Sequelize.literal(haversine), "distance"]],
+        attributes: [
+          "id",
+          [Sequelize.literal(haversine), "distance"],
+          "cityId",
+        ],
         order: Sequelize.col("distance"),
         limit: 1,
       });

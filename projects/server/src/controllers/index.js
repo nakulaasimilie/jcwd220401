@@ -7,6 +7,7 @@ const branchController = require("./branch");
 const addressController = require("./address");
 const transaksiController = require("./transaksi");
 const inventoryController = require("./inventory");
+const orderController = require("./orderCart");
 
 module.exports = {
   userControllerLogin,
@@ -18,4 +19,5 @@ module.exports = {
   branchController,
   transaksiController,
   inventoryController,
+  orderController,
 };

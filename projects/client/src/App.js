@@ -35,6 +35,8 @@ import { BranchOrderList } from "./components/branchOrderList";
 import { OrderList } from "./components/orderListPage";
 import { syncBranch } from "./redux/branch";
 import { syncInventory } from "./redux/inventorySlice";
+import { CategoryDetail } from "./components/CategoryDetail";
+import CategoryPage from "./pages/categoryPage";
 // import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
@@ -280,6 +282,11 @@ function App() {
           </>
         }
       />
+
+      <Route
+        path="/category/:id"
+        element={<CategoryPage />}
+      ></Route>
 
       <Route
         path="/create"

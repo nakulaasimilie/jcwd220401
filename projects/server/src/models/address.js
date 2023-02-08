@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Address.belongsTo(models.User);
     }
   }
   Address.init(
@@ -37,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       city: {
         type: DataTypes.STRING,
       },
+      cityId: DataTypes.INTEGER,
+      provinceId: DataTypes.INTEGER,
+      defaultAddress: DataTypes.BOOLEAN,
     },
     {
       sequelize,
