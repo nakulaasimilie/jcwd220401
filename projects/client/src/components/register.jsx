@@ -95,7 +95,17 @@ export default function SignupCard() {
       onOpen();
     }
   }, []);
-
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
   return (
     <>
       <Modal
@@ -119,145 +129,155 @@ export default function SignupCard() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          password: "",
-          phone_number: "",
-        }}
-        validationSchema={registerSchema}
-        onSubmit={values => {
-          // console.log("onSubmit", values);
-          onRegister(values);
-        }}
-      >
-        {props => {
-          // console.log(props);
-          return (
-            <>
-              <Form onSubmit={props.handleSubmit}>
-                <Flex
-                  minH={"100vh"}
-                  align={"center"}
-                  justify={"center"}
-                  bgGradient="linear(to-t, #ebf5e9, #ffff)"
-                >
-                  <Stack
-                    spacing={8}
-                    mx={"auto"}
-                    maxW={"lg"}
-                    py={12}
-                    px={6}
-                  >
-                    <Stack align={"center"}>
-                      <Heading
-                        fontSize={"4xl"}
-                        textAlign={"center"}
-                      >
-                        Register
-                      </Heading>
-                    </Stack>
-                    <Box
-                      rounded={"lg"}
-                      bg={"#ebf5e9"}
-                      boxShadow={"lg"}
-                      p={8}
+      <div style={bodyStyle}>
+        <div style={myStyle}>
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              phone_number: "",
+            }}
+            validationSchema={registerSchema}
+            onSubmit={values => {
+              // console.log("onSubmit", values);
+              onRegister(values);
+            }}
+          >
+            {props => {
+              // console.log(props);
+              return (
+                <>
+                  <Form onSubmit={props.handleSubmit}>
+                    <Flex
+                      minH={"100vh"}
+                      align={"center"}
+                      justify={"center"}
+                      bgGradient="linear(to-t, #ebf5e9, #ffff)"
                     >
-                      <Stack spacing={4}>
-                        <Box>
-                          <FormControl
-                            id="firstName"
-                            isRequired
+                      <Stack
+                        spacing={8}
+                        mx={"auto"}
+                        maxW={"lg"}
+                        py={12}
+                        px={6}
+                      >
+                        <Stack align={"center"}>
+                          <Heading
+                            fontSize={"4xl"}
+                            textAlign={"center"}
                           >
-                            <FormLabel>Name</FormLabel>
-                            <Field
-                              as={Input}
-                              name="name"
-                            />
-                          </FormControl>
-                        </Box>
-                        <FormControl
-                          id="email"
-                          isRequired
+                            Register
+                          </Heading>
+                        </Stack>
+                        <Box
+                          rounded={"lg"}
+                          bg={"white"}
+                          boxShadow={"lg"}
+                          p={8}
                         >
-                          <FormLabel>Email address</FormLabel>
-                          <Field
-                            as={Input}
-                            name="email"
-                          />
-                        </FormControl>
-                        <FormControl
-                          id="password"
-                          isRequired
-                        >
-                          <FormLabel>Password</FormLabel>
-                          <InputGroup>
-                            <Field
-                              as={Input}
-                              name="password"
-                              type={showPassword ? "text" : "password"}
-                            />
-                            <InputRightElement h={"full"}>
-                              <Button
-                                variant={"ghost"}
-                                onClick={() =>
-                                  setShowPassword(showPassword => !showPassword)
-                                }
+                          <Stack spacing={4}>
+                            <Box>
+                              <FormControl
+                                id="firstName"
+                                isRequired
                               >
-                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                              </Button>
-                            </InputRightElement>
-                          </InputGroup>
-                        </FormControl>
-                        <FormControl
-                          id="phone_number"
-                          isRequired
-                        >
-                          <FormLabel>Phone Number</FormLabel>
-                          <Field
-                            as={Input}
-                            name="phone_number"
-                          />
-                        </FormControl>
-                        <Stack
-                          spacing={10}
-                          pt={2}
-                        >
-                          <Button
-                            // onClick={onRegister}
-                            type="submit"
-                            loadingText="Submitting"
-                            size="lg"
-                            bg={"blue.400"}
-                            color={"white"}
-                            _hover={{
-                              bg: "blue.500",
-                            }}
-                          >
-                            Sign up
-                          </Button>
-                        </Stack>
-                        <Stack pt={6}>
-                          <Text align={"center"}>
-                            Already a user?{" "}
-                            <Link
-                              color={"blue.400"}
-                              href="/login"
+                                <FormLabel>Name</FormLabel>
+                                <Field
+                                  as={Input}
+                                  name="name"
+                                />
+                              </FormControl>
+                            </Box>
+                            <FormControl
+                              id="email"
+                              isRequired
                             >
-                              Login
-                            </Link>
-                          </Text>
-                        </Stack>
+                              <FormLabel>Email address</FormLabel>
+                              <Field
+                                as={Input}
+                                name="email"
+                              />
+                            </FormControl>
+                            <FormControl
+                              id="password"
+                              isRequired
+                            >
+                              <FormLabel>Password</FormLabel>
+                              <InputGroup>
+                                <Field
+                                  as={Input}
+                                  name="password"
+                                  type={showPassword ? "text" : "password"}
+                                />
+                                <InputRightElement h={"full"}>
+                                  <Button
+                                    variant={"ghost"}
+                                    onClick={() =>
+                                      setShowPassword(
+                                        showPassword => !showPassword,
+                                      )
+                                    }
+                                  >
+                                    {showPassword ? (
+                                      <ViewIcon />
+                                    ) : (
+                                      <ViewOffIcon />
+                                    )}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
+                            </FormControl>
+                            <FormControl
+                              id="phone_number"
+                              isRequired
+                            >
+                              <FormLabel>Phone Number</FormLabel>
+                              <Field
+                                as={Input}
+                                name="phone_number"
+                              />
+                            </FormControl>
+                            <Stack
+                              spacing={10}
+                              pt={2}
+                            >
+                              <Button
+                                // onClick={onRegister}
+                                type="submit"
+                                loadingText="Submitting"
+                                size="lg"
+                                bg={"yellow.400"}
+                                color={"black"}
+                                _hover={{
+                                  bg: "yellow.300",
+                                }}
+                              >
+                                Sign up
+                              </Button>
+                            </Stack>
+                            <Stack pt={6}>
+                              <Text align={"center"}>
+                                Already a user?{" "}
+                                <Link
+                                  color={"blue.400"}
+                                  href="/login"
+                                >
+                                  Login
+                                </Link>
+                              </Text>
+                            </Stack>
+                          </Stack>
+                        </Box>
                       </Stack>
-                    </Box>
-                  </Stack>
-                </Flex>
-              </Form>
-            </>
-          );
-        }}
-      </Formik>
+                    </Flex>
+                  </Form>
+                </>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
     </>
   );
 }

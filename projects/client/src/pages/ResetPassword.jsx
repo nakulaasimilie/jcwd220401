@@ -66,6 +66,18 @@ export default function ResetPassword() {
 
   useEffect(() => {}, []);
 
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
+
   return move ? (
     <Navigate
       to="/login"
@@ -73,116 +85,120 @@ export default function ResetPassword() {
     />
   ) : (
     <>
-      <Formik
-        initialValues={{
-          password: "",
-          confirmPassword: "",
-        }}
-        validationSchema={resetpasswordSchema}
-        onSubmit={values => {
-          onResetPassword(values);
-        }}
-      >
-        {props => {
-          // console.log(props);
-          return (
-            <Container>
-              <Flex
-                minH={"100vh"}
-                align={"center"}
-                justify={"center"}
-                bg="gray.50"
-              >
-                <Stack
-                  spacing={4}
-                  w={"full"}
-                  maxW={"md"}
-                  bg="white"
-                  rounded={"xl"}
-                  boxShadow={"lg"}
-                  p={6}
-                  my={12}
-                >
-                  <Heading
-                    lineHeight={1.1}
-                    fontSize={{ base: "2xl", md: "3xl" }}
+      <div style={bodyStyle}>
+        <div style={myStyle}>
+          <Formik
+            initialValues={{
+              password: "",
+              confirmPassword: "",
+            }}
+            validationSchema={resetpasswordSchema}
+            onSubmit={values => {
+              onResetPassword(values);
+            }}
+          >
+            {props => {
+              // console.log(props);
+              return (
+                <Container>
+                  <Flex
+                    minH={"100vh"}
+                    align={"center"}
+                    justify={"center"}
+                    bgGradient="linear(to-t, #ebf5e9, #ffff)"
                   >
-                    Reset Password
-                  </Heading>
-                  <Form>
-                    <FormControl
-                      id="password"
-                      isRequired
+                    <Stack
+                      spacing={4}
+                      w={"full"}
+                      maxW={"md"}
+                      bg="white"
+                      rounded={"xl"}
+                      boxShadow={"lg"}
+                      p={6}
+                      my={12}
                     >
-                      <FormLabel>Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={password}
-                          name="password"
-                          type={showPassword ? "text" : "password"}
-                        />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={handleClick}
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl
-                      id="confirmPassword"
-                      isRequired
-                    >
-                      <FormLabel>Confirm Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={confirmPassword}
-                          name="confirmPassword"
-                          type={showPassword ? "text" : "confirmPassword"}
-                        />
-                        <ErrorMessage
-                          name="confirmPassword"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={handleClick}
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <Stack spacing={8}>
-                      <Button
-                        marginTop={10}
-                        bg={"blue.400"}
-                        color={"white"}
-                        _hover={{
-                          bg: "blue.500",
-                        }}
-                        onClick={onResetPassword}
-                        type="submit"
+                      <Heading
+                        lineHeight={1.1}
+                        fontSize={{ base: "2xl", md: "3xl" }}
                       >
-                        Submit
-                      </Button>
+                        Reset Password
+                      </Heading>
+                      <Form>
+                        <FormControl
+                          id="password"
+                          isRequired
+                        >
+                          <FormLabel>Password</FormLabel>
+                          <InputGroup>
+                            <Input
+                              ref={password}
+                              name="password"
+                              type={showPassword ? "text" : "password"}
+                            />
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              style={{ color: "red" }}
+                            />
+                            <InputRightElement h={"full"}>
+                              <Button
+                                variant={"ghost"}
+                                onClick={handleClick}
+                              >
+                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                        </FormControl>
+                        <FormControl
+                          id="confirmPassword"
+                          isRequired
+                        >
+                          <FormLabel>Confirm Password</FormLabel>
+                          <InputGroup>
+                            <Input
+                              ref={confirmPassword}
+                              name="confirmPassword"
+                              type={showPassword ? "text" : "confirmPassword"}
+                            />
+                            <ErrorMessage
+                              name="confirmPassword"
+                              component="div"
+                              style={{ color: "red" }}
+                            />
+                            <InputRightElement h={"full"}>
+                              <Button
+                                variant={"ghost"}
+                                onClick={handleClick}
+                              >
+                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                        </FormControl>
+                        <Stack spacing={8}>
+                          <Button
+                            marginTop={10}
+                            bg={"yellow.400"}
+                            color={"black"}
+                            _hover={{
+                              bg: "yellow.300",
+                            }}
+                            onClick={onResetPassword}
+                            type="submit"
+                          >
+                            Submit
+                          </Button>
+                        </Stack>
+                      </Form>
                     </Stack>
-                  </Form>
-                </Stack>
-              </Flex>
-            </Container>
-          );
-        }}
-      </Formik>
+                  </Flex>
+                </Container>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
     </>
   );
 }

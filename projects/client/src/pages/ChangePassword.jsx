@@ -10,6 +10,7 @@ import {
   Container,
   InputGroup,
   InputRightElement,
+  Box,
 } from "@chakra-ui/react";
 import Axios from "axios";
 import * as Yup from "yup";
@@ -68,6 +69,17 @@ export const ChangePassword = data => {
 
   useEffect(() => {}, []);
 
+  const myStyle = {
+    maxWidth: "506px",
+    heigth: "auto",
+    backgroundColor: "white",
+    margin: "auto",
+  };
+  const bodyStyle = {
+    backgroundColor: "grey",
+    width: "auto",
+    height: "auto",
+  };
   return move ? (
     <Navigate
       to="/"
@@ -75,143 +87,167 @@ export const ChangePassword = data => {
     />
   ) : (
     <>
-      <Formik
-        initialValues={{
-          oldPassword: "",
-          newPassword: "",
-          confirmPassword: "",
-        }}
-        validationSchema={changePasswordSchema}
-        onSubmit={values => {
-          onChangePassword(values);
-        }}
-      >
-        {props => {
-          // console.log(props);
-          return (
-            <Container>
-              <Flex
-                minH={"100vh"}
-                align={"center"}
-                justify={"center"}
-                bg="gray.50"
-              >
-                <Stack
-                  spacing={4}
-                  w={"full"}
-                  maxW={"md"}
-                  bg="white"
-                  rounded={"xl"}
-                  boxShadow={"lg"}
-                  p={6}
-                  my={12}
-                >
-                  <Heading
-                    lineHeight={1.1}
-                    fontSize={{ base: "2xl", md: "3xl" }}
+      <div style={bodyStyle}>
+        <div style={myStyle}>
+          <Formik
+            initialValues={{
+              oldPassword: "",
+              newPassword: "",
+              confirmPassword: "",
+            }}
+            validationSchema={changePasswordSchema}
+            onSubmit={values => {
+              onChangePassword(values);
+            }}
+          >
+            {props => {
+              // console.log(props);
+              return (
+                <Container>
+                  <Flex
+                    minH={"100vh"}
+                    align={"center"}
+                    justify={"center"}
+                    bgGradient="linear(to-t, #ebf5e9, #ffff)"
                   >
-                    Change Password
-                  </Heading>
-                  <Form>
-                    <FormControl
-                      id="oldPassword"
-                      isRequired
+                    <Stack
+                      spacing={4}
+                      mx={"auto"}
+                      maxW={"lg"}
+                      py={3}
+                      px={3}
                     >
-                      <FormLabel>Old Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={oldPassword}
-                          name="oldPassword"
-                          type={showPassword ? "text" : "password"}
-                        />
-                        <ErrorMessage
-                          name="oldPassword"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={handleClick}
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl
-                      id="newPassword"
-                      isRequired
-                    >
-                      <FormLabel>New Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={newPassword}
-                          name="newPassword"
-                          type={showPassword ? "text" : "password"}
-                        />
-                        <ErrorMessage
-                          name="newPassword"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={handleClick}
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl
-                      id="confirmPassword"
-                      isRequired
-                    >
-                      <FormLabel>Confirm Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          ref={confirmPassword}
-                          name="confrimPassword"
-                          type={showPassword ? "text" : "password"}
-                        />
-                        <ErrorMessage
-                          name="confirmPassword"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={handleClick}
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-                    <Stack spacing={8}>
-                      <Button
-                        marginTop={10}
-                        bg={"blue.400"}
-                        color={"white"}
-                        _hover={{
-                          bg: "blue.500",
-                        }}
-                        onClick={onChangePassword}
-                        type="submit"
+                      <Stack align={"center"}>
+                        <Heading
+                          lineHeight={1.1}
+                          fontSize={{ base: "2xl", md: "3xl" }}
+                        >
+                          Change Password
+                        </Heading>
+                      </Stack>
+                      <Box
+                        rounded={"lg"}
+                        bg={"white"}
+                        boxShadow={"lg"}
+                        p={8}
                       >
-                        Submit
-                      </Button>
+                        <Form>
+                          <Stack spacing={4}>
+                            <FormControl
+                              id="oldPassword"
+                              isRequired
+                            >
+                              <FormLabel>Old Password</FormLabel>
+                              <InputGroup>
+                                <Input
+                                  ref={oldPassword}
+                                  name="oldPassword"
+                                  type={showPassword ? "text" : "password"}
+                                />
+                                <ErrorMessage
+                                  name="oldPassword"
+                                  component="div"
+                                  style={{ color: "red" }}
+                                />
+                                <InputRightElement h={"full"}>
+                                  <Button
+                                    variant={"ghost"}
+                                    onClick={handleClick}
+                                  >
+                                    {showPassword ? (
+                                      <ViewIcon />
+                                    ) : (
+                                      <ViewOffIcon />
+                                    )}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
+                            </FormControl>
+                            <FormControl
+                              id="newPassword"
+                              isRequired
+                            >
+                              <FormLabel>New Password</FormLabel>
+                              <InputGroup>
+                                <Input
+                                  ref={newPassword}
+                                  name="newPassword"
+                                  type={showPassword ? "text" : "password"}
+                                />
+                                <ErrorMessage
+                                  name="newPassword"
+                                  component="div"
+                                  style={{ color: "red" }}
+                                />
+                                <InputRightElement h={"full"}>
+                                  <Button
+                                    variant={"ghost"}
+                                    onClick={handleClick}
+                                  >
+                                    {showPassword ? (
+                                      <ViewIcon />
+                                    ) : (
+                                      <ViewOffIcon />
+                                    )}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
+                            </FormControl>
+                            <FormControl
+                              id="confirmPassword"
+                              isRequired
+                            >
+                              <FormLabel>Confirm Password</FormLabel>
+                              <InputGroup>
+                                <Input
+                                  ref={confirmPassword}
+                                  name="confrimPassword"
+                                  type={showPassword ? "text" : "password"}
+                                />
+                                <ErrorMessage
+                                  name="confirmPassword"
+                                  component="div"
+                                  style={{ color: "red" }}
+                                />
+                                <InputRightElement h={"full"}>
+                                  <Button
+                                    variant={"ghost"}
+                                    onClick={handleClick}
+                                  >
+                                    {showPassword ? (
+                                      <ViewIcon />
+                                    ) : (
+                                      <ViewOffIcon />
+                                    )}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
+                            </FormControl>
+                          </Stack>
+                          <Stack spacing={8}>
+                            <Button
+                              marginTop={10}
+                              bg={"yellow.400"}
+                              color={"black"}
+                              _hover={{
+                                bg: "yellow.300",
+                              }}
+                              onClick={onChangePassword}
+                              type="submit"
+                            >
+                              Submit
+                            </Button>
+                          </Stack>
+                        </Form>
+                      </Box>
                     </Stack>
-                  </Form>
-                </Stack>
-              </Flex>
-            </Container>
-          );
-        }}
-      </Formik>
+                  </Flex>
+                </Container>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
     </>
   );
 };

@@ -238,7 +238,12 @@ function App() {
       />
       <Route
         path="/changePassword"
-        element={<ChangePassword />}
+        element={
+          <>
+            <ChangePassword />
+            <Navbar />
+          </>
+        }
       />
       <Route
         path="/loginAdmin"
