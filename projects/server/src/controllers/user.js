@@ -37,7 +37,7 @@ module.exports = {
         from: "nakulabaiduri@gmail.com",
         to: "nakulabaiduri@gmail.com",
         subject: "Verifikasi Email",
-        html: `<a href="${process.env.REACT_APP_API_BASE}/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
+        html: `<a href="https://jcwd220401.purwadhikabootcamp.com/register?email=${email}&verification_signature=${verificationSignature}">Klik disini untuk verifikasi</a>`,
       };
       await transporter.sendMail(message, (err, info) => {
         if (err) {
@@ -162,7 +162,7 @@ module.exports = {
         from: "nakulabaiduri@gmail.com",
         to: "nakulabaiduri@gmail.com",
         subject: "Reset Password ",
-        html: `<a href="http://localhost:3000/resetPassword?email=${email}&verification_signature=${accountObj.verification_signature}">Klik disini untuk forgot password</a>`,
+        html: `<a href="https://jcwd220401.purwadhikabootcamp.com/resetPassword?email=${email}&verification_signature=${accountObj.verification_signature}">Klik disini untuk forgot password</a>`,
       };
       await transporter.sendMail(message, (err, info) => {
         if (err) {
