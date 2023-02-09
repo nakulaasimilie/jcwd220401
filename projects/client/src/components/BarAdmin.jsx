@@ -187,7 +187,6 @@ export default function BarAdmin() {
                 <MenuList>
                   <Link onClick={onLogout}>Logout</Link>
                   <MenuDivider />
-                  <MenuItem>Link 3</MenuItem>
                 </MenuList>
               </Menu>
             ) : (
