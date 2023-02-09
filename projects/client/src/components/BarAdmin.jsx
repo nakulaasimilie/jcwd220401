@@ -131,19 +131,11 @@ export default function BarAdmin() {
                     <Text>Product and Category Management</Text>
                   </Box>
                 </ButtonDraw>
-                {tokenLocalStorageSuper ? (
-                  <ButtonDraw href={"/dashboard/orderList"}>
-                    <Box textAlign={"center"}>
-                      <Text>Admin Order List</Text>
-                    </Box>
-                  </ButtonDraw>
-                ) : (
-                  <ButtonDraw href={"/dashboard/branchOrder"}>
-                    <Box textAlign={"center"}>
-                      <Text>Branch Order List</Text>
-                    </Box>
-                  </ButtonDraw>
-                )}
+                <ButtonDraw href={"/dashboard/orderList"}>
+                  <Box textAlign={"center"}>
+                    <Text>Admin Order List</Text>
+                  </Box>
+                </ButtonDraw>
                 <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Transaction</Text>
