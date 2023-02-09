@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  name: "category",
+  value: [],
+};
+
 export const categorySlice = createSlice({
   name: "category",
-  initialState: {
-    value: [],
-  },
+  initialState,
   reducers: {
     syncCategory: (state, action) => {
       state.value = action.payload;

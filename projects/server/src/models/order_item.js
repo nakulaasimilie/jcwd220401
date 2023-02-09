@@ -9,33 +9,40 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Order_item.belongsTo(models.Product_store_reference);
       Order_item.belongsTo(models.User);
-      Order_item.belongsTo(models.Order);
+      Order_item.hasMany(models.Order_detail);
     }
   }
   Order_item.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+      no_invoice: {
+        type: DataTypes.STRING(300),
         primaryKey: true,
         allowNull: false,
+        unique: true,
       },
-      // product_store_reference_id: {
-      //   type: DataTypes.INTEGER,
-      // },
-      // user_id: {
-      //   type: DataTypes.INTEGER,
-      // },
-      // order_id: {
-      //   type: DataTypes.INTEGER,
-      // },
+      courier: {
+        type: DataTypes.STRING,
+      },
+      addressReceiver: {
+        type: DataTypes.STRING,
+      },
       quantity: {
         type: DataTypes.INTEGER,
       },
       total_price: {
         type: DataTypes.INTEGER,
+      },
+      transaction_status: {
+        type: DataTypes.ENUM("diproses", "disetujui", "selesai", "batal"),
+        defaultValue: "diproses",
+        allowNull: false,
+      },
+      phoneNumUser: {
+        type: DataTypes.STRING,
+      },
+      paymentImage: {
+        type: DataTypes.STRING,
       },
     },
     {

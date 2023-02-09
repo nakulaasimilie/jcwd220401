@@ -4,6 +4,7 @@ const db = require("../models");
 const cart = db.Cart;
 const product = db.Product;
 const category = db.Category;
+const inventory = db.Inventory;
 
 module.exports = {
   getAll: async (req, res) => {
@@ -351,17 +352,7 @@ module.exports = {
         },
         include: [
           {
-            model: productCategory,
-            include: [
-              {
-                model: product,
-                include: [
-                  {
-                    model: price,
-                  },
-                ],
-              },
-            ],
+            model: product,
           },
         ],
       });

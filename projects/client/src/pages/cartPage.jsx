@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/navbar";
-import CartDetail from "../components/CartComp";
+import CartDetail, { CartComp } from "../components/CartComp";
 
 export default function CartPage() {
   const myStyle = {
@@ -18,7 +18,7 @@ export default function CartPage() {
   return (
     <div style={bodyStyle}>
       <div style={myStyle}>
-        <CartDetail />
+        <CartComp />
         <Navbar />
       </div>
     </div>

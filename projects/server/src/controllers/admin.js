@@ -1,5 +1,6 @@
 const db = require("../models");
 const admin = db.Admin;
+const branch = db.Branch;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
@@ -9,7 +10,8 @@ const { QueryTypes } = require("sequelize");
 module.exports = {
   register: async (req, res) => {
     try {
-      const { name, email, password, isSuper } = req.body;
+      const { name, email, password, isSuper } = req.body.data;
+      const { BranchId } = req.body;
 
       if (password.length < 8) throw "Minimum 8 characters";
 
@@ -22,9 +24,28 @@ module.exports = {
         email,
         password: hashPass,
         isSuper,
+        BranchId,
       });
 
       const token = jwt.sign({ email: email }, "jcwd2204");
+
+      const result = await branch.findOne({
+        where: {
+          id: req.body.BranchId,
+        },
+        include: [{ model: admin }],
+      });
+
+      await branch.update(
+        {
+          AdminId: data.dataValues.id,
+        },
+        {
+          where: {
+            id: req.body.BranchId,
+          },
+        },
+      );
 
       res.status(200).send({
         massage: "Register Succes",

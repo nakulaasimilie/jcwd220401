@@ -8,7 +8,14 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Select,
   Stack,
   Tab,
@@ -25,29 +32,55 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+// import { UpdateInventory } from "./UpdateInventory";
 
 export const AdminInventory = () => {
-  const inputName = useRef("");
-  const inputQty = useRef(0);
-  const inputBranch = useRef("");
-
-  const { id } = useSelector(state => state.adminSlice.value);
-
   const [branch, setBranch] = useState();
-  const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
+  const inputBranch = useRef("");
+  const inputProductName = useRef("");
+  const inputEntryDate = useRef("");
+  const inputQty = useRef("");
+  const [data2, setData2] = useState();
   const [data3, setData3] = useState([]);
+  const [data4, setData4] = useState();
+  const [edit, setEdit] = useState({});
+  const { id } = useSelector(state => state.adminSlice.value);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const OverlayOne = () => (
+    <ModalOverlay
+      bg="blackAlpha.300"
+      backdropFilter="blur(10px) hue-rotate(90deg)"
+    />
+  );
+  const [overlay, setOverlay] = useState(<OverlayOne />);
 
-  const getData = async BranchId => {
+  const getBranch = async () => {
     try {
-      const result = await Axios.get(
-        `${process.env.REACT_APP_API_BASE}/inventory/findAllByBranch/${data}`,
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/branch/adminByBranch/${id}`,
       );
-      setData2(result.data);
-      // console.log(result.data);
-      // console.log(result.data[0]?.id);
+      setBranch(res.data);
+      setData4(res.data.id);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getBranch();
+  }, [id]);
+
+  const getData = async () => {
+    try {
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/inventory/findAllByBranch/${data4}`,
+      );
+      setData2(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -55,15 +88,14 @@ export const AdminInventory = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [data4, edit]);
 
   const getProduct = async () => {
     try {
-      const result = await Axios.get(
+      const res = await Axios.get(
         `${process.env.REACT_APP_API_BASE}/product/list`,
       );
-      setData3(result.data);
-      // console.log(result.data);
+      setData3(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -77,11 +109,11 @@ export const AdminInventory = () => {
     try {
       const addProduct = {
         AdminId: id,
+        ProductId: inputProductName.current.value,
         Stock: inputQty.current.value,
-        ProductId: inputName.current.value,
-        BranchId: data,
+        BranchId: data4,
       };
-      const result = await Axios.post(
+      const res = await Axios.post(
         `${process.env.REACT_APP_API_BASE}/inventory/create`,
         addProduct,
       );
@@ -89,31 +121,25 @@ export const AdminInventory = () => {
         icon: "success",
         text: "Stock Updated",
       });
-      setTimeout(() => window.location.replace("/dashboard"), 2000);
-      // console.log(result);
+      setTimeout(() => window.location.replace("/addInventory"), 2000);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getBranch = async AdminId => {
+  const findStock = async () => {
     try {
-      const result = await Axios.get(
-        `${process.env.REACT_APP_API_BASE}/branch/adminByBranch/2`,
+      const stock = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/inventory/find/${data4}`,
       );
-      // dispatch(loginAdmin(res.data))
-      setBranch(result.data);
-      // console.log(result.data);
-      // setData(result.data?.id);
-      // console.log(result.data.id);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getBranch();
-  }, []);
+    findStock();
+  }, [data4]);
 
   return (
     <div>
@@ -121,34 +147,41 @@ export const AdminInventory = () => {
         mt={"50px"}
         className="body"
         bgColor="white"
-        h={"600px"}
+        h={"auto"}
         align={"center"}
         justify={"center"}
       >
-        <Center
-          mb={"20px"}
-          mt={"20px"}
+        <Box
+          spacing={4}
+          w={"full"}
+          maxW={"md"}
+          bg={useColorModeValue("white", "white.700")}
+          rounded={"xl"}
+          boxShadow={"lg"}
+          p={6}
+          my={12}
+          border={"2px"}
+          borderColor={"gray.200"}
         >
-          <Text
-            lineHeight={1.1}
-            fontSize={{ base: "2xl", sm: "3xl" }}
-            textAlign="center"
+          <Center
+            mb={"20px"}
+            mt={"20px"}
           >
-            Inventory
-          </Text>
-        </Center>
-
-        <Tabs
-          isFitted
-          variant="enclosed"
-        >
-          <TabList mb="1em">
-            <Tab>Add Admin</Tab>
-            <Tab>List of Admin</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Box>
+            <Text
+              lineHeight={1.1}
+              fontSize={{ base: "2xl", sm: "3xl" }}
+              textAlign="center"
+            >
+              Add Inventory
+            </Text>
+          </Center>
+          <Tabs>
+            <TabList mb="1em">
+              <Tab w={"50%"}>List of Inventory</Tab>
+              <Tab w={"50%"}>Add Inventory</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
                 <TableContainer
                   mt={"50px"}
                   w="45vw"
@@ -164,7 +197,7 @@ export const AdminInventory = () => {
                         <Th color={"#285430"}>Quantity</Th>
                       </Tr>
                     </Thead>
-                    {/* <Tbody>
+                    <Tbody>
                       {data2?.map(item => {
                         return (
                           <Tr>
@@ -175,145 +208,155 @@ export const AdminInventory = () => {
                             >
                               {item.Stock}
                             </Td>
+                            <Td
+                              textAlign={"center"}
+                              color={"#285430"}
+                            ></Td>
+
+                            <Td>
+                              <Box
+                                mr="28px"
+                                display={"flex"}
+                                justifyContent="space-evenly"
+                              >
+                                <Button
+                                  onClick={() => {
+                                    setEdit(item);
+                                    setOverlay(<OverlayOne />);
+                                    onOpen();
+                                  }}
+                                >
+                                  <EditIcon color={"#285430"} />
+                                </Button>
+                                <Button
+                                  onClick={() => {
+                                    // onDelete(item.id)
+                                  }}
+                                >
+                                  <DeleteIcon color={"#285430"} />
+                                </Button>
+                              </Box>
+                            </Td>
                           </Tr>
                         );
                       })}
-                    </Tbody> */}
+                    </Tbody>
                   </Table>
                 </TableContainer>
-              </Box>
-            </TabPanel>
-            <TabPanel>
-              <Box
-                w={"300px"}
-                m="20px"
-                mb="25px"
-                borderWidth="2px"
-                boxShadow="xl"
-                borderRadius="8px"
-                borderColor="#285430"
-              >
-                <Box
-                  pt="10px"
-                  h="50px"
-                  borderTopRadius="8px"
-                  align="center"
-                  bg="#E5D9B6"
-                  fontSize="18px"
+                <Modal
+                  isCentered
+                  isOpen={isOpen}
+                  onClose={onClose}
                 >
-                  <Text
-                    mx="10px"
-                    justifyContent="center"
-                    fontWeight="bold"
+                  {overlay}
+                  <ModalContent
+                    bgColor={"#E5D9B6"}
                     color="#285430"
+                    border="2px"
                   >
-                    Add Stock
-                  </Text>
-                </Box>
-                <Stack spacing={"10px"}>
-                  <FormControl>
-                    <FormLabel
-                      color="#285430"
-                      mt="10px"
-                      ml="8px"
-                      fontSize="18px"
-                      as={"b"}
+                    <ModalHeader textColor={"#285430"}>
+                      Edit Category
+                    </ModalHeader>
+                    <ModalCloseButton />
+                  </ModalContent>
+                </Modal>
+              </TabPanel>
+              <TabPanel>
+                <Flex
+                  minH={"70vh"}
+                  justify={"center"}
+                  bg={useColorModeValue("white.50", "white.800")}
+                  mt={2}
+                >
+                  <Stack
+                    spacing={4}
+                    w={"full"}
+                    maxW={"md"}
+                    bg={useColorModeValue("white", "white.700")}
+                    rounded={"xl"}
+                    boxShadow={"lg"}
+                    p={6}
+                    my={12}
+                    mt={0}
+                  >
+                    <Heading
+                      lineHeight={1.1}
+                      fontSize={{ base: "2xl", sm: "3xl" }}
+                      textAlign="center"
                     >
-                      Branch
-                    </FormLabel>
-                    <Input
-                      ref={inputBranch}
-                      color={"#285430"}
-                      borderColor="#285430"
-                      ml="5px"
-                      w="97%"
-                      defaultValue={branch?.branchName}
-                    ></Input>
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel
-                      color="#285430"
-                      mt="10px"
-                      ml="8px"
-                      fontSize="18px"
-                      as={"b"}
+                      Tambah Produk
+                    </Heading>
+                    <Flex></Flex>
+                    <Flex>
+                      <FormControl
+                        id="title"
+                        isRequired
+                      >
+                        <FormLabel>Branch</FormLabel>
+                        <Input
+                          _placeholder={{ color: "gray.500" }}
+                          type="text"
+                          ref={inputBranch}
+                          defaultValue={branch?.branchName}
+                        />
+                      </FormControl>
+                    </Flex>
+                    <FormControl
+                      id="author"
+                      isRequired
                     >
-                      Product{" "}
-                    </FormLabel>
+                      <FormLabel>Produk</FormLabel>
+                      <Select
+                        ref={inputProductName}
+                        color={"#285430"}
+                        borderColor="#285430"
+                        ml="5px"
+                        w="97%"
+                      >
+                        <option>Select Product</option>
+                        {data3?.map(item => {
+                          return (
+                            <>
+                              <option value={item.id}>{item.name}</option>
+                            </>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <FormControl
+                      id="publisher"
+                      isRequired
+                    >
+                      <FormLabel>Quantity</FormLabel>
+                      <Input
+                        _placeholder={{ color: "gray.500" }}
+                        type="publisher"
+                        ref={inputQty}
+                      />
+                    </FormControl>
 
-                    <Select
-                      ref={inputName}
-                      color={"#285430"}
-                      borderColor="#285430"
-                      ml="5px"
-                      w="97%"
+                    <Stack
+                      spacing={6}
+                      direction={["column", "row"]}
                     >
-                      <option>Select Product</option>
-                      {data3?.map(item => {
-                        return (
-                          <>
-                            <option value={item.id}>{item.name}</option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel
-                      color="#285430"
-                      mt="10px"
-                      ml="8px"
-                      fontSize="18px"
-                      as={"b"}
-                    >
-                      Entry Date
-                    </FormLabel>
-                    {/* <Input
-                  textColor="gray.800"
-                  borderColor="#285430"
-                  ml="5px"
-                  w="97%"
-                  ref={inputEntryDate}
-                ></Input> */}
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel
-                      color="#285430"
-                      mt="10px"
-                      ml="8px"
-                      fontSize="18px"
-                      as={"b"}
-                    >
-                      Quantity
-                    </FormLabel>
-                    <Input
-                      textColor="gray.800"
-                      borderColor="#285430"
-                      ml="5px"
-                      w="97%"
-                      ref={inputQty}
-                    ></Input>
-                  </FormControl>
-                  <Center>
-                    <Button
-                      mb="20px"
-                      bgColor={"#A4BE7B"}
-                      borderColor="#285430"
-                      border="2px"
-                      fontSize="18px"
-                      color="gray.800"
-                      width={"50%"}
-                      justifyContent="center"
-                      onClick={onCreate}
-                    >
-                      Confirm
-                    </Button>
-                  </Center>
-                </Stack>
-              </Box>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+                      <Button
+                        bg={"blue.400"}
+                        color={"white"}
+                        w="full"
+                        _hover={{
+                          bg: "blue.500",
+                        }}
+                        onClick={onCreate}
+                      >
+                        Submit
+                      </Button>
+                    </Stack>
+                  </Stack>
+                </Flex>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
       </Box>
     </div>
   );

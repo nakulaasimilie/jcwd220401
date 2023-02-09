@@ -113,24 +113,14 @@ export default function BarAdminBranch() {
                     <Text>Dashboard</Text>
                   </Box>
                 </ButtonDraw>
-                {/* <ButtonDraw href={"/dashboard/branchManagement"}>
-                  <Box textAlign={"center"}>
-                    <Text>Branch Management</Text>
-                  </Box>
-                </ButtonDraw> */}
-                {/* <ButtonDraw href={"/dashboard/crud"}>
-                  <Box textAlign={"center"}>
-                    <Text>Product and Category Management</Text>
-                  </Box>
-                </ButtonDraw> */}
-                <ButtonDraw href={"/dashboard/branchOrder"}>
-                  <Box textAlign={"center"}>
-                    <Text>Branch Order List</Text>
-                  </Box>
-                </ButtonDraw>
                 <ButtonDraw href={"/dashboard/crud"}>
                   <Box textAlign={"center"}>
                     <Text>Transaction</Text>
+                  </Box>
+                </ButtonDraw>
+                <ButtonDraw href={"/addInventory"}>
+                  <Box textAlign={"center"}>
+                    <Text>Add Inventory</Text>
                   </Box>
                 </ButtonDraw>
                 <ButtonDraw href={"/dashboard/crud"}>
@@ -171,7 +161,6 @@ export default function BarAdminBranch() {
                 <MenuList>
                   <Link onClick={onLogout}>Logout</Link>
                   <MenuDivider />
-                  <MenuItem>Link 3</MenuItem>
                 </MenuList>
               </Menu>
             ) : (

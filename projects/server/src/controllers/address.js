@@ -55,6 +55,8 @@ module.exports = {
         addressFill,
         province: nameProvince,
         city: nameCityandType,
+        cityId: city,
+        provinceId: province,
         postal_code,
         detail,
         district,
@@ -184,10 +186,12 @@ module.exports = {
         where: {
           id: req.params.id,
         },
+        attributes: [["cityId", "city"]],
       });
       res.status(200).send({
         msg: "Got it",
         data: responseAddress,
+        cityId: responseAddress.cityId,
       });
     } catch (err) {
       console.log(err);

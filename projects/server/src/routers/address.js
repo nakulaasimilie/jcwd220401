@@ -10,11 +10,9 @@ router.patch("/updateAddress/:id", addressController.updateAddress);
 router.patch("/defaultAddress/:id", addressController.setDefault);
 router.delete("/delAddress/:id", addressController.delAddress);
 
-axios.defaults.baseRajaongkir = `https://api.rajaongkir.com/starter`;
-axios.defaults.headers.common["key"] = `346809ad5e1954b3e5747406586c819f`;
-axios.defaults.headers.post[
-  "Content-Type"
-] = `application/x-www-form-urlencoded`;
+axios.defaults.baseRajaongkir = process.env.BASE_URL_RAJAONGKIR;
+axios.defaults.headers.common["key"] = process.env.RAJA_KEY;
+axios.defaults.headers.post["Content-Type"] = process.env.AXIOS_HEADERS;
 
 router.get("/province", async function (req, res) {
   try {

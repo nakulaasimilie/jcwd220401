@@ -28,6 +28,7 @@ import ResetPassword from "./pages/ResetPassword";
 import { Add } from "./components/produkManagement";
 import CreateComp, { AddProduct } from "./components/addProduk";
 import BarAdmin from "./components/BarAdmin";
+import BarAdminBranch from "./components/barBranch";
 import { BranchManagement } from "./components/BranchManagement";
 import Footer from "./components/footerComp";
 import { AdminInventory } from "./components/addInventory";
@@ -35,6 +36,8 @@ import { BranchOrderList } from "./components/branchOrderList";
 import { OrderList } from "./components/orderListPage";
 import { syncBranch } from "./redux/branch";
 import { syncInventory } from "./redux/inventorySlice";
+import { CategoryDetail } from "./components/CategoryDetail";
+import CategoryPage from "./pages/categoryPage";
 // import { AddCategory } from "./components/addCategory";
 
 //keeplogin url
@@ -223,7 +226,9 @@ function App() {
         path="/addInventory"
         element={
           <>
+            <BarAdminBranch />
             <AdminInventory />
+            <Footer />
           </>
         }
       />
@@ -285,6 +290,11 @@ function App() {
           </>
         }
       />
+
+      <Route
+        path="/category/:id"
+        element={<CategoryPage />}
+      ></Route>
 
       <Route
         path="/create"
