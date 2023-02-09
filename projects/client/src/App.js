@@ -88,7 +88,7 @@ function App() {
           },
         },
       );
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(loginAdmin(res.data));
     } catch (err) {
       console.log(err);
@@ -105,7 +105,7 @@ function App() {
           },
         },
       );
-      console.log(resBranch.data);
+      // console.log(resBranch.data);
       dispatch(loginAdmin(resBranch.data));
     } catch (err) {
       console.log(err);
@@ -158,7 +158,7 @@ function App() {
     }
     navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);
-  console.log(location);
+  // console.log(location);
 
   const getBranch = async () => {
     try {
@@ -168,14 +168,14 @@ function App() {
         // lattitude: " -6.0793752",
         // longitude: "106.6528214",
       };
-      console.log(branch);
+      // console.log(branch);
       const result = await axios.post(
         `${process.env.REACT_APP_API_BASE}/branch/branchById`,
         branch,
       );
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(syncBranch(result.data));
-      console.log(result.data);
+      // console.log(result.data);
     } catch {}
   };
   useEffect(() => {
@@ -188,7 +188,7 @@ function App() {
         `${process.env.REACT_APP_API_BASE}/inventory/findAllByBranch/${id}`,
       );
       dispatch(syncInventory(res.data));
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -396,7 +396,7 @@ function App() {
         path="/dashboard/branchOrder"
         element={
           <>
-            <BarAdmin />
+            <BarAdminBranch />
             <BranchOrderList />
             <Footer />
           </>

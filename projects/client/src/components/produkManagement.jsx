@@ -222,21 +222,21 @@ export const Add = () => {
     // console.log(resultImage.data);
     setProfile2(resultImage.data.image);
     setImage2({ image: "" });
-    console.log(image2);
-    console.log(profile2);
+    // console.log(image2);
+    // console.log(profile2);
     window.location.replace("/dashboard/crud");
   };
 
   const handleChoose = e => {
-    console.log("e.target.files", e.target.files);
+    // console.log("e.target.files", e.target.files);
     setImage1(e.target.files[0]);
   };
 
   const handleUpload = async id => {
     const data = new FormData();
-    console.log(data);
+    // console.log(data);
     data.append("file", image1);
-    console.log(data.get("file"));
+    // console.log(data.get("file"));
 
     const resultImage = await Axios.post(
       `${process.env.REACT_APP_API_BASE}/product/single-uploaded/${id}`,
@@ -247,11 +247,11 @@ export const Add = () => {
         },
       },
     );
-    console.log(resultImage.data);
+    // console.log(resultImage.data);
     setProfile(resultImage.data.picture);
     setImage1({ image: "" });
-    console.log(image1);
-    console.log(profile);
+    // console.log(image1);
+    // console.log(profile);
     window.location.replace("/dashboard/crud");
   };
 

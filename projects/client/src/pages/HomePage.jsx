@@ -36,6 +36,7 @@ export default function HomePage() {
         </div>
         <Kategori />
         <InventoryList />
+        <Footer />
         <Navbar />
       </div>
     </div>

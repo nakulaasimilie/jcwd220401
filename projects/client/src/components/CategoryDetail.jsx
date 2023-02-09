@@ -29,7 +29,7 @@ export const CategoryDetail = id => {
       const result = await Axios.get(
         `${process.env.REACT_APP_API_BASE}/product/listCategory/${params.id}`,
       );
-      console.log(result.data);
+      // console.log(result.data);
 
       dispatch(syncCategory(result.data));
     } catch (err) {

@@ -140,9 +140,9 @@ export const CartComp = () => {
       const result = await Axios.get(
         `http://localhost:8000/address/addressById/${id}`,
       );
-      console.log("cek setAddress", result.data);
+      // console.log("cek setAddress", result.data);
       dispatch(syncAddress(result.data.data));
-      console.log(syncAddress(result.data.data));
+      // console.log(syncAddress(result.data.data));
     } catch (err) {
       console.log(err);
     }
@@ -177,7 +177,7 @@ export const CartComp = () => {
         .reduce((a, b) => a + b);
 
       setData5(selectedItem);
-      console.log(selectedItem);
+      // console.log(selectedItem);
 
       const selectedWeight = result.data
         .filter(item => item.status === true)
@@ -185,7 +185,7 @@ export const CartComp = () => {
         .reduce((a, b) => a + b);
 
       setData6(selectedWeight);
-      console.log(selectedWeight);
+      // console.log(selectedWeight);
 
       const res = await Axios.post(
         `${process.env.REACT_APP_API_BASE}/cart/createCost`,
@@ -196,7 +196,7 @@ export const CartComp = () => {
           destination: 58,
         },
       );
-      console.log(res);
+      // console.log(res);
       setData4(res.data?.rajaongkir.results[0]?.costs);
 
       const selectedCharge =

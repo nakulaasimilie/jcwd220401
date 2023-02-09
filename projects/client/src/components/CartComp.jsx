@@ -51,7 +51,7 @@ export const CartComp = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  console.log("address", data);
+  // console.log("address", data);
 
   const data4 = useSelector(state => state.cartSlice.value);
 
@@ -65,8 +65,8 @@ export const CartComp = () => {
   const [addressAll, setAddressAll] = useState();
   const [qty, setQty] = useState();
   const [move, setMove] = useState(false);
-  console.log("cart", data2);
-  console.log(value);
+  // console.log("cart", data2);
+  // console.log(value);
 
   //useRef
 
@@ -97,7 +97,7 @@ export const CartComp = () => {
     }
   };
 
-  console.log("quantity", qty);
+  // console.log("quantity", qty);
 
   useEffect(() => {
     getQuantity();
@@ -143,7 +143,7 @@ export const CartComp = () => {
 
   const totalOrder = total + getOngkir;
 
-  console.log("Total Harga", totalOrder);
+  // console.log("Total Harga", totalOrder);
 
   const orderCart = async () => {
     try {
@@ -158,8 +158,8 @@ export const CartComp = () => {
         order,
       );
       setOngkir(result.data.rajaongkir.results[0].costs);
-      console.log("Paket Ongkir", result.data.rajaongkir.results[0].costs);
-      console.log("ongkir", ongkir);
+      // console.log("Paket Ongkir", result.data.rajaongkir.results[0].costs);
+      // console.log("ongkir", ongkir);
     } catch (err) {
       console.log(err);
     }
@@ -187,15 +187,15 @@ export const CartComp = () => {
     // const province1 = addres[0].province;
     // const addressFull =
     //   addressLine + " " + district1 + " " + city1 + " " + province1;
-    console.log(addressAll);
+    // console.log(addressAll);
 
     // setAddressAll(addressFull);
     setGetOngkir(+value);
   };
 
-  console.log("value ongkir", getOngkir);
-  console.log("cart redux", data4);
-  console.log("no telp", phone_number);
+  // console.log("value ongkir", getOngkir);
+  // console.log("cart redux", data4);
+  // console.log("no telp", phone_number);
 
   const orderPayment = async () => {
     try {
@@ -229,16 +229,16 @@ export const CartComp = () => {
       const result = await axios.get(
         `${process.env.REACT_APP_API_BASE}/address/addressById/${id}`,
       );
-      console.log(id);
-      console.log("cek setAddress", result.data);
+      // console.log(id);
+      // console.log("cek setAddress", result.data);
       dispatch(syncAddress(result.data));
-      console.log(syncAddress(result.data));
+      // console.log(syncAddress(result.data));
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(desId);
+  // console.log(desId);
 
   useEffect(() => {
     getAddress();

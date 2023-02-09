@@ -101,7 +101,8 @@ app.get("*", (req, res) => {
 //#endregion
 
 app.listen(PORT, err => {
-  db.sequelize.sync({ alter: true });
+  // db.sequelize.sync({ alter: true });
+
   if (err) {
     console.log(`ERROR: ${err}`);
   } else {

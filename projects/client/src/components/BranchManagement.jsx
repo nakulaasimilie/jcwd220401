@@ -70,7 +70,7 @@ export const BranchManagement = () => {
           BranchId: inputBranch.current.value,
         },
       );
-      console.log(result);
+      // console.log(result);
       Swal.fire({
         icon: "success",
         title: "Good Job",
