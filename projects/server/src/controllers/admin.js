@@ -137,7 +137,7 @@ module.exports = {
   getOrder: async (req, res) => {
     try {
       const orders = await sequelize.query(
-        "SELECT users.name, branches.branchName, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price, order_statuses.status_order from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id inner join orders on order_items.order_id = orders.id inner join order_statuses on order_statuses.id = orders.OrderStatusId;",
+        "SELECT Users.name, (Products.name) as product, Product_store_references.stock, Order_items.quantity, Products.price, (Order_items.quantity*Products.price) as total_price, Order_statuses.status_order from Products inner join Product_store_references on Product_store_references.ProductId = Products.id inner join Branches on Branches.id = Product_store_references.BranchId inner join Order_items on Order_items.ProductStoreReferenceId = Product_store_references.id inner join Users on Users.id = Order_items.user_id inner join Admins on Branches.AdminId = Admins.id inner join Orders on Order_items.order_id = Orders.id inner join Order_statuses on Order_statuses.id = Orders.OrderStatusId;",
         {
           logging: console.log,
           plain: false,
@@ -161,7 +161,7 @@ module.exports = {
       console.log("email", email);
 
       const branchOrders = await sequelize.query(
-        'SELECT users.name, (products.name) as product, product_store_references.stock, order_items.quantity, products.price, (order_items.quantity*products.price) as total_price, order_statuses.status_order from products inner join product_store_references on product_store_references.ProductId = products.id inner join branches on branches.id = product_store_references.BranchId inner join order_items on order_items.ProductStoreReferenceId = product_store_references.id inner join users on users.id = order_items.user_id inner join admins on branches.AdminId = admins.id inner join orders on order_items.order_id = orders.id inner join order_statuses on order_statuses.id = orders.OrderStatusId where admins.email = "' +
+        'SELECT Users.name, (Products.name) as product, Product_store_references.stock, Order_items.quantity, Products.price, (Order_items.quantity*Products.price) as total_price, Order_statuses.status_order from Products inner join Product_store_references on Product_store_references.ProductId = Products.id inner join Branches on Branches.id = Product_store_references.BranchId inner join Order_items on Order_items.ProductStoreReferenceId = Product_store_references.id inner join Users on Users.id = Order_items.user_id inner join Admins on Branches.AdminId = Admins.id inner join Orders on Order_items.order_id = Orders.id inner join Order_statuses on Order_statuses.id = Orders.OrderStatusId where Admins.email ="' +
           email +
           '"',
         {
