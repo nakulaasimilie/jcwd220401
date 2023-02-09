@@ -286,7 +286,7 @@ export const Add = () => {
               fontSize={{ base: "2xl", sm: "3xl" }}
               textAlign="center"
             >
-              Branch Admin Management
+              Product Management{" "}
             </Text>
           </Center>
 
@@ -619,8 +619,8 @@ export const Add = () => {
                               <Image
                                 boxSize={"50px"}
                                 src={
-                                  `{${process.env.REACT_APP_API_BASE}/` +
-                                  item?.image
+                                  `${process.env.REACT_APP_API_BASE}/` +
+                                  item?.images
                                 }
                               />
                               <ButtonGroup size="sm">

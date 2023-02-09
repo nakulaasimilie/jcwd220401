@@ -16,10 +16,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { IoCartOutline } from "react-icons/io5";
 import Axios from "axios";
 import Swal from "sweetalert2";
-// import { cartSync } from "../../redux/cartSlice";
-// import { addCart } from "../../redux/userSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -215,7 +214,7 @@ export default function InventoryList() {
                       >
                         <Icon
                           boxSize="4"
-                          // as={IoCartOutline}
+                          as={IoCartOutline}
                           mr="5px"
                         />
                         Keranjang

@@ -53,28 +53,32 @@ export default function Kategori() {
           {data?.map(item => {
             return (
               <div>
-                <Image
-                  src={`${process.env.REACT_APP_API_BASE}/` + item.image}
-                  w="50px"
-                  h="50px"
-                  cursor={"pointer"}
-                  bg={"#ebf5e9"}
-                  _hover={{ bg: "yellow.400", color: "white" }}
-                  rounded="full"
-                  mr={[5, 5, 5]}
-                  ml={[5, 5, 5]}
-                  mt="20px"
-                  name="Grocery"
-                />
-                <Text
-                  fontSize="small"
-                  color={"#285430"}
-                  align={"center"}
+                <Box
                   as={Link}
                   to={`/category/${item.id}`}
                 >
-                  {item.categoryName}
-                </Text>
+                  <Image
+                    src={`${process.env.REACT_APP_API_BASE}/` + item.image}
+                    w="50px"
+                    h="50px"
+                    cursor={"pointer"}
+                    bg={"#ebf5e9"}
+                    _hover={{ bg: "yellow.400", color: "white" }}
+                    rounded="full"
+                    mr={[5, 5, 5]}
+                    ml={[5, 5, 5]}
+                    mt="20px"
+                    name="Grocery"
+                  />
+                  <Text
+                    fontSize="small"
+                    color={"#285430"}
+                    align={"center"}
+                    justifyContent={"center"}
+                  >
+                    {item.categoryName}
+                  </Text>
+                </Box>
               </div>
             );
           })}

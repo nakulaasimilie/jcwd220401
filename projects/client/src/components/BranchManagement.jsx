@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -41,25 +41,13 @@ import { ChevronDownIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import Swal from "sweetalert2";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { logoutAdmin } from "../redux/adminSlice";
 
 export const BranchManagement = () => {
   const [edit, setEdit] = useState({});
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowComfirmPassword] = useState(false);
-  const { name } = useSelector(state => state.adminSlice.value);
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const onLogout = () => {
-    dispatch(logoutAdmin());
-    localStorage.removeItem("tokenAdmin");
-    navigate("/loginAdmin");
-  };
+  const [selectedBranch, setSelectedBranch] = useState();
 
   const registerSchema = Yup.object().shape({
     name: Yup.string()
@@ -71,12 +59,18 @@ export const BranchManagement = () => {
       .min(8, "Password min. 8 characters"),
   });
 
+  const inputBranch = useRef(0);
+
   const onRegister = async data => {
     try {
       const result = await Axios.post(
-        `${process.env.REACT_APP_API_BASE}/register`,
-        data,
+        `${process.env.REACT_APP_API_BASE}/admin/register`,
+        {
+          data,
+          BranchId: inputBranch.current.value,
+        },
       );
+      console.log(result);
       Swal.fire({
         icon: "success",
         title: "Good Job",
@@ -100,9 +94,11 @@ export const BranchManagement = () => {
 
   const getData = async () => {
     try {
-      const res = await Axios.get(`${process.env.REACT_APP_API_BASE}/findAll`);
+      const res = await Axios.get(
+        `${process.env.REACT_APP_API_BASE}/admin/findAll`,
+      );
       // console.log(res.data);
-      // setData(res.data);
+      setData(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -124,9 +120,27 @@ export const BranchManagement = () => {
     }
   };
 
+  const branchHandler = ({ target }) => {
+    const { value } = target;
+    setSelectedBranch(value);
+  };
+
+  const renderBranch = () => {
+    return data2.map(val => {
+      return (
+        <option
+          value={val.id}
+          key={val.id.toString()}
+        >
+          {val.branchName}
+        </option>
+      );
+    });
+  };
+
   useEffect(() => {
     getBranch();
-  }, []);
+  }, [selectedBranch]);
 
   return (
     <div>
@@ -178,6 +192,7 @@ export const BranchManagement = () => {
                     name: "",
                     email: "",
                     password: "",
+                    BranchId: "",
                   }}
                   validationSchema={registerSchema}
                   onSubmit={(values, action) => {
@@ -185,6 +200,7 @@ export const BranchManagement = () => {
                     action.setFieldValue("name", "");
                     action.setFieldValue("email", "");
                     action.setFieldValue("password", "");
+                    action.setFieldValue("BranchId", "");
                   }}
                 >
                   {props => {
@@ -225,14 +241,20 @@ export const BranchManagement = () => {
                             </FormControl>
                             <FormControl>
                               <FormLabel>Branch</FormLabel>
-                              <Select placeholder="Select Branch">
-                                {data2.map(item => {
+                              <Select
+                                placeholder="Select Branch"
+                                onChange={branchHandler}
+                                as={Select}
+                                ref={inputBranch}
+                              >
+                                {/* {data2.map(item => {
                                   return (
                                     <>
                                       <option>{item.branchName}</option>
                                     </>
                                   );
-                                })}
+                                })} */}
+                                {renderBranch()}
                               </Select>
                             </FormControl>
                             <FormControl isRequired>

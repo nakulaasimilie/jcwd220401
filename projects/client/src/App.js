@@ -28,6 +28,7 @@ import ResetPassword from "./pages/ResetPassword";
 import { Add } from "./components/produkManagement";
 import CreateComp, { AddProduct } from "./components/addProduk";
 import BarAdmin from "./components/BarAdmin";
+import BarAdminBranch from "./components/barBranch";
 import { BranchManagement } from "./components/BranchManagement";
 import Footer from "./components/footerComp";
 import { AdminInventory } from "./components/addInventory";
@@ -225,7 +226,9 @@ function App() {
         path="/addInventory"
         element={
           <>
+            <BarAdminBranch />
             <AdminInventory />
+            <Footer />
           </>
         }
       />
